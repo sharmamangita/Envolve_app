@@ -1,7 +1,7 @@
-/*Example of Expandable ListView in React Native*/
-import React, { Component } from 'react';
-//import react in our project
+import React, { useEffect, useState } from 'react';
+// Import required components
 import {
+  SafeAreaView,
   LayoutAnimation,
   StyleSheet,
   View,
@@ -11,127 +11,128 @@ import {
   TouchableOpacity,
   Platform,
 } from 'react-native';
-//import basic react native components
- 
-class ExpandableItemComponent extends Component {
+import { NavigationActions } from 'react-navigation';
+const ExpandableComponent = ({ item, onClickFunction, navigation }) => {
   //Custom Component for the Expandable List
-  constructor() {
-    super();
-    this.state = {
-      layoutHeight: 0,
-    };
-  }
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.item.isExpanded) {
-      this.setState(() => {
-        return {
-          layoutHeight: null,
-        };
-      });
+  const [layoutHeight, setLayoutHeight] = useState(0);
+
+  useEffect(() => {
+    if (item.isExpanded) {
+      setLayoutHeight(null);
     } else {
-      this.setState(() => {
-        return {
-          layoutHeight: 0,
-        };
-      });
+      setLayoutHeight(0);
     }
-  }
-  shouldComponentUpdate(nextProps, nextState) {
-    if (this.state.layoutHeight !== nextState.layoutHeight) {
-      return true;
-    }
-    return false;
-  }
- 
-  render() {
-    return (
-      <View>
-        {/*Header of the Expandable List Item*/}
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={this.props.onClickFunction}
-          style={styles.header}>
-          <Text style={styles.headerText}>{this.props.item.category_name}</Text>
-        </TouchableOpacity>
-        <View
-          style={{
-            height: this.state.layoutHeight,
-            overflow: 'hidden',
-          }}>
-          {/*Content under the header of the Expandable List Item*/}
-          {this.props.item.subcategory.map((item, key) => (
-            <TouchableOpacity
-              key={key}
-              style={styles.content}
-              onPress={() => alert('Id: ' + item.id + ' val: ' + item.val)}>
-              <Text style={styles.text}>
-                {item.val}
-              </Text>
-              <View style={styles.separator} />
-            </TouchableOpacity>
-          ))}
-        </View>
-      </View>
-    );
-  }
-}
- 
-export default class App extends Component {
-  //Main View defined under this Class
-  constructor() {
-    super();
-    if (Platform.OS === 'android') {
-      UIManager.setLayoutAnimationEnabledExperimental(true);
-    }
-    this.state = { listDataSource: CONTENT };
-  }
- 
-  updateLayout = index => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    const array = [...this.state.listDataSource];
-    array.map((value, placeindex) =>
-      placeindex === index
-        ? (array[placeindex]['isExpanded'] = !array[placeindex]['isExpanded'])
-        : (array[placeindex]['isExpanded'] = false)
-    );
-    this.setState(() => {
-      return {
-        listDataSource: array,
-      };
+  }, [item.isExpanded]);
+
+
+  goBack = (data) => {
+
+    //alert(data);
+    const navigateAction = NavigationActions.navigate({
+      routeName: 'CarouselScreen',
+      params: {
+        data: data
+      }
     });
-  };
- 
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.topHeading}>Expandable List View</Text>
-        <ScrollView>
-          {this.state.listDataSource.map((item, key) => (
-            <ExpandableItemComponent
-              key={item.category_name}
-              onClickFunction={this.updateLayout.bind(this, key)}
-              item={item}
-            />
-          ))}
-        </ScrollView>
-      </View>
-    );
+    navigation.dispatch(navigateAction);
   }
-}
- 
+
+  
+  return (
+    <View>
+      {/*Header of the Expandable List Item*/}
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={onClickFunction}
+        style={styles.header}>
+        <Text style={styles.headerText}>
+          {item.category_name}
+        </Text>
+      </TouchableOpacity>
+      <View
+        style={{
+          height: layoutHeight,
+          overflow: 'hidden',
+        }}>
+        {/*Content under the header of the Expandable List Item*/}
+        {item.subcategory.map((item, key) => (
+          <TouchableOpacity
+            key={key}
+            style={styles.content}
+            onPress={
+              () => goBack(item.id)
+            }>
+            <Text style={styles.text}>
+              {item.val}
+            </Text>
+            <View style={styles.separator} />
+          </TouchableOpacity>
+        ))}
+      </View>
+    </View>
+  );
+};
+
+const App = ({ navigation }) => {
+  const [listDataSource, setListDataSource] = useState(CONTENT);
+  const [multiSelect, setMultiSelect] = useState(false);
+
+  if (Platform.OS === 'android') {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+
+  const updateLayout = (index) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    const array = [...listDataSource];
+    if (multiSelect) {
+      // If multiple select is enabled
+      array[index]['isExpanded'] = !array[index]['isExpanded'];
+    } else {
+      // If single select is enabled
+      array.map((value, placeindex) =>
+        placeindex === index
+          ? (array[placeindex]['isExpanded'] =
+            !array[placeindex]['isExpanded'])
+          : (array[placeindex]['isExpanded'] = false),
+      );
+    }
+    setListDataSource(array);
+  };
+
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={styles.container}>
+        {listDataSource.map((item, key) => (
+          <ExpandableComponent
+            key={item.category_name}
+            navigation={navigation}
+            onClickFunction={() => {
+              updateLayout(key);
+            }}
+            item={item}
+          />
+        ))}
+      </View>
+    </SafeAreaView>
+  );
+};
+
+export default App;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 30,
-    backgroundColor: '#F5FCFF',
+    height: 500,
+    backgroundColor: '#fff',
   },
-  topHeading: {
-    paddingLeft: 10,
-    fontSize: 20,
+  titleText: {
+    flex: 1,
+    fontSize: 22,
+    fontWeight: 'bold',
   },
   header: {
-    backgroundColor: '#F5FCFF',
-    padding: 16,
+    backgroundColor: '#fff',
+    padding: 20,
+    marginLeft: 25
   },
   headerText: {
     fontSize: 16,
@@ -150,23 +151,44 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   content: {
-    paddingLeft: 10,
-    paddingRight: 10,
+    paddingLeft: 50,
+    //paddingRight: 10,
     backgroundColor: '#fff',
   },
 });
- 
+
 //Dummy content to show
 //You can also use dynamic data by calling webservice
 const CONTENT = [
   {
     isExpanded: false,
-    category_name: 'Item 1',
-    subcategory: [{ id: 1, val: 'Sub Cat 1' }, { id: 3, val: 'Sub Cat 3' }],
+    category_name: 'Summary',
+    subcategory: [{ id: 0, val: 'Co-Curricular' }],
   },
   {
     isExpanded: false,
-    category_name: 'Item 2',
-    subcategory: [{ id: 4, val: 'Sub Cat 4' }, { id: 5, val: 'Sub Cat 5' }],
+    category_name: 'Cram School',
+    subcategory: [
+      { id: 1, val: 'Spoken English' }, { id: 2, val: 'Mental Math' }, { id: 3, val: 'Whiz Kid' }],
   },
+  {
+    isExpanded: false,
+    category_name: 'Outdoor Activities',
+    subcategory: [{ id: 4, val: 'Cricket' }, { id: 5, val: 'Football' }, { id: 6, val: 'Lawn Tennis' }, { id: 7, val: 'Skating' }, { id: 8, val: 'Volleyball' }, { id: 9, val: 'Basketball' }],
+  },
+  {
+    isExpanded: false,
+    category_name: 'Lifestyle Activities',
+    subcategory: [{ id: 10, val: 'Self Defence' }, { id: 11, val: 'Foreign Language' }, { id: 12, val: 'Yoga' }],
+  },
+  {
+    isExpanded: false,
+    category_name: 'Performing Arts',
+    subcategory: [{ id: 13, val: 'Music' }, { id: 14, val: 'Dance' }, { id: 15, val: 'Theatre' }],
+  },
+  {
+    isExpanded: false,
+    category_name: 'Creative Arts',
+    subcategory: [{ id: 16, val: 'Photography' }, { id: 17, val: 'Art & Craft' }, { id: 18, val: 'Design' }],
+  }
 ];

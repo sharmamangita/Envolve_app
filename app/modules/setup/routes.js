@@ -8,7 +8,7 @@ import { View, StyleSheet, Image, Text, TouchableOpacity } from 'react-native';
 import { TouchableItem } from 'react-native-tab-view';
 import HomeStack from './homestack';
 import AsyncStorage from '@react-native-community/async-storage';
-//import sidemenu from './sidemenu';
+import Sidemenu from './sidemenu';
 import { Icon } from 'react-native-elements';
 import HomeScreen from '../screens/HomeScreen';
 import SignupScreen from '../screens/SignupScreen';
@@ -20,7 +20,9 @@ import Student from '../screens/Student';
 import Parents from '../screens/Parents';
 import StudentProfile from '../screens/StudentProfile';
 import StudentAttendance from '../screens/StudentAttendance';
-import sidemenu from './sidemenu';
+import CarouselScreen from '../screens/CarouselScreen';
+//import VideoScreen from '../screens/VideoScreen';
+import Video from 'react-native-vector-icons/FontAwesome';
 const items = [
   {
     navOptionThumb: 'circle',
@@ -59,7 +61,6 @@ const renderMenu = (navigation) => {
 
   let [user, setUser] = useState();
 
-
   AsyncStorage.getItem("@userData").then((user) => {
     if (user) {
       let profle = JSON.parse(user);
@@ -90,9 +91,15 @@ const renderMenu = (navigation) => {
     setUser();
   }
 
+  const ShowAllVideo =() =>{
+   
+    //navigation.navigate("VideoScreen");
+  }
+
   //// let [user, setUser] = useState({ UserFirstName: "", UserLastName: "", ImageUrl: ""});
 
   if (user != "" && user != null && user != undefined) {
+   // alert(user);
     var data = "Sign Out"
   } else {
     var data = "Sign In"
@@ -107,7 +114,24 @@ const renderMenu = (navigation) => {
         </TouchableOpacity>
       </View>
       <View style={styles.divider} >
-      </View>
+      </View> 
+      {user != "" && user != null && user != undefined? 
+      <View style={styles.menuItemsActivities}>
+        <View style={styles.menuActivities}>
+         <TouchableOpacity
+         
+          onPress={() => ShowAllVideo()}>
+          <>
+          <View style={styles.menuItemIcon}>
+             <Video name="video-camera" style={{ fontSize: 20, marginTop: 5, color: '#23ABE2' }} />
+          </View>
+          <Text style={styles.menuActivitiesText} >
+            Upload Video
+        </Text>
+         </>
+        </TouchableOpacity>
+        </View>
+      </View> : null }
       <View style={styles.menuItemsActivities}>
         <View style={styles.menuActivities}>
           <View style={styles.menuItemIcon}>
@@ -120,14 +144,13 @@ const renderMenu = (navigation) => {
       </View>
       {/*Setting up Navigation Options from option array using loop*/}
       <View style={styles.menuItemsContainer}>
-        <sidemenu></sidemenu>
-        
+      <Sidemenu navigation={navigation}/>
       </View>
+
       <View style={styles.signOutMenuItemContainer}>
         <TouchableItem
           style={styles.signOutMenuItem}
           onPress={() => LogOut()}>
-
           <>
             <View style={styles.signInIcon}>
               <Icon name={"west"} size={25} color="#fff" />
@@ -195,6 +218,7 @@ const styles = StyleSheet.create({
   },
   menuItemsActivities: {
     width: '100%',
+
     flexDirection: "column"
   },
   menuItem: {
@@ -240,6 +264,13 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     backgroundColor: '#23ABE2'
+  },
+   videoMenuItem: {
+    flexDirection: 'row',
+    width: '50%',
+    padding: 10,
+    borderRadius: 10,
+   
   },
   toggleClose: {
     fontSize: 25,
