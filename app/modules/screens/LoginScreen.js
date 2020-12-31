@@ -43,6 +43,7 @@ class LoginScreen extends Component {
                      console.log('responsedresponsed',responsed)
                     if (responsed.role == 'trainer') {
                        AsyncStorage.setItem('@userData', userdata.users_id);
+						AsyncStorage.setItem('@userRoll', userdata.role);
                         const navigateAction = NavigationActions.navigate({
                             routeName: 'SchoolScreen',
                             params: {
@@ -52,6 +53,7 @@ class LoginScreen extends Component {
                         this.props.navigation.dispatch(navigateAction);
                     } else if (responsed.role == 'admin') {
                         AsyncStorage.setItem('@userData', userdata.users_id);
+						AsyncStorage.setItem('@userRoll', responsed.role);
                         const navigateAction = NavigationActions.navigate({
                             routeName: 'SchoolScreen',
                             params: {
@@ -59,8 +61,20 @@ class LoginScreen extends Component {
                             }
                         });
                         this.props.navigation.dispatch(navigateAction);
-                    } else {
+                    } else if (responsed.role == 'principal') {
                         AsyncStorage.setItem('@userData', userdata.users_id);
+                       const navigateAction = NavigationActions.navigate({
+                            routeName: 'ActivitiesStatsScreen',
+                            params: {
+                                rolval: userdata
+                            }
+                        });
+                        this.props.navigation.dispatch(navigateAction);
+                    } 
+
+                    else {
+                        AsyncStorage.setItem('@userData', userdata.users_id);
+                        AsyncStorage.setItem('@userRoll', responsed.role);
                         const navigateAction = NavigationActions.navigate({
                             routeName: 'Parents',
                             params: {

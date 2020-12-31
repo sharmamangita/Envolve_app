@@ -45,14 +45,15 @@ class SchoolScreen extends Component {
         var users_id = JSON.stringify(navparams.rolval.users_id)
         var teacher = teacher_id.replace(/^"|"$/g, '');
         var users = users_id.replace(/^"|"$/g, '');
+        let url = `${API_URL}/get-activities/${teacher}/${val}/${users}`;
         fetch(`${API_URL}/get-activities/${teacher}/${val}/${users}`, {
             method: 'GET'
         }).then((res) => res.json()).then((response) => {
             this.setState({ value: response })
-            const navigateAction = NavigationActions.navigate({
+           const navigateAction = NavigationActions.navigate({
                 routeName: 'ActivitiesScreen',
                 params: {
-                    activities: this.state.value,
+                    activities: response,
                     schoolData: schoolData,
                     navparams: navparams
                 }

@@ -17,6 +17,7 @@ const ExpandableComponent = ({ item, onClickFunction, navigation }) => {
   const [layoutHeight, setLayoutHeight] = useState(0);
 
   useEffect(() => {
+   
     if (item.isExpanded) {
       setLayoutHeight(null);
     } else {
@@ -26,8 +27,6 @@ const ExpandableComponent = ({ item, onClickFunction, navigation }) => {
 
 
   goBack = (data) => {
-
-    //alert(data);
     const navigateAction = NavigationActions.navigate({
       routeName: 'CarouselScreen',
       params: {
@@ -35,6 +34,7 @@ const ExpandableComponent = ({ item, onClickFunction, navigation }) => {
       }
     });
     navigation.dispatch(navigateAction);
+    navigation.closeDrawer();
   }
 
   

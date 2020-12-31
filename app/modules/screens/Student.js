@@ -50,11 +50,17 @@ class Students extends Component {
         this.props.navigation.dispatch(navigateAction);
     }
 
-    video = () => {
+    video = (playVideoUrl=null) => {
+        if(playVideoUrl){
         const navigateAction = NavigationActions.navigate({
-            routeName: 'videoPlayer',
+            routeName: 'VideoPlayer',
+            params: {
+              playVideoUrl: playVideoUrl,
+              backTo:'Student'
+            }
         });
         this.props.navigation.dispatch(navigateAction);
+       }
     }
 
     mark_attendance = async (e, attendance_status, id) => {
@@ -178,10 +184,13 @@ class Students extends Component {
 
     render() {
         const { state, navigate } = this.props.navigation;
+         var videoLink = null;
         var arr = [];
         if (state.params.students != '') {
-            this.state.statusVal.map((t, i) => {
 
+            this.state.statusVal.map((t, i) => {
+                let playFileName = state.params.students[0].videoUrl;
+                videoLink=playFileName;
                 if (t.student_id !== null && t.admission_number !== null) {
                     arr.push(
                         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginTop: -36 }}>
@@ -250,7 +259,8 @@ class Students extends Component {
                             onPress={() => this.video()}>
                             <View style={styleData.activities}>
                                 <Text style={{ color: "#337ab7", fontSize: 20 }}>{state.params.activityData.activity_name}</Text>
-                                <Icon name="video-camera" style={{ fontSize: 20, marginTop: 5, color: '#23ABE2' }} />
+                                {videoLink?(<Icon name="video-camera" style={{ fontSize: 20, marginTop: 5, color: '#23ABE2' }} />):null}
+                                
                             </View>
                         </TouchableOpacity>
                     </View>

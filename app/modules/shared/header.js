@@ -2,12 +2,31 @@ import React from 'react';
 import { Button, StyleSheet,Image, Text, View,TouchableOpacity } from 'react-native';
 import  Icon  from 'react-native-vector-icons/Ionicons';
 const proileImage = require("../assets/images/sm-logo.png");
+import AsyncStorage from '@react-native-community/async-storage';
+
 
 const Header = ({ navigation,title }) => {
     const toggleMenu = () => {
         navigation.toggleDrawer();
         
     }
+		goToHome = () =>{
+			AsyncStorage.getItem("@userRoll").then((user) => {
+				if (user) {
+					if(user== 'trainer')
+						navigation.navigate('SchoolScreen')
+					else if(user== 'admin')
+						navigation.navigate('SchoolScreen')
+					else
+						navigation.navigate('Parents')
+				}else{
+					console.log('not logged in');
+					navigation.navigate('SignupScreen')
+				}
+			}, (err) => {
+				console.log("error", err);
+			});
+		}
     return (
         <View style={styles.header}>            
             <TouchableOpacity onPress={() => toggleMenu()}>
@@ -15,7 +34,9 @@ const Header = ({ navigation,title }) => {
                
             </TouchableOpacity>
             <View style={styles.headerView}>
-              <Image source={require('../assets/images/sm-logo.png')} />
+							<TouchableOpacity onPress={() => goToHome()}>
+								<Image source={require('../assets/images/sm-logo.png')} />
+							</TouchableOpacity>
             </View>
         </View>
     )

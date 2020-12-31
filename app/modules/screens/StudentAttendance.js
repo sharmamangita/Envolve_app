@@ -3,6 +3,7 @@ import { ScrollView, Image, TouchableOpacity, View, Text, StyleSheet } from 'rea
 import Icon from 'react-native-vector-icons/FontAwesome';
 import moment from "moment";
 import { NavigationActions } from 'react-navigation';
+import { API_URL } from '../constants/config'
 //import VideoPlayer from '../../screens/VideoPlayer/index';
 class StudentAttendance extends Component {
 
@@ -30,11 +31,17 @@ class StudentAttendance extends Component {
         this.props.navigation.dispatch(navigateAction);
     }
 
-    video = () => {
+    video = (playVideoUrl=null) => {
+        if(playVideoUrl){
         const navigateAction = NavigationActions.navigate({
-            routeName: 'videoPlayer',
+            routeName: 'VideoPlayer',
+            params: {
+              playVideoUrl: playVideoUrl,
+              backTo:'StudentAttendance'
+            }
         });
         this.props.navigation.dispatch(navigateAction);
+        }
     }
 
     createdDate(createdOn) {
@@ -54,11 +61,15 @@ class StudentAttendance extends Component {
     render() {
         const Present = <Text style={{ textAlign: 'center', marginTop: 10 }}>Present</Text>;
         const Absent = <Text style={{ textAlign: 'center', marginTop: 10, color: '#FF0000' }}>Absent</Text>;
+           
         const { state, navigate } = this.props.navigation;
         var arr = [];
+        var videoLink = null;
+
         if (state.params.students != '') {
             this.state.statusVal.map((t, i) => {
-
+            let playFileName = state.params.students[0].videoUrl;
+            videoLink = `${API_URL}/upload/${playFileName}`;
                 if (t.student_id !== null) {
                     arr.push(
                         <View style={{
@@ -106,10 +117,10 @@ class StudentAttendance extends Component {
                     <View style={{ flex: 5, flexDirection: 'column' }}>
 
                         <TouchableOpacity
-                            onPress={() => this.video()}>
+                            onPress={() => this.video(videoLink)}>
                             <View style={styleData.activities}>
-                                <Text style={{ color: "#337ab7", fontSize: 20 }}>{state.params.activityData.activity_name}</Text>
-                                <Icon name="video-camera" style={{ fontSize: 20, marginTop: 5, color: '#23ABE2' }} />
+                                <Text style={{ color: "#337ab7", fontSize: 20 }}>{state.params.activityData.activity_name} </Text>
+                                {videoLink?(<Icon name="video-camera" style={{ fontSize: 20, marginTop: 5, color: '#23ABE2' }} />):null}
                             </View>
                         </TouchableOpacity>
 

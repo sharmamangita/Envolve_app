@@ -21,7 +21,11 @@ import Parents from '../screens/Parents';
 import StudentProfile from '../screens/StudentProfile';
 import StudentAttendance from '../screens/StudentAttendance';
 import CarouselScreen from '../screens/CarouselScreen';
-//import VideoScreen from '../screens/VideoScreen';
+import VideoUploadScreen from '../screens/VideoUploadScreen';
+import ActivitiesStatsScreen from '../screens/ActivitiesStatsScreen';
+import ActivitiesClassesScreen from '../screens/ActivitiesClassesScreen';
+import StudentListingActivitiesScreen from '../screens/StudentListingActivitiesScreen';
+import VideoScreen from '../screens/VideoScreen';
 import Video from 'react-native-vector-icons/FontAwesome';
 const items = [
   {
@@ -86,14 +90,14 @@ const renderMenu = (navigation) => {
 
   const LogOut = () => {
     AsyncStorage.removeItem('@userData');
+		AsyncStorage.removeItem('@userRoll');
     navigation.closeDrawer();
     navigation.navigate("SignupScreen");
     setUser();
   }
 
   const ShowAllVideo =() =>{
-   
-    //navigation.navigate("VideoScreen");
+    navigation.navigate("VideoScreen");
   }
 
   //// let [user, setUser] = useState({ UserFirstName: "", UserLastName: "", ImageUrl: ""});
@@ -123,11 +127,12 @@ const renderMenu = (navigation) => {
           onPress={() => ShowAllVideo()}>
           <>
           <View style={styles.menuItemIcon}>
-             <Video name="video-camera" style={{ fontSize: 20, marginTop: 5, color: '#23ABE2' }} />
-          </View>
-          <Text style={styles.menuActivitiesText} >
+          <Text style={{color: '#23ABE2',fontSize: 18, marginTop: 5}}>
+          <Video name="video-camera" style={{fontSize: 20}} />
+            {"  "}
             Upload Video
-        </Text>
+          </Text>
+          </View>
          </>
         </TouchableOpacity>
         </View>
@@ -213,12 +218,10 @@ const styles = StyleSheet.create({
   },
   menuItemsContainer: {
     width: '100%',
-    flex: 0.7,
-    flexDirection: "column"
+    flex: 0.9,
   },
   menuItemsActivities: {
     width: '100%',
-
     flexDirection: "column"
   },
   menuItem: {
@@ -244,6 +247,9 @@ const styles = StyleSheet.create({
   signInIcon: {
     marginRight: 8,
     marginLeft: 17,
+    //position:"absolute",
+    //zIndex:99,
+    //left:0
   },
   menuItemText: {
     fontSize: 15, color: '#23ABE2',
@@ -254,9 +260,6 @@ const styles = StyleSheet.create({
   signOutMenuItemContainer: {
     width: "100%",
     alignItems: 'center',
-    flex: 1,
-    justifyContent: 'flex-end',
-    marginBottom: 26
   },
   signOutMenuItem: {
     flexDirection: 'row',

@@ -32,6 +32,7 @@ class ActivitiesScreen extends Component {
     getStudents = (school, teacher, item) => {
         var activititid = JSON.stringify(item.activity_id);
         var activitity_id = activititid.replace(/^"|"$/g, '');
+        let url = `${API_URL}/get-students/${school}/${teacher}/${activitity_id}`;
         fetch(`${API_URL}/get-students/${school}/${teacher}/${activitity_id}`, {
             method: 'GET'
         }).then((res) => res.json()).then((response) => {
@@ -65,10 +66,10 @@ class ActivitiesScreen extends Component {
         const { state, navigate } = this.props.navigation;
         var arr = [];
         if (state.params.activities != '') {
-            var teacher_id = JSON.stringify(state.params.navparams.rolval.teacher_id)
-            var school_id = JSON.stringify(state.params.schoolData.school_id)
+            var teacher_id = JSON.stringify(state.params.navparams.rolval.teacher_id);
+            var school = state.params.schoolData.school_id;
             var teacher = teacher_id.replace(/^"|"$/g, '');
-            var school = school_id.replace(/^"|"$/g, '');
+          //  var school = school_id.replace(/^"|"$/g, '');
             state.params.activities.map((item) => {
                 arr.push(
                     <ListItem onPress={() => this.getStudents(school, teacher, item)}

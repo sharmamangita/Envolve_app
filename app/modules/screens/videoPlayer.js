@@ -1,35 +1,38 @@
-/*Example of React Native Video*/
-import React, { Component } from 'react';
-//Import React
-import { Platform, StyleSheet, Text, View ,Image} from 'react-native';
-//Import Basic React Native Component
-import Video from 'react-native-video';
-//Import React Native Video to play video
-import MediaControls, { PLAYER_STATES } from 'react-native-media-controls';
-//Media Controls to control Play/Pause/Seek and full screen
+import React, { Component } from "react";
 
-class videoPlayer extends Component {
-  videoPlayer;
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Dimensions,
+} from "react-native";
 
+import Video from "react-native-video";
+import MediaControls, { PLAYER_STATES } from "react-native-media-controls";
+import { NavigationActions } from "react-navigation";
+class VideoPlayer extends Component {
   constructor(props) {
     super(props);
     this.state = {
       currentTime: 0,
       duration: 0,
-      isFullScreen: false,
+      isFullScreen: true,
       isLoading: true,
       paused: false,
       playerState: PLAYER_STATES.PLAYING,
-      screenType: 'content',
+      screenType: "cover",
     };
+    this.videoPlayer = React.createRef();
   }
 
-  onSeek = seek => {
+  onSeek = (seek) => {
     //Handler for change in seekbar
-    this.videoPlayer.seek(seek);
+    this.VideoPlayer.seek(seek);
   };
 
-  onPaused = playerState => {
+  onPaused = (playerState) => {
     //Handler for Video Pause
     this.setState({
       paused: !this.state.paused,
@@ -39,60 +42,79 @@ class videoPlayer extends Component {
 
   onReplay = () => {
     //Handler for Replay
-    this.setState({ playerState: PLAYER_STATES.PLAYING });
-    this.videoPlayer.seek(0);
+    this.videoPlayer?.current.seek(0);
+    this.setState({ currentTime: 0 });
+    if (Platform.OS === "android") {
+      setPlayerState(PLAYER_STATES.PAUSED);
+      setPaused(true);
+      this.setState({ playerState: PLAYER_STATES.PAUSED, Paused: true });
+    } else {
+      this.setState({ playerState: PLAYER_STATES.PLAYING, Paused: false });
+    }
   };
 
-  onProgress = data => {
+  onProgress = (data) => {
     const { isLoading, playerState } = this.state;
     // Video Player will continue progress even if the video already ended
     if (!isLoading && playerState !== PLAYER_STATES.ENDED) {
       this.setState({ currentTime: data.currentTime });
     }
   };
-  
-  onLoad = data => this.setState({ duration: data.duration, isLoading: false });
-  
-  onLoadStart = data => this.setState({ isLoading: true });
-  
-  onEnd = () => this.setState({ playerState: PLAYER_STATES.ENDED });
-  
-  onError = () => alert('Oh! ', error);
-  
-  exitFullScreen = () => {
-    alert('Exit full screen');
+
+  onLoad = (data) =>
+    this.setState({ duration: data.duration, isLoading: false });
+
+  onLoadStart = (data) => this.setState({ isLoading: true });
+
+  onEnd = () => {
+    this.setState({ playerState: PLAYER_STATES.ENDED });
+    const { params } = this.props.navigation.state;
+    let backTo=null;
+    if (params.backTo != undefined && params.backTo) {
+      backTo = params.backTo;
+    }
+    this.props.navigation.navigate(backTo);
   };
-  
+
+  onError = () => alert("Oh! ", error);
+
+  exitFullScreen = () => {
+    alert("Exit full screen");
+  };
+
   enterFullScreen = () => {};
-  
+
   onFullScreen = () => {
-    if (this.state.screenType == 'content')
-      this.setState({ screenType: 'cover' });
-    else this.setState({ screenType: 'content' });
+    if (this.state.screenType == "content")
+      this.setState({ screenType: "cover" });
+    else this.setState({ screenType: "content" });
   };
   renderToolbar = () => (
     <View>
       <Text> toolbar </Text>
     </View>
   );
-  onSeeking = currentTime => this.setState({ currentTime });
-
+  onSeeking = (currentTime) => this.setState({ currentTime });
   render() {
+    let playVideoUrl = "";
+    const { params } = this.props.navigation.state;
+    if (params.playVideoUrl != undefined && params.playVideoUrl) {
+      playVideoUrl = params.playVideoUrl;
+    }
     return (
-      <View style={styles.container}>
+      <View>
         <Video
           onEnd={this.onEnd}
           onLoad={this.onLoad}
           onLoadStart={this.onLoadStart}
           onProgress={this.onProgress}
           paused={this.state.paused}
-          ref={videoPlayer => (this.videoPlayer = videoPlayer)}
+          ref={(videoPlayer) => (this.videoPlayer = videoPlayer)}
           resizeMode={this.state.screenType}
           onFullScreen={this.state.isFullScreen}
-          source={{ uri: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4' }}
-          style={styles.mediaPlayer}
+          source={{ uri: playVideoUrl }}
           volume={10}
-          
+          style={styles.backgroundVideo}
         />
         <MediaControls
           duration={this.state.duration}
@@ -106,7 +128,6 @@ class videoPlayer extends Component {
           playerState={this.state.playerState}
           progress={this.state.currentTime}
           toolbar={this.renderToolbar()}
-          
         />
         <View style={styles.logo} >
           <Image source={require('../assets/images/Envolve-logo_25.png')} />
@@ -115,34 +136,24 @@ class videoPlayer extends Component {
     );
   }
 }
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 const styles = StyleSheet.create({
-  container: {
+  backgroundVideo: {
+    height: windowHeight,
+    width: "100%",
+  },
+  mediaControls: {
+    height: "100%",
     flex: 1,
-    height:'100%',
-    width:'100%',
-  },
-  toolbar: {
-    marginTop: 30,
-    backgroundColor: 'white',
-    padding: 10,
-    borderRadius: 5,
-  },
-  mediaPlayer: {
-    position: 'absolute',
-    height:'100%',
-    width:'100%',
-    // top: 0,
-    // left: 0,
-    // bottom: 0,
-    // right: 0,
-    // backgroundColor: 'black',
+    alignSelf: "center",
   },
   logo:{
-    //textAlign: 'right',
-    alignItems:'flex-end',
+    position: 'absolute',
+    top:0,
     flex: 1,
     justifyContent: 'flex-start',
-   
+    right:0
   }
 });
-export default videoPlayer;
+export default VideoPlayer;
