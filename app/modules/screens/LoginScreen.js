@@ -12,16 +12,26 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationActions } from 'react-navigation';
 import t from 'tcomb-form-native';
 import { API_URL } from '../constants/config';
+import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
 const GenerateForm = t.form.Form;
 
 class LoginScreen extends Component {
 
     constructor(props) {
         super(props);
+        this.state={
+            loading:false,
+            isButtonDisable:false,
+        }
     }
 
     login(device_id, token) {
         const formValues = this._form.getValue();
+        this.setState({
+            loading:true,
+            isButtonDisable:true
+        })
+        if(formValues && formValues['phone_number']!=undefined  && formValues['password']!=undefined){
         fetch(`${API_URL}/save-user/${formValues['phone_number']}/${formValues['password']}/${device_id}`, {
 	        method: 'GET',
 	        headers: {
@@ -39,8 +49,7 @@ class LoginScreen extends Component {
 	                    'Content-Type': 'application/json',
 	                }
 	            }).then((res) => res.json()).then((responsed) => {
-                     //alert(JSON.stringify(responsed));
-                     console.log('responsedresponsed',responsed)
+                    this.setState({loading:false,isButtonDisable:false});
                     if (responsed.role == 'trainer') {
                        AsyncStorage.setItem('@userData', userdata.users_id);
 						AsyncStorage.setItem('@userRoll', userdata.role);
@@ -66,7 +75,8 @@ class LoginScreen extends Component {
                        const navigateAction = NavigationActions.navigate({
                             routeName: 'ActivitiesStatsScreen',
                             params: {
-                                rolval: userdata
+                                rolval: userdata,
+                                schoolData:responsed
                             }
                         });
                         this.props.navigation.dispatch(navigateAction);
@@ -88,10 +98,13 @@ class LoginScreen extends Component {
 	                }
 	            }).catch((err) => alert(err))
 	        } else {
+                this.setState({loading:false,isButtonDisable:false});
 	            this.showAlertMessage(response.message);
-
 	        }
 	    });
+    } else {
+        this.setState({loading:false,isButtonDisable:false});
+    }
     }
 
 
@@ -126,7 +139,7 @@ class LoginScreen extends Component {
             <View style={styles.container}>
                 <ScrollView
                     contentInsetAdjustmentBehavior="automatic"
-                    style={styles.scrollView} >
+                    style={this.state.loading?{opacity:0.1}:{opacity:1}} >
                     <View style={styles.referenceText}>
                         <Text style={styles.welcomeText}> Welcome! </Text>
                         <Text style={styles.text}>Please enter your mobile number {"\n"} to access your account.</Text>
@@ -137,13 +150,27 @@ class LoginScreen extends Component {
                             type={User}
                             options={formOptions}
                         />
-                    </View>
+                    </View> 
                     <View style={styles.box1}>
-                        <TouchableOpacity style={styles.loginButton} onPress={() => this.login('fsdfjsbdfjsbfjk', 'fjkhfjhsdjfhsjk')} >
+                        <TouchableOpacity disabled={this.state.isButtonDisable} style={styles.loginButton} onPress={() => this.login('fsdfjsbdfjsbfjk', 'fjkhfjhsdjfhsjk')} >
                             <Text style={styles.loginText} > Login </Text>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>
+                 {this.state.loading ? (
+                    <View
+                      style={{
+                        flex: 1,
+                        alignItems: "center",
+                        justifyContent: "center",
+                        position:'absolute',
+                        marginTop:'40%',
+                        left:'45%'
+                      }}
+                    >
+                      <Bubbles size={10} color="#1CAFF6" />
+                    </View>
+                  ) : null}  
             </View >
         );
     }

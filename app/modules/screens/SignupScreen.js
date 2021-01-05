@@ -32,11 +32,11 @@ class signup extends Component {
             <Image source={require('../assets/images/parent.png')} />
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => this.login()} style={{ justifyContent: 'center', alignItems: 'center' }} >
+          <TouchableOpacity onPress={() => this.login()} style={{ justifyContent: 'center', alignItems: 'center', marginTop: 12 }} >
             <Image source={require('../assets/images/principal.png')} />
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => this.login()} style={{ justifyContent: 'center', alignItems: 'center' }}>
+          <TouchableOpacity onPress={() => this.login()} style={{ justifyContent: 'center', alignItems: 'center', marginTop: 12 }}>
             <Image source={require('../assets/images/trainer.png')} />
           </TouchableOpacity>
         </ScrollView>

@@ -45,7 +45,7 @@ class SchoolScreen extends Component {
         var users_id = JSON.stringify(navparams.rolval.users_id)
         var teacher = teacher_id.replace(/^"|"$/g, '');
         var users = users_id.replace(/^"|"$/g, '');
-        let url = `${API_URL}/get-activities/${teacher}/${val}/${users}`;
+        //let url = `${API_URL}/get-activities/${teacher}/${val}/${users}`;
         fetch(`${API_URL}/get-activities/${teacher}/${val}/${users}`, {
             method: 'GET'
         }).then((res) => res.json()).then((response) => {

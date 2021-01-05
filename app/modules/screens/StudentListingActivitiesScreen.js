@@ -5,7 +5,7 @@ import TouchableScale from "react-native-touchable-scale";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { NavigationActions } from "react-navigation";
 import { API_URL } from "../constants/config";
-
+import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
 class StudentListingActivitiesScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -15,13 +15,47 @@ class StudentListingActivitiesScreen extends Component {
 
   constructor(props) {
     super(props);
+    this.studentsNames = [];
     this.state = {
-      activities: [],
-      value1: "",
-      gotImage: 0,
-      schoolData: [],
-      navparams: [],
+      studentsNames:[],
+      teacherName:null,
+      actClassName:null,
+      activityName:null,
+      emptyMsg:null,
+      loading:true
     };
+  }
+
+ componentDidMount() {
+    const { params } = this.props.navigation.state;
+    let that = this;
+    if (params.activityId != undefined && params.activityName && params.activityClass) {
+      fetch(`${API_URL}/student-attendance-by-activity/${params.activityClass}/${params.activityId}`)
+        .then((res) => res.json())
+        .then((responsed) => {
+          if (responsed != undefined && responsed.length) {
+            let teacherName = null;
+            responsed.forEach(function (item, index) {
+              teacherName = item.teacher_name;
+              that.studentsNames.push(item);
+            });
+            if (teacherName) {
+              that.setState({
+                teacherName: teacherName,
+                studentsNames: that.studentsNames,
+                activityName:params.activityName,
+                actClassName:params.activityClass,
+                loading:false
+              });
+            }
+          } else {
+            that.setState({
+              emptyMsg: "No Record Found",
+              loading:false
+            });
+          }
+        });
+    }
   }
 
   goBack = () => {
@@ -34,6 +68,37 @@ class StudentListingActivitiesScreen extends Component {
 
   render() {
     const { state, navigate } = this.props.navigation;
+    const { params } = this.props.navigation.state;
+    const { teacherName,activityName,actClassName,studentsNames,emptyMsg,loading } = this.state;
+    var array = [];
+    var that = this;
+    studentsNames.length &&
+      studentsNames.forEach(function (item, index) {
+        array.push(
+          <ListItem
+            containerStyle={{
+              marginLeft: 15,
+              marginRight: 15, 
+              marginTop: 15,
+              borderRadius:5,
+              borderWidth:1,
+            }}
+            component={TouchableScale}
+            title={
+              <Text style={{ paddingLeft: 5, fontSize: 14 }}>
+                {item.student_name}
+              </Text>
+            }
+            rightIcon={
+              <Text
+                style={{ fontSize: 12,color: "#23ABE2" }}
+              >
+               {item.student_attendance} attendence   
+              </Text>
+            }
+          />
+        );
+      });
     return (
       <ScrollView style={styleData.screenContainer}>
         <View style={styleData.container}>
@@ -48,7 +113,9 @@ class StudentListingActivitiesScreen extends Component {
           <Text
             style={{ fontSize: 15,textAlign: 'right',fontWeight:'bold',marginRight: 15 }}
           >
-            School Name come here
+            {params.schoolName != undefined && params.schoolName
+                ? params.schoolName
+                : null}
           </Text>
           </View>
         </View>
@@ -56,81 +123,39 @@ class StudentListingActivitiesScreen extends Component {
           <Text
             style={{ fontSize: 18,fontWeight:'bold',paddingLeft: 20,marginTop:15,color: "#23ABE2" }}
           >
-            LAWN TENNIS - Class-IV 
+            {activityName} - {actClassName}
           </Text>
           <Text
             style={{ fontSize: 14,paddingLeft: 20,marginTop:5,marginBottom:10,color: "#23ABE2" }}
           >
-            Trainer - Sunil Sharma - 90% attendence 
+            Trainer - {teacherName} - -- attendence 
           </Text>
         </View>
         <View>
-          <ListItem
-            containerStyle={{
-              marginLeft: 15,
-              marginRight: 15, 
-              marginTop: 15,
-              borderRadius:5,
-              borderWidth:1,
+        {array}
+          {loading ? (
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+                marginTop: "40%",
+              }}
+            >
+              <Bubbles size={20} color="#1CAFF6" />
+            </View>
+          ) : null}
+          <Text
+            style={{
+              fontSize: 16,
+              fontWeight: "bold",
+              textAlign: "center",
+              marginTop: 65,
+              marginBottom: 10,
             }}
-            component={TouchableScale}
-            title={
-              <Text style={{ paddingLeft: 5, fontSize: 14 }}>
-                Ryan
-              </Text>
-            }
-            rightIcon={
-              <Text
-                style={{ fontSize: 12,color: "#23ABE2" }}
-              >
-               90% attendence   
-              </Text>
-            }
-          />
-          <ListItem
-            containerStyle={{
-              marginLeft: 15,
-              marginRight: 15, 
-              marginTop: 15,
-              borderRadius:5,
-              borderWidth:1,
-            }}
-            component={TouchableScale}
-            title={
-              <Text style={{ paddingLeft: 5,  fontSize: 14 }}>
-                Jassi Gill
-              </Text>
-            }
-            rightIcon={
-              <Text
-                style={{ fontSize: 12,color: "#23ABE2" }}
-              >
-               90% attendence   
-              </Text>
-            }
-          />
-          <ListItem
-            containerStyle={{
-              marginLeft: 15,
-              marginRight: 15, 
-              marginTop: 15,
-              borderRadius:5,
-              borderWidth:1,
-            }}
-            component={TouchableScale}
-            title={
-              <Text style={{ paddingLeft: 5,  fontSize: 14 }}>
-                Noor Singh
-              </Text>
-            }
-            rightIcon={
-              <Text
-                style={{ fontSize: 12,color: "#23ABE2" }}
-              >
-               80% attendence   
-              </Text>
-            }
-          />
+          >
+            {emptyMsg}
+          </Text>
         </View>
       </ScrollView>
     );

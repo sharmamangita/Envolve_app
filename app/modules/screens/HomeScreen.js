@@ -49,14 +49,13 @@ class HomeScreen extends Component {
       <View
         style={{
           flex: 1,
-          backgroundColor: item.backgroundColor,
+          backgroundColor:'#fff',
           alignItems: 'center',
           // justifyContent: 'space-around',
           // paddingBottom:40,
-          height:'100%',
-          width:'100%'
+
         }}>
-        <Image style={styles.image} source={item.image} />
+        <Image style={styles.image} source={item.image} resizeMode="cover"/>
       </View>
     );
   };
@@ -97,6 +96,7 @@ const styles = StyleSheet.create({
     //marginBottom: 25
   },
   image: {
+    flex: 1,
     width: '100%',
     height: '100%',
   },

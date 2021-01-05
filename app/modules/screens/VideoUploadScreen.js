@@ -12,7 +12,7 @@ import {
   TouchableOpacity,
   TouchableHighlight,
   TextInput,
-  Dimensions
+  Dimensions,
 } from "react-native";
 import AsyncStorage from "@react-native-community/async-storage";
 import DropDownPicker from "react-native-dropdown-picker";
@@ -20,9 +20,11 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { Header, Colors } from "react-native/Libraries/NewAppScreen";
 import { NavigationActions } from "react-navigation";
 import { API_URL } from "../constants/config";
-import * as Progress from 'react-native-progress';
+import * as Progress from "react-native-progress";
 import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 import RNFetchBlob from "rn-fetch-blob";
+import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
+import AwesomeAlert from "react-native-awesome-alerts";
 class VideoUploadScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -41,8 +43,10 @@ class VideoUploadScreen extends Component {
       activities: [],
       activity_id: 0,
       teacher_id: 0,
-      isProgressBar:false,
-      progressRuning:0
+      isProgressBar: false,
+      progressRuning: 0,
+      loading: true,
+      showAlert: false,
     };
   }
 
@@ -71,6 +75,7 @@ class VideoUploadScreen extends Component {
           });
           that.setState({
             activityType: responsed,
+            loading: false,
           });
         }
       });
@@ -110,26 +115,35 @@ class VideoUploadScreen extends Component {
             data: RNFetchBlob.wrap(videoUri),
           },
         ]
-      ).uploadProgress({ interval : 250 },(written, total) => {
-        console.log('uploaded', written / total);
-        let progressRuning=written / total;
+      )
+        .uploadProgress({ interval: 250 }, (written, total) => {
+          console.log("uploaded", written / total);
+          let progressRuning = written / total;
           this.setState({
-            isProgressBar:true,
-            progressRuning:progressRuning
+            isProgressBar: true,
+            progressRuning: progressRuning,
           });
         })
         .then((response) => {
-          Alert.alert("Success", "Video uploaded Succssfully");
           this.setState({
-            isProgressBar:false ,
-            progressRuning:0
+            isProgressBar: false,
+            progressRuning: 0,
+            showAlert:true
           });
-           this.props.navigation.navigate("VideoScreen",{getActivitesVideos:true});
         })
         .catch((err) => {
           Alert.alert("Error", JSON.stringify(err));
         });
     }
+  };
+
+  hideAlert = () => {
+    this.setState({
+      showAlert: false,
+    });
+    this.props.navigation.navigate("VideoScreen", {
+      getActivitesVideos: true,
+    });
   };
 
   getActivites(activity_type = null) {
@@ -175,9 +189,9 @@ class VideoUploadScreen extends Component {
     );
   }
   render() {
-    const { videoFileName, videoUri } = this.state;
-    const windowWidth = Dimensions.get('window').width;
-    const windowHeight = Dimensions.get('window').height;
+    const { videoFileName, videoUri, loading,showAlert } = this.state;
+    const windowWidth = Dimensions.get("window").width;
+    const windowHeight = Dimensions.get("window").height;
     return (
       <>
         <ScrollView style={styles.screenContainer}>
@@ -205,8 +219,14 @@ class VideoUploadScreen extends Component {
               </Text>
             </View>
           </View>
-          <View style={styles.body}>
-         
+
+          <View
+            style={
+              loading
+                ? { opacity: 0.1, backgroundColor: Colors.white }
+                : { opacity: 1, backgroundColor: Colors.white }
+            }
+          >
             <View style={styles.sectionContainer}>
               <View style={{ marginBottom: 30 }}>
                 <DropDownPicker
@@ -267,11 +287,15 @@ class VideoUploadScreen extends Component {
                   />
                 </View>
               </View>
-              {this.state.isProgressBar?(
-              <View style={{marginBottom:30}}>
-              <Progress.Bar progress={this.state.progressRuning} width={windowWidth-50} height={12} />
-              </View> 
-              ):null}
+              {this.state.isProgressBar ? (
+                <View style={{ marginBottom: 30 }}>
+                  <Progress.Bar
+                    progress={this.state.progressRuning}
+                    width={windowWidth - 50}
+                    height={12}
+                  />
+                </View>
+              ) : null}
               <View>
                 <TouchableOpacity>
                   <Button
@@ -281,9 +305,37 @@ class VideoUploadScreen extends Component {
                   />
                 </TouchableOpacity>
               </View>
-
             </View>
           </View>
+            <AwesomeAlert
+              show={showAlert}
+              showProgress={false}
+              title="Thank you"
+              message="Your video is uploaded successfully"
+              closeOnTouchOutside={false}
+              closeOnHardwareBackPress={false}
+              showCancelButton={false}
+              showConfirmButton={true}
+              confirmText="Ok"
+              confirmButtonColor="#F9370C"
+              onConfirmPressed={() => {
+                this.hideAlert();
+              }}
+            />
+          {loading ? (
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+                position: "absolute",
+                marginTop: "40%",
+                left: "38%",
+              }}
+            >
+              <Bubbles size={20} color="#1CAFF6" />
+            </View>
+          ) : null}
         </ScrollView>
       </>
     );

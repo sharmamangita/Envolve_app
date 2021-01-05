@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   TextInput,
   TouchableHighlight,
+  Alert,
 } from "react-native";
 import { ListItem } from "react-native-elements";
 import TouchableScale from "react-native-touchable-scale";
@@ -14,7 +15,9 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { Header, Colors } from "react-native/Libraries/NewAppScreen";
 import { NavigationActions } from "react-navigation";
 import { API_URL } from "../constants/config";
-//import Videoplayer from "./VideoPlayer"; 
+import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
+import AwesomeAlert from "react-native-awesome-alerts";
+
 class VideoScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -26,40 +29,63 @@ class VideoScreen extends Component {
     super(props);
     this.videos = [];
     this.state = {
-      videos:[],
-      playVideoUrl:null
+      videos: [],
+      playVideoUrl: null,
+      loading: false,
+      showAlert: false,
+      video_id: 0,
     };
-  } 
+  }
 
   componentDidMount() {
     this.getActivitesVideos();
   }
 
-  componentWillReceiveProps(newProps){
-    const {params} = newProps.navigation.state;
-      if(params.getActivitesVideos!=undefined && params.getActivitesVideos){
-        this.videos=[];
-        this.getActivitesVideos();
-      }
+  componentWillReceiveProps(newProps) {
+    const { params } = newProps.navigation.state;
+    if (params.getActivitesVideos != undefined && params.getActivitesVideos) {
+      this.videos = [];
+      this.getActivitesVideos();
+    }
   }
-  getActivitesVideos(){
+  getActivitesVideos() {
     let that = this;
+    that.videos = [];
+    that.setState({
+      videos: that.videos,
+      loading: true,
+    });
     fetch(`${API_URL}/get-activites-videos/`)
       .then((res) => res.json())
       .then((responsed) => {
-       // alert(JSON.stringify(responsed));
         if (responsed != undefined && responsed.length) {
-            responsed.forEach(function(item){
-               that.videos.push(item);
-            })
-            that.setState({
-                videos:that.videos
-            })
+          responsed.forEach(function (item) {
+            that.videos.push(item);
+          });
+          that.setState({
+            videos: that.videos,
+            loading: false,
+          });
+        } else {
+          that.setState({
+            loading: false,
+          });
         }
       });
   }
 
+  showAlert = (videoId) => {
+    this.setState({
+      showAlert: true,
+      video_id: videoId,
+    });
+  };
 
+  hideAlert = () => {
+    this.setState({
+      showAlert: false,
+    });
+  };
 
   goBack = () => {
     const navigateAction = NavigationActions.navigate({
@@ -75,91 +101,152 @@ class VideoScreen extends Component {
     this.props.navigation.dispatch(navigateAction);
   };
 
-  playVideo=(videoUrl=null)=>{
-    if(videoUrl!=null){
-      let playVideoUrl= `${API_URL}/upload/${videoUrl}`;
-      this.props.navigation.navigate("VideoPlayer",{playVideoUrl:playVideoUrl,backTo:'VideoScreen'});
+  playVideo = (videoUrl = null) => {
+    if (videoUrl != null) {
+      let playVideoUrl = `${API_URL}/upload/${videoUrl}`;
+      this.props.navigation.navigate("VideoPlayer", {
+        playVideoUrl: playVideoUrl,
+        backTo: "VideoScreen",
+      });
     }
-  }
+  };
+
+  deleteVideo = () => {
+    let that = this;
+    const { video_id } = this.state;
+    fetch(`${API_URL}/delete-video/${video_id}`, {
+      method: "DELETE",
+    }).then((res) => {
+      that.getActivitesVideos();
+    });
+    that.hideAlert();
+  };
 
   render() {
     var arr = [];
-    var {playVideoUrl} = this.state;
-    var {endVideo} = this.props;
-
+    var { playVideoUrl, loading, showAlert } = this.state;
+    var { endVideo } = this.props;
+    var that = this;
     if (this.videos.length) {
       this.videos.map((video) => {
         arr.push(
-            <View
-              style={{
-                flexDirection: "row",
-                marginBottom: 30,
-                width: window.width,
-                alignItems: "center",
-                justifyContent: "center",
-                borderColor: "#ddd",
-                borderWidth: 1,
-                borderRadius: 4,
-              }}
-            >
-              <View style={{ flex: 4 }}>
-                <TextInput
-                  style={{ backgroundColor: "transparent" }}
-                  value={video.activity_name}
-                />
+          <ListItem
+            containerStyle={{
+              marginBottom: 15,
+              borderRadius: 5,
+              borderWidth: 1,
+            }}
+            component={TouchableScale}
+            title={
+              <Text style={{ paddingLeft: 5, fontSize: 14 }}>
+                {video.activity_name}
+              </Text>
+            }
+            rightIcon={
+              <View style={{ flexDirection: "row" }}>
+                <TouchableOpacity
+                  onPress={() => that.playVideo(video.videoUrl)}
+                >
+                  <Icon
+                    onPress={() => this.playVideo(video.videoUrl)}
+                    name="video-camera"
+                    style={{ fontSize: 22, color: "#23ABE2" }}
+                  />
+                </TouchableOpacity>
+                {video.studentUsingActivity == null ? (
+                  <TouchableOpacity
+                    onPress={() => that.playVideo(video.videoUrl)}
+                  >
+                    <Icon
+                      onPress={() => this.showAlert(video.video_id)}
+                      name="trash"
+                      style={{
+                        fontSize: 22,
+                        color: "#F93B11",
+                        paddingLeft: 15,
+                      }}
+                    />
+                  </TouchableOpacity>
+                ) : null}
               </View>
-              <View style={{ flex: 0.5, backgroundColor: "#fff" }}>
-                <Icon
-                  onPress={() => this.playVideo(video.videoUrl)}
-                  name="video-camera"
-                  style={{ fontSize: 20, marginTop: 5, color: "#23ABE2" }}
-                />
-              </View>
-            </View>
+            }
+          />
         );
       });
     }
 
     return (
       <View>
-  
-      <ScrollView style={styleData.screenContainer}>
-        <View style={{ flexDirection: "column" }}>
-        
-          <View style={styleData.activities}>
-            <Text>
-              {" "}
-              <Icon
-                name="chevron-left"
-                onPress={() => this.goBack()}
-                style={{ fontSize: 20, color: "#23ABE2", marginTop: 8 }}
-              />
-              {"   "}
-              <Text
-                onPress={() => this.goBack()}
-                style={{
-                  fontSize: 14,
-                  fontColor: "#000",
-                  fontWeight: "bold",
-                  marginLeft: 10,
-                }}
-              >
-                Upload Videos For Activities
+        <ScrollView style={styleData.screenContainer}>
+          <View style={{ flexDirection: "column" }}>
+            <View style={styleData.activities}>
+              <Text>
+                {" "}
+                <Icon
+                  name="chevron-left"
+                  onPress={() => this.goBack()}
+                  style={{ fontSize: 20, color: "#23ABE2", marginTop: 8 }}
+                />
+                {"   "}
+                <Text
+                  onPress={() => this.goBack()}
+                  style={{
+                    fontSize: 14,
+                    fontColor: "#000",
+                    fontWeight: "bold",
+                    marginLeft: 10,
+                  }}
+                >
+                  Upload Videos For Activities
+                </Text>
               </Text>
-            </Text>
-            <Icon
-              onPress={() => this.uploadvideo()}
-              name="plus-circle"
-              style={{ fontSize: 28, marginTop: 5, color: "#23ABE2" }}
-            />
+              <Icon
+                onPress={() => this.uploadvideo()}
+                name="plus-circle"
+                style={{ fontSize: 28, marginTop: 5, color: "#23ABE2" }}
+              />
+            </View>
           </View>
-        </View>
-        <View style={styleData.body}>
-          <View style={styleData.sectionContainer}>
-            <View>{arr}</View>
+          <View style={styleData.body}>
+            <View style={styleData.sectionContainer}>
+              {loading ? (
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginTop: "40%",
+                  }}
+                >
+                  <Bubbles size={20} color="#1CAFF6" />
+                </View>
+              ) : null}
+
+              <AwesomeAlert
+                show={showAlert}
+                showProgress={false}
+                title="Confirm to delete"
+                message="Are you sure to delete this video "
+                closeOnTouchOutside={true}
+                closeOnHardwareBackPress={false}
+                showCancelButton={true}
+                showConfirmButton={true}
+                cancelText="No, cancel"
+                confirmText="Yes, delete it"
+                confirmButtonColor="#F9370C"
+                cancelButtonColor="#24C50D"
+                onCancelPressed={() => {
+                  this.hideAlert();
+                }}
+                onConfirmPressed={() => {
+                  this.deleteVideo();
+                }}
+              />
+
+              <View>{arr}</View>
+            </View>
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
       </View>
     );
   }

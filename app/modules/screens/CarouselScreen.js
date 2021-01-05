@@ -10,7 +10,7 @@ class CarouselScreen extends Component {
     super(props);
     this.state = {
       activeIndex: 0,
-      carouselItems: [
+      carouselItems: [ 
         {
           id: 0,
           title: "Co-Curricular",
@@ -134,7 +134,7 @@ class CarouselScreen extends Component {
         marginLeft: 25,
         // marginRight: 20, 
       }}>
-        <View style={{ flexDirection: "row", alignItems: "flex-end", alignSelf: 'flex-end' }}>
+        <View style={{ flexDirection: "row", alignItems: "flex-end", alignSelf: 'flex-end',marginRight:15, }}>
           <TouchableOpacity
             onPress={() => closeCarousel()}>
             <Text style={{ fontSize: 20, color: "#23ABE2" }}><Icons name="close" style={{ fontSize: 20, marginTop: 5, color: '#23ABE2' }} /></Text>
@@ -164,7 +164,7 @@ class CarouselScreen extends Component {
 					 () => this.carousel._snapToItem(this.state.activeIndex-1)
 					}
 					>
-					<Text style={{ fontSize: 30, color: "#23ABE2", marginTop: 150 }}>
+					<Text style={{ fontSize: 30, color: "#23ABE2", marginTop: 150, marginLeft:10 }}>
 						<Icons name="angle-left" style={{ fontSize: 30, marginTop: 10, color: '#23ABE2' }} />
 					</Text>
 				</TouchableOpacity>
@@ -185,7 +185,7 @@ class CarouselScreen extends Component {
 					 () => this.carousel._snapToItem(this.state.activeIndex+1)
 					}
 					>
-					<Text style={{ fontSize: 30, color: "#23ABE2", marginTop: 150}}>
+					<Text style={{ fontSize: 30, color: "#23ABE2", marginTop: 150, marginRight:10}}>
 						<Icons name="angle-right" style={{ fontSize: 30, marginTop: 10, color: '#23ABE2' }} />
 					</Text>
 				</TouchableOpacity>

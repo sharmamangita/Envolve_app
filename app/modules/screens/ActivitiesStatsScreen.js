@@ -1,11 +1,17 @@
 import React, { Component } from "react";
-import { ScrollView, View, Text, StyleSheet,TouchableOpacity } from "react-native";
+import {
+  ScrollView,
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import { ListItem } from "react-native-elements";
 import TouchableScale from "react-native-touchable-scale";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { NavigationActions } from "react-navigation";
 import { API_URL } from "../constants/config";
-
+import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
 class ActivitiesStatsScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -15,20 +21,61 @@ class ActivitiesStatsScreen extends Component {
 
   constructor(props) {
     super(props);
+    this.activitiesStudentsCount = [];
     this.state = {
-      activities: [],
+      activitiesStudentsCount: [],
       value1: "",
       gotImage: 0,
-      schoolData: [],
+      schoolName: null,
       navparams: [],
+      schoolId:null,
+      loading:true
     };
   }
 
+  componentDidMount() {
+    const { params } = this.props.navigation.state;
+    let that = this;
+    if (params.schoolData != undefined && params.schoolData) {
+      let schoolData = params.schoolData;
+      if (schoolData.school_id != undefined && schoolData.school_id) {
+        fetch(
+          `${API_URL}/count-activities-totoalStudents/${schoolData.school_id}`
+        )
+          .then((res) => res.json())
+          .then((responsed) => {
+            if (responsed != undefined && responsed.length) {
+              let schoolName = null;
+              let schoolId=null;
+              responsed.forEach(function (item, index) {
+                schoolName = item.school_name;
+                schoolId=item.school_id;
+                that.activitiesStudentsCount.push(item);
+              });
+              if (schoolName && schoolId) {
+                this.setState({
+                  schoolName: schoolName,
+                  activitiesStudentsCount: that.activitiesStudentsCount,
+                  schoolId:schoolId,
+                  loading:false
+                });
+              }
+            }
+          });
+      }
+    }
+  }
 
-  goToClassActivities(activity=null){
-    alert(activity);
+  goToClassActivities(activity_id = null,activity_name = null) {
+    const {schoolName,schoolId}=this.state;
     const navigateAction = NavigationActions.navigate({
       routeName: "ActivitiesClassesScreen",
+     params: {
+        activity_id:activity_id,
+        activity_name:activity_name,
+        schoolName:schoolName,
+        schoolId:schoolId
+      }
     });
     this.props.navigation.dispatch(navigateAction);
   }
@@ -42,15 +89,63 @@ class ActivitiesStatsScreen extends Component {
 
   render() {
     const { state, navigate } = this.props.navigation;
+    const { schoolName, activitiesStudentsCount,loading } = this.state;
+    var array = [];
+    var that = this;
+    activitiesStudentsCount.length &&
+      activitiesStudentsCount.forEach(function (item, index) {
+        array.push(
+          <TouchableOpacity
+            onPress={() => that.goToClassActivities(item.activity_id,item.activity_name)}
+          >
+            <ListItem
+              containerStyle={{
+                backgroundColor: "#F5F1F0",
+                marginLeft: 15,
+                marginRight: 15,
+                marginTop: 15,
+                borderRadius: 7,
+              }}
+              component={TouchableScale}
+              title={
+                <Text
+                  style={{ paddingLeft: 10, color: "#23ABE2", fontSize: 14 }}
+                >
+                  {item.activity_name}
+                </Text>
+              }
+              rightIcon={
+                <View>
+                  <Text
+                    style={{
+                      paddingLeft: 10,
+                      color: "#000",
+                      textAlign: "center",
+                      fontSize: 14,
+                    }}
+                  >
+                    {item.students}
+                  </Text>
+                  <Text
+                    style={{ paddingLeft: 10, color: "#000", fontSize: 14 }}
+                  >
+                    Students
+                  </Text>
+                </View>
+              }
+            />
+          </TouchableOpacity>
+        );
+      });
     return (
       <ScrollView style={styleData.screenContainer}>
         <View style={styleData.container}>
-        <TouchableOpacity onPress={() => this.goToClassActivities('Cricket')}>
-          <Icon
-            name="chevron-left"
-            onPress={() => this.goBack()}
-            style={{ fontSize: 22, color: "#23ABE2"}}
-          />
+          <TouchableOpacity onPress={() => this.goToClassActivities("Cricket")}>
+            <Icon
+              name="chevron-left"
+              onPress={() => this.goBack()}
+              style={{ fontSize: 22, color: "#23ABE2" }}
+            />
           </TouchableOpacity>
           <Text
             onPress={() => this.goBack()}
@@ -58,82 +153,32 @@ class ActivitiesStatsScreen extends Component {
           >
             ACTIVITIES - Stats
           </Text>
-          <Text
-            style={{ fontSize: 12,textAlign:'right',marginLeft: 15 }}
-          >
-            School Name come here
-          </Text>
         </View>
         <View>
-        <TouchableOpacity onPress={() => this.goToClassActivities('Cricket')}>
-          <ListItem
-            containerStyle={{
-              backgroundColor: "#F5F1F0",
-              marginLeft: 15,
-              marginRight: 15,
-              marginTop: 15,
-              borderRadius: 7,
+          <Text
+            style={{
+              fontSize: 15,
+              fontWeight: "bold",
+              marginTop: 20,
+              textAlign: "center",
             }}
-            component={TouchableScale}
-            title={
-              <Text style={{ paddingLeft: 10, color: "#23ABE2", fontSize: 14 }}>
-                Cricket
-              </Text>
-            }
-            rightIcon={
-              <View>
-                <Text
-                  style={{
-                    paddingLeft: 10,
-                    color: "#000",
-                    textAlign: "center",
-                    fontSize: 14,
-                  }}
-                >
-                  30
-                </Text>
-                <Text style={{ paddingLeft: 10, color: "#000", fontSize: 14 }}>
-                  Students
-                </Text>
-              </View>
-            }
-          />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => this.goToClassActivities('Table Tennis')}>
-          <ListItem
-            containerStyle={{
-              backgroundColor: "#F5F1F0",
-              marginLeft: 15,
-              marginRight: 15,
-              marginTop: 15,
-              borderRadius: 7,
-            }}
-            component={TouchableScale}
-            title={
-              <Text style={{ paddingLeft: 10, color: "#23ABE2", fontSize: 14 }}>
-                Table Tennis
-              </Text>
-            }
-            rightIcon={
-              <View>
-                <Text
-                  style={{
-                    paddingLeft: 10,
-                    color: "#000",
-                    textAlign: "center",
-                    fontSize: 14,
-                  }}
-                >
-                  30
-                </Text>
-                <Text style={{ paddingLeft: 10, color: "#000", fontSize: 14 }}>
-                  Students
-                </Text>
-              </View>
-            }
-          />
-          </TouchableOpacity>
+          >
+            {schoolName}
+          </Text>
         </View>
+          {loading ? (
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+                marginTop: "40%",
+              }}
+            >
+              <Bubbles size={20} color="#1CAFF6" />
+            </View>
+          ) : null}
+        <View>{array}</View>
       </ScrollView>
     );
   }

@@ -64,6 +64,15 @@ const items = [
 const renderMenu = (navigation) => {
 
   let [user, setUser] = useState();
+  let [userrole, setUserrole] = useState();
+
+  AsyncStorage.getItem("@userRoll").then((userRole) => {
+    if (userRole) {
+        setUserrole(userRole)
+    }
+  }, (err) => {
+    console.log("error", err);
+  });
 
   AsyncStorage.getItem("@userData").then((user) => {
     if (user) {
@@ -103,11 +112,12 @@ const renderMenu = (navigation) => {
   //// let [user, setUser] = useState({ UserFirstName: "", UserLastName: "", ImageUrl: ""});
 
   if (user != "" && user != null && user != undefined) {
-   // alert(user);
     var data = "Sign Out"
   } else {
     var data = "Sign In"
   }
+
+
   return (
     <View style={styles.sideMenuContainer}>
       <View style={styles.profileContainer}>
@@ -119,11 +129,11 @@ const renderMenu = (navigation) => {
       </View>
       <View style={styles.divider} >
       </View> 
-      {user != "" && user != null && user != undefined? 
+      {user != "" && user != null && user != undefined
+      && (userrole=='trainer'|| userrole=='admin') ? 
       <View style={styles.menuItemsActivities}>
         <View style={styles.menuActivities}>
          <TouchableOpacity
-         
           onPress={() => ShowAllVideo()}>
           <>
           <View style={styles.menuItemIcon}>
@@ -135,8 +145,9 @@ const renderMenu = (navigation) => {
           </View>
          </>
         </TouchableOpacity>
+
         </View>
-      </View> : null }
+      </View>: null }
       <View style={styles.menuItemsActivities}>
         <View style={styles.menuActivities}>
           <View style={styles.menuItemIcon}>
