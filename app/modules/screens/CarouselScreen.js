@@ -89,13 +89,10 @@ _handlePress(){
             sliderWidth={300}
             itemWidth={340}
             renderItem={this._renderItem}
-<<<<<<< HEAD
             // currentIndex={carouselVal}
             inactiveSlideShift={0}
-=======
             _onPressCarousel 
             currentIndex={carouselVal}
->>>>>>> 6105a34d8bbc13a733f566cfdcedf9ba223a0f9c
             activeSlideOffset={carouselVal}
             firstItem={carouselVal}
             onSnapToItem={index => this.setState({ activeIndex: index })} 
