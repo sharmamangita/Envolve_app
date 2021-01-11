@@ -91,6 +91,11 @@ integer_to_roman(num) {
     return Array(+digits.join("") + 1).join("M") + roman_num;
 }
 
+capitalize = (s) => {
+  if (typeof s !== 'string') return ''
+  return s.charAt(0).toUpperCase() + s.slice(1)
+}
+
   goToStudentActivities(activityClass = null) {
     const { params } = this.props.navigation.state;
     const { activityId, activityName } = this.state;
@@ -128,7 +133,7 @@ integer_to_roman(num) {
               component={TouchableScale}
               title={
                 <Text style={{ paddingLeft: 5, fontSize: 14 }}>
-                  {isNaN(item.class)?item.class : that.integer_to_roman(parseInt(item.class))}
+                  {isNaN(item.class)? that.capitalize(item.class) : that.integer_to_roman(parseInt(item.class))}
                 </Text>
               }
               rightIcon={

@@ -5,7 +5,7 @@ import TouchableScale from 'react-native-touchable-scale';
 import { NavigationActions } from 'react-navigation';
 import { API_URL } from '../constants/config';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
+import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
 import TrainerAttendance from './TrainerAttendance';
 
 class SchoolScreen extends Component {
@@ -15,7 +15,8 @@ class SchoolScreen extends Component {
             schools: [],
             value: '',
             roleval: Object.assign({}, this.props.navigation.state.params),
-            navparams: ''
+            navparams: '',
+            loading: false,
         }
 
     }
@@ -25,15 +26,23 @@ class SchoolScreen extends Component {
         if (navparams == null && this.props) {
             var navparams = this.props;
         }
+        this.setState({
+            loading: true
+        })
         var teacher_id = JSON.stringify(navparams.rolval.teacher_id)
         var users_id = JSON.stringify(navparams.rolval.users_id)
         var teacher = teacher_id.replace(/^"|"$/g, '');
         var users = users_id.replace(/^"|"$/g, '');
         fetch(`${API_URL}/list-schools/${teacher}/${users}`).then((res) => res.json()).then((response) => {
             if (response.length > 0) {
-                this.setState({ schools: response });
+                this.setState({ schools: response,loading:false });
             }
-        }).catch((err) => alert(err))
+        }).catch((err) => {
+            this.setState({
+                loading: false
+            });
+            alert(err);
+        })
     }
 
     getData = (val, schoolData) => {
@@ -41,6 +50,9 @@ class SchoolScreen extends Component {
         if (navparams == null && this.props) {
             var navparams = this.props;
         }
+        this.setState({
+            loading: true
+        });
         var teacher_id = JSON.stringify(navparams.rolval.teacher_id)
         var users_id = JSON.stringify(navparams.rolval.users_id)
         var teacher = teacher_id.replace(/^"|"$/g, '');
@@ -49,7 +61,7 @@ class SchoolScreen extends Component {
         fetch(`${API_URL}/get-activities/${teacher}/${val}/${users}`, {
             method: 'GET'
         }).then((res) => res.json()).then((response) => {
-            this.setState({ value: response })
+            this.setState({ value: response,loading:false })
            const navigateAction = NavigationActions.navigate({
                 routeName: 'ActivitiesScreen',
                 params: {
@@ -104,31 +116,32 @@ class SchoolScreen extends Component {
                                 onPress={() => alert('clicked avatar')}
                             />
                         }
-                        title={<Text style={{ fontSize: 20, fontWeight: 'bold', paddingLeft: 20, paddingTop: 5 }}>{item.school_name}</Text>}
+                        title={<Text style={{ fontSize: 20, fontWeight: 'bold', paddingLeft: 20, paddingTop: 5 }}>{item.school_name}sds</Text>}
                         subtitle={
                             <View style={{ flexDirection: 'row', paddingLeft: 10, paddingTop: 5 }}>
-                                <Text style={{ paddingLeft: 10, color: 'grey', fontSize: 20 }}>{item.school_address}</Text>
+                                <Text style={{ paddingLeft: 10, color: 'grey', fontSize: 20 }}>{item.school_address}dfdf</Text>
                             </View>
                         }
                         chevron
-                    />
+                    /> 
                 )
             })
         } else {
-            arr.push(
-                <ListItem
-                    component={TouchableScale}
-                    title={<Text style={{ paddingLeft: 10, color: '#23ABE2', fontSize: 20 }}>No School Found</Text>}
-                    rightIcon={<Icon name="users" style={{ fontSize: 20, color: "#23ABE2" }} />}
-                />
-            )
+            if(this.state.loading==false){
+                arr.push(
+                    <ListItem
+                        component={TouchableScale}
+                        title={<Text style={{ paddingLeft: 10, color: '#23ABE2', fontSize: 20 }}>No School Found</Text>}
+                        rightIcon={<Icon name="users" style={{ fontSize: 20, color: "#23ABE2" }} />}
+                    />
+                )     
+            }
         }
         return (
             <View style={{ flex: 1,height:'100%',width:'100%',backgroundColor:'#fff' }}>
              
 
-                <ScrollView>
-
+                <ScrollView style={this.state.loading?{opacity:0.1}:{opacity:1}}>
                     <View style={styleData.referenceText}>
                         <Text style={{ fontSize: 20 }}>{teacher_name}</Text>
                     </View>
@@ -141,6 +154,21 @@ class SchoolScreen extends Component {
                 <View style={styleData.Button} >
                     {viewbtton}
                 </View>
+                 {this.state.loading ? (
+                    <View
+                      style={{
+                        flex: 1,
+                        alignItems: "center",
+                        justifyContent: "center",
+                        position:'absolute',
+                        marginTop:'40%',
+                        left:'35%',
+                        zIndex:999
+                      }}
+                    >
+                      <Bubbles size={20} color="#1CAFF6" />
+                    </View>
+                  ) : null} 
             </View>
         );
     }

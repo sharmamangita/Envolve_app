@@ -14,7 +14,7 @@ import {
   Platform,
 } from "react-native";
 import { NavigationActions } from "react-navigation";
-const ExpandableComponent = ({ item, onClickFunction, navigation }) => {
+const ExpandableComponent = ({ items,item, onClickFunction, navigation }) => {
   //Custom Component for the Expandable List
   const [layoutHeight, setLayoutHeight] = useState(0);
 
@@ -26,11 +26,13 @@ const ExpandableComponent = ({ item, onClickFunction, navigation }) => {
     }
   }, [item.isExpanded]);
 
-  goBack = (data) => {
+  goBack = (data,items) => {
+   // alert(carouselitems);
     const navigateAction = NavigationActions.navigate({
       routeName: "CarouselScreen",
       params: {
         data: data,
+        carouselitems:items
       },
     });
     navigation.dispatch(navigateAction);
@@ -58,7 +60,7 @@ const ExpandableComponent = ({ item, onClickFunction, navigation }) => {
           <TouchableOpacity
             key={key}
             style={styles.content}
-            onPress={() => goBack(item.id)}
+            onPress={() => goBack(item.id,items)}
           >
             <Text style={styles.text}>{item.val}</Text>
             <View style={styles.separator} />
@@ -73,34 +75,20 @@ const App = ({ navigation }) => {
   const [listDataSource, setListDataSource] = useState(CONTENT);
   const [multiSelect, setMultiSelect] = useState(false);
   const [activitycontent, setActivitycontent] = useState([]);
+  const [carouselitems, setCarouselitems] = useState([]);
   useEffect(() => {
     fetch(`${API_URL}/get-carouselactivites/`)
       .then((res) => res.json())
       .then((responsed) => {
         if (responsed != undefined && responsed.length) {
-          let activity_Type = null;
-          let activityArray = [];
-          let actSub = {};
-          let subcategoryArray = [];
-          responsed.forEach(function (item, index) {
-            let actObj = {};
-            actObj.subcategory = [];
-            subcategoryArray=[];
-            if (item.activity_type != activity_Type) {
-              subcategoryArray = [];
-              actObj.isExpanded = false;
-              actObj.category_name = item.activity_type;
-            } else if (item.activity_type == activity_Type) {
-            }
-            subcategoryArray.push({ id: index, val: item.activity_name });
-            let uniq = {};
-            actObj.subcategory = subcategoryArray.filter(obj => !uniq[obj.id] && (uniq[obj.id] = true));
-            activityArray.push(actObj);
-            activity_Type = item.activity_type;
-          });
-          //alert(JSON.stringify(activityArray))
-          console.log("CONTENT====",CONTENT);
-          setActivitycontent(CONTENT);
+            responsed.forEach(function(val,index){
+              if(val.sidemenu !=undefined && val.sidemenu){
+                setActivitycontent(val.sidemenu);
+              }
+              if(val.activities !=undefined && val.activities){
+                setCarouselitems(val.activities);
+              }
+            })
         }
       });
   }, multiSelect);
@@ -137,6 +125,7 @@ const App = ({ navigation }) => {
               updateLayout(key);
             }}
             item={item}
+            items={carouselitems}
           />
         ))}
       </View>

@@ -5,7 +5,7 @@ import { ListItem, Avatar } from 'react-native-elements';
 import { NavigationActions } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { API_URL } from '../constants/config';
-
+import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
 class Parents extends Component {
     constructor(props) {
         super(props);
@@ -14,6 +14,7 @@ class Parents extends Component {
             Api_url: '',
             roleval: Object.assign({}, this.props.navigation.state.params),
             navparams: '',
+            loading: false,
         }
     }
     componentDidMount() {
@@ -22,14 +23,21 @@ class Parents extends Component {
         if (navparams == null && this.props) {
             var navparams = this.props;
         }
+        this.setState({
+            loading: true
+        })
         var mobile_num = JSON.stringify(navparams.rolval.mobile_num);
         var mobile_number = mobile_num.replace(/^"|"$/g, '');
         fetch(`${API_URL}/student-activities/${mobile_number}`).then((res) => res.json()).then((response) => {
             //alert(JSON.stringify(response));
             if (response.length > 0) {
-                this.setState({ schools: response });
+                this.setState({ schools: response,loading:false });
             }
-        }).catch((err) => alert(err))
+        }).catch((err) =>{
+            this.setState({loading:false });
+            alert(err);
+
+        })
 
 
     }
@@ -51,10 +59,13 @@ class Parents extends Component {
         var schoolid = school_id.replace(/^"|"$/g, '');
         var studentid = student_id.replace(/^"|"$/g, '');
         var activityid = activity_id.replace(/^"|"$/g, '');
+        this.setState({
+            loading: true
+        })
         fetch(`${API_URL}/get-students-attendance/${studentid}/${activityid}`, {
             method: 'GET'
         }).then((res) => res.json()).then((response) => {
-            this.setState({ value1: response })
+            this.setState({ value1: response,loading:false })
             const navigateAction = NavigationActions.navigate({
                 routeName: 'StudentAttendance',
                 params: {
@@ -119,6 +130,7 @@ class Parents extends Component {
                 )
             })
         } else {
+            if(this.state.loading==false){
             arr.push(
                 <ListItem
                     component={TouchableScale}
@@ -126,10 +138,11 @@ class Parents extends Component {
                     rightIcon={<Icon name="users" style={{ fontSize: 20, color: "#23ABE2" }} />}
                 />
             )
+            }
         }
         return (
             <View style={{ flex: 1, height: '100%', width: '100%', backgroundColor: '#fff' }}>
-                <ScrollView>
+                <ScrollView style={this.state.loading?{opacity:0.1}:{opacity:1}}>
                     <View style={styleData.referenceText}>
                         <Text style={{ fontSize: 20, fontWeight: 'bold' }}> Hello Parents! </Text>
                     </View>
@@ -137,6 +150,21 @@ class Parents extends Component {
                         {arr}
                     </View>
                 </ScrollView>
+                 {this.state.loading ? (
+                    <View
+                      style={{
+                        flex: 1,
+                        alignItems: "center",
+                        justifyContent: "center",
+                        position:'absolute',
+                        marginTop:'40%',
+                        left:'35%',
+                        zIndex:999
+                      }}
+                    >
+                      <Bubbles size={20} color="#1CAFF6" />
+                    </View>
+                  ) : null} 
             </View>
         )
     }

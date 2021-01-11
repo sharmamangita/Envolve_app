@@ -58,6 +58,25 @@ class StudentListingActivitiesScreen extends Component {
     }
   }
 
+  integer_to_roman(num) {
+      if (typeof num !== 'number') 
+      return false; 
+      var digits = String(+num).split(""),
+      key = ["","C","CC","CCC","CD","D","DC","DCC","DCCC","CM",
+      "","X","XX","XXX","XL","L","LX","LXX","LXXX","XC",
+      "","I","II","III","IV","V","VI","VII","VIII","IX"],
+      roman_num = "",
+      i = 3;
+      while (i--)
+      roman_num = (key[+digits.pop() + (i * 10)] || "") + roman_num;
+      return Array(+digits.join("") + 1).join("M") + roman_num;
+  }
+
+  capitalize = (s) => {
+    if (typeof s !== 'string') return ''
+    return s.charAt(0).toUpperCase() + s.slice(1)
+  }
+
   goBack = () => {
     const navigateAction = NavigationActions.navigate({
       routeName: "ActivitiesClassesScreen",
@@ -119,11 +138,12 @@ class StudentListingActivitiesScreen extends Component {
           </Text>
           </View>
         </View>
-        <View>
+        {loading==false ?
+        (<View>
           <Text
             style={{ fontSize: 18,fontWeight:'bold',paddingLeft: 20,marginTop:15,color: "#23ABE2" }}
           >
-            {activityName} - {actClassName}
+            {activityName} - Class - {isNaN(actClassName)? that.capitalize(actClassName) : that.integer_to_roman(parseInt(actClassName))}
           </Text>
           <Text
             style={{ fontSize: 14,paddingLeft: 20,marginTop:5,marginBottom:10,color: "#23ABE2" }}
@@ -131,6 +151,8 @@ class StudentListingActivitiesScreen extends Component {
             Trainer - {teacherName} - -- attendence 
           </Text>
         </View>
+        ):null}
+
         <View>
         {array}
           {loading ? (

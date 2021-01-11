@@ -97,6 +97,25 @@ class Students extends Component {
         })
     }
 
+    integer_to_roman(num) {
+        if (typeof num !== 'number') 
+        return false; 
+        var digits = String(+num).split(""),
+        key = ["","C","CC","CCC","CD","D","DC","DCC","DCCC","CM",
+        "","X","XX","XXX","XL","L","LX","LXX","LXXX","XC",
+        "","I","II","III","IV","V","VI","VII","VIII","IX"],
+        roman_num = "",
+        i = 3;
+        while (i--)
+        roman_num = (key[+digits.pop() + (i * 10)] || "") + roman_num;
+        return Array(+digits.join("") + 1).join("M") + roman_num;
+    }
+
+    capitalize = (s) => {
+      if (typeof s !== 'string') return ''
+      return s.charAt(0).toUpperCase() + s.slice(1)
+    }
+
     select_all = () => {
         const { state, navigate } = this.props.navigation;
         this.setState({ checked: !this.state.checked });
@@ -186,17 +205,18 @@ class Students extends Component {
         const { state, navigate } = this.props.navigation;
          var videoLink = null;
         var arr = [];
+        var that = this;
         if (state.params.students != '') {
 
             this.state.statusVal.map((t, i) => {
                 let playFileName = state.params.students[0].videoUrl;
-                videoLink=playFileName;
+                videoLink=`${API_URL}/upload/${playFileName}`;
                 if (t.student_id !== null && t.admission_number !== null) {
                     arr.push(
                         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginTop: -36 }}>
 
                             <View style={[styleData.box, styleData.box2]}>
-                                <Text style={{ textAlign: 'center', marginTop: 10 }}>{t.admission_number}</Text>
+                                <Text style={{ textAlign: 'center', marginTop: 10 }}>{t.admission_number}sd</Text>
                             </View>
 
                             <View style={[styleData.box, styleData.box2]}>
@@ -204,7 +224,9 @@ class Students extends Component {
                             </View>
 
                             <View style={[styleData.box, styleData.box2]}>
-                                <Text style={{ textAlign: 'center', marginTop: 10 }}>{t.class}</Text>
+                                <Text style={{ textAlign: 'center', marginTop: 10 }}>
+                               {isNaN(t.class)? that.capitalize(t.class) : that.integer_to_roman(parseInt(t.class))}
+                                </Text>
                             </View>
 
                             <View style={[styleData.box, styleData.box2]}>
@@ -256,7 +278,7 @@ class Students extends Component {
 
                     <View style={{ flex: 5, flexDirection: 'column' }}>
                         <TouchableOpacity
-                            onPress={() => this.video()}>
+                            onPress={() => this.video(videoLink)}>
                             <View style={styleData.activities}>
                                 <Text style={{ color: "#337ab7", fontSize: 20 }}>{state.params.activityData.activity_name}</Text>
                                 {videoLink?(<Icon name="video-camera" style={{ fontSize: 20, marginTop: 5, color: '#23ABE2' }} />):null}

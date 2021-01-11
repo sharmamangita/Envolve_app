@@ -72,6 +72,7 @@ class LoginScreen extends Component {
                         this.props.navigation.dispatch(navigateAction);
                     } else if (responsed.role == 'principal') {
                         AsyncStorage.setItem('@userData', userdata.users_id);
+			AsyncStorage.setItem('@userRoll', responsed.role);
                        const navigateAction = NavigationActions.navigate({
                             routeName: 'ActivitiesStatsScreen',
                             params: {
