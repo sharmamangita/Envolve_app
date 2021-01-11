@@ -6,7 +6,7 @@ send mail alerting transaction failure to buyer.
 send mail alerting payment failure to Pro.
 added image to instruct users to add correctly versapay payment details in pogoproQuote.php  and  pogoproQuoteManager.php page when payment inforrmation form dialog pops up while posting new project.
 
-
+solve the CarouselScreen bug by giving useScrollView={true}
 
 
 
