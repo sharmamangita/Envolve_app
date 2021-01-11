@@ -175,10 +175,13 @@ class CarouselScreen extends Component {
             sliderWidth={300}
             itemWidth={350}
             renderItem={this._renderItem}
-            currentIndex={carouselVal}
+            // currentIndex={carouselVal}
+            inactiveSlideShift={0}
             activeSlideOffset={carouselVal}
             firstItem={carouselVal}
-            onSnapToItem={index => this.setState({ activeIndex: index })} />
+            onSnapToItem={index => this.setState({ activeIndex: index })} 
+            useScrollView={true}
+            />
 				
 				<TouchableOpacity
 					onPress={

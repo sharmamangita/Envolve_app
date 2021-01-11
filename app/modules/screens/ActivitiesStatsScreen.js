@@ -94,6 +94,7 @@ class ActivitiesStatsScreen extends Component {
     var that = this;
     activitiesStudentsCount.length &&
       activitiesStudentsCount.forEach(function (item, index) {
+        
         array.push(
           <TouchableOpacity
             onPress={() => that.goToClassActivities(item.activity_id,item.activity_name)}
