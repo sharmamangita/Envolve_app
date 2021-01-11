@@ -5,7 +5,7 @@ import TouchableScale from 'react-native-touchable-scale';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { NavigationActions } from 'react-navigation';
 import { API_URL } from '../constants/config';
-
+import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
 class ActivitiesScreen extends Component {
     static navigationOptions = ({ navigation }) => {
         return {
@@ -24,7 +24,7 @@ class ActivitiesScreen extends Component {
             gotImage: 0,
             schoolData: [],
             navparams: [],
-
+            loading: false,
         }
 
     }
@@ -33,10 +33,11 @@ class ActivitiesScreen extends Component {
         var activititid = JSON.stringify(item.activity_id);
         var activitity_id = activititid.replace(/^"|"$/g, '');
         let url = `${API_URL}/get-students/${school}/${teacher}/${activitity_id}`;
+        this.setState({loading:true});
         fetch(`${API_URL}/get-students/${school}/${teacher}/${activitity_id}`, {
             method: 'GET'
         }).then((res) => res.json()).then((response) => {
-            this.setState({ value1: response })
+            this.setState({ value1: response,loading:false })
             const navigateAction = NavigationActions.navigate({
                 routeName: 'Student',
                 params: {
@@ -97,6 +98,7 @@ class ActivitiesScreen extends Component {
 
         return (
             <ScrollView style={styleData.screenContainer}>
+            <View style={this.state.loading?{opacity:0.1}:{opacity:1}}>
                 <View style={styleData.container}>
                     <Icon name="chevron-left" onPress={() => this.goBack()} style={{ fontSize: 22, color: '#23ABE2', marginTop: 8 }} />
                     <Text onPress={() => this.goBack()} style={{ fontSize: 25, fontColor: "#000", fontWeight: 'bold', marginLeft: 10 }}>Activities</Text>
@@ -107,9 +109,27 @@ class ActivitiesScreen extends Component {
                     </Text>
                 </View>
 
-                <View >
+                <View>
                     {arr}
                 </View>
+                
+                </View>
+                 {this.state.loading ? (
+                    <View
+                      style={{
+                        flex: 1,
+                        alignItems: "center",
+                        justifyContent: "center",
+                        position:'absolute',
+                        marginTop:'40%',
+                        left:'35%',
+                        zIndex:999
+                      }}
+                    >
+                      <Bubbles size={20} color="#1CAFF6" />
+                    </View>
+                  ) : null} 
+
             </ScrollView>
         )
     }

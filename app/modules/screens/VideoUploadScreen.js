@@ -47,6 +47,8 @@ class VideoUploadScreen extends Component {
       progressRuning: 0,
       loading: true,
       showAlert: false,
+      alertMsg:'',
+      alertTitle:'',
     };
   }
 
@@ -124,12 +126,25 @@ class VideoUploadScreen extends Component {
             progressRuning: progressRuning,
           });
         })
-        .then((response) => {
-          this.setState({
-            isProgressBar: false,
-            progressRuning: 0,
-            showAlert:true
-          });
+      .then((res) => res.json())
+       .then((responsed) => {
+          if(responsed.status=='existed'){
+            this.setState({
+              alertTitle:'Sorry',
+              alertMsg:'This video already exits for this Activity.',
+              isProgressBar: false,
+              progressRuning: 0, 
+              showAlert:true
+            });
+          } else {
+             this.setState({
+              isProgressBar: false,
+              progressRuning: 0, 
+              showAlert:true,
+              alertTitle:'Thank You',
+              alertMsg:'Your video is uploaded successfully.',
+            });
+           }
         })
         .catch((err) => {
           Alert.alert("Error", JSON.stringify(err));
@@ -189,7 +204,7 @@ class VideoUploadScreen extends Component {
     );
   }
   render() {
-    const { videoFileName, videoUri, loading,showAlert } = this.state;
+    const { videoFileName, videoUri, loading,showAlert,alertMsg,alertTitle } = this.state;
     const windowWidth = Dimensions.get("window").width;
     const windowHeight = Dimensions.get("window").height;
     return (
@@ -310,8 +325,8 @@ class VideoUploadScreen extends Component {
             <AwesomeAlert
               show={showAlert}
               showProgress={false}
-              title="Thank you"
-              message="Your video is uploaded successfully"
+              title={alertTitle}
+              message={alertMsg}
               closeOnTouchOutside={false}
               closeOnHardwareBackPress={false}
               showCancelButton={false}

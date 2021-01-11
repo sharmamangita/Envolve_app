@@ -17,6 +17,8 @@ const Header = ({ navigation,title }) => {
 						navigation.navigate('SchoolScreen')
 					else if(user== 'admin')
 						navigation.navigate('SchoolScreen')
+					else if(user== 'principal')
+						navigation.navigate('ActivitiesStatsScreen')
 					else
 						navigation.navigate('Parents')
 				}else{

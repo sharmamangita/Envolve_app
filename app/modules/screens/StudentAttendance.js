@@ -19,7 +19,8 @@ class StudentAttendance extends Component {
         super(props);
         this.state = {
             activity_id: '',
-            statusVal: []
+            statusVal: [],
+            videoUrl:''
         };
 
     }
@@ -55,8 +56,25 @@ class StudentAttendance extends Component {
             activity_id: state.params.activityData.activity_id,
             statusVal: state.params.students
         });
+        this.getVideoUrl();
     }
 
+    getVideoUrl(){
+        const { state, navigate } = this.props.navigation;
+        let activity_id =state.params.activityData.activity_id;
+        if(activity_id!=undefined && activity_id){
+        fetch(`${API_URL}/get-video/${activity_id}`, {
+            method: 'GET'
+        }).then((res) => res.json()).then((response) => {
+            if(response.length){
+                let video_Url = response[0].videoUrl;
+                this.setState({
+                    videoUrl:video_Url
+                })
+            }
+        }).catch((err) => alert(err))
+     } 
+    }
 
     render() {
         const Present = <Text style={{ textAlign: 'center', marginTop: 10 }}>Present</Text>;
@@ -65,11 +83,14 @@ class StudentAttendance extends Component {
         const { state, navigate } = this.props.navigation;
         var arr = [];
         var videoLink = null;
-
+        let playFileName = this.state.videoUrl;
+        if(playFileName){
+          videoLink = `${API_URL}/upload/${playFileName}`;  
+        }
+        
+        //alert(JSON.stringify(state));
         if (state.params.students != '') {
             this.state.statusVal.map((t, i) => {
-            let playFileName = state.params.students[0].videoUrl;
-            videoLink = `${API_URL}/upload/${playFileName}`;
                 if (t.student_id !== null) {
                     arr.push(
                         <View style={{
