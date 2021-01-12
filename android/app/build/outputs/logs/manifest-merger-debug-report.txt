@@ -1,10 +1,10 @@
 -- Merging decision tree log ---
 manifest
-ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:1:1-27:12
-INJECTED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:1:1-27:12
-INJECTED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:1:1-27:12
-INJECTED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:1:1-27:12
-MERGED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:1:1-27:12
+ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:1:1-29:12
+INJECTED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:1:1-29:12
+INJECTED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:1:1-29:12
+INJECTED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:1:1-29:12
+MERGED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:1:1-29:12
 MERGED from [com.facebook.flipper:flipper:0.54.0] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\54fec94f1db356169b82f56255ba815e\flipper-0.54.0\AndroidManifest.xml:8:1-18:12
 MERGED from [com.facebook.flipper:flipper-network-plugin:0.54.0] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\cf53be8d5439a352e234a850e2e60e9c\flipper-network-plugin-0.54.0\AndroidManifest.xml:8:1-15:12
 MERGED from [com.facebook.flipper:flipper-fresco-plugin:0.54.0] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\bf561306667b36e263f3fba74c411e40\flipper-fresco-plugin-0.54.0\AndroidManifest.xml:8:1-15:12
@@ -79,13 +79,13 @@ INJECTED from E:\office\76East\Envolve_app\android\app\src\debug\AndroidManifest
 		INJECTED from E:\office\76East\Envolve_app\android\app\src\debug\AndroidManifest.xml
 	android:versionName
 		INJECTED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml
-		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:1:1-27:12
+		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:1:1-29:12
 		INJECTED from E:\office\76East\Envolve_app\android\app\src\debug\AndroidManifest.xml
 	xmlns:tools
 		ADDED from E:\office\76East\Envolve_app\android\app\src\debug\AndroidManifest.xml:3:5-51
 	android:versionCode
 		INJECTED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml
-		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:1:1-27:12
+		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:1:1-29:12
 		INJECTED from E:\office\76East\Envolve_app\android\app\src\debug\AndroidManifest.xml
 	xmlns:android
 		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:1:11-69
@@ -97,10 +97,20 @@ MERGED from [:rn-fetch-blob] E:\office\76East\Envolve_app\node_modules\rn-fetch-
 MERGED from [:rn-fetch-blob] E:\office\76East\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:15:5-67
 	android:name
 		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:4:22-64
+uses-permission#android.permission.CAMERA
+ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:5:5-65
+	android:name
+		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:5:22-62
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:6:5-81
+MERGED from [:rn-fetch-blob] E:\office\76East\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:33:5-81
+MERGED from [:rn-fetch-blob] E:\office\76East\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:33:5-81
+	android:name
+		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:6:22-78
 application
-ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:6:5-25:19
-MERGED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:6:5-25:19
-MERGED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:6:5-25:19
+ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:8:5-27:19
+MERGED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:8:5-27:19
+MERGED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:8:5-27:19
 MERGED from [:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:11:5-21:19
 MERGED from [:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:11:5-21:19
 MERGED from [:rn-fetch-blob] E:\office\76East\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:35:5-45:19
@@ -118,55 +128,55 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\vi
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.3.1] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\be9e34592ae36a5bf81d8356ed2781a4\core-1.3.1\AndroidManifest.xml:24:18-86
 	android:label
-		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:8:7-39
-		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:8:7-39
+		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:10:7-39
+		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:10:7-39
 	tools:ignore
 		ADDED from E:\office\76East\Envolve_app\android\app\src\debug\AndroidManifest.xml:7:75-114
 	android:roundIcon
-		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:10:7-52
-		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:10:7-52
+		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:12:7-52
+		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:12:7-52
 	tools:targetApi
 		ADDED from E:\office\76East\Envolve_app\android\app\src\debug\AndroidManifest.xml:7:54-74
 	android:icon
-		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:9:7-41
-		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:9:7-41
+		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:11:7-41
+		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:11:7-41
 	android:allowBackup
-		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:11:7-34
-		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:11:7-34
+		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:13:7-34
+		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:13:7-34
 	android:theme
-		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:12:7-38
-		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:12:7-38
+		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:14:7-38
+		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:14:7-38
 	android:usesCleartextTraffic
 		ADDED from E:\office\76East\Envolve_app\android\app\src\debug\AndroidManifest.xml:7:18-53
 	android:name
-		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:7:7-38
-		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:7:7-38
+		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:9:7-38
+		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:9:7-38
 activity#com.envolve.MainActivity
-ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:13:7-23:18
+ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:15:7-25:18
 	android:label
-		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:15:9-41
+		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:17:9-41
 	android:launchMode
-		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:17:9-40
+		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:19:9-40
 	android:windowSoftInputMode
-		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:18:9-51
+		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:20:9-51
 	android:configChanges
-		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:16:9-86
+		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:18:9-86
 	android:name
-		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:14:9-37
+		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:16:9-37
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:19:9-22:25
+ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:21:9-24:25
 action#android.intent.action.MAIN
-ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:20:13-65
+ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:22:13-65
 	android:name
-		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:20:21-62
+		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:22:21-62
 category#android.intent.category.LAUNCHER
-ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:21:13-73
+ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:23:13-73
 	android:name
-		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:21:23-70
+		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:23:23-70
 activity#com.facebook.react.devsupport.DevSettingsActivity
-ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:24:7-84
+ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:26:7-84
 	android:name
-		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:24:17-81
+		ADDED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:26:17-81
 uses-sdk
 INJECTED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml
@@ -345,10 +355,6 @@ uses-permission#android.permission.ACCESS_NETWORK_STATE
 ADDED from [:rn-fetch-blob] E:\office\76East\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:27:5-79
 	android:name
 		ADDED from [:rn-fetch-blob] E:\office\76East\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:27:22-76
-uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
-ADDED from [:rn-fetch-blob] E:\office\76East\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:33:5-81
-	android:name
-		ADDED from [:rn-fetch-blob] E:\office\76East\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:33:22-78
 provider#com.RNFetchBlob.Utils.FileProvider
 ADDED from [:rn-fetch-blob] E:\office\76East\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:36:9-44:20
 	android:grantUriPermissions

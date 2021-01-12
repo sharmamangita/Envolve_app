@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, Image, TouchableOpacity, View, Text, Alert, StyleSheet, Button } from 'react-native';
+import { ScrollView, Image, TouchableOpacity, View, Text, Alert, StyleSheet, Button, Platform, PermissionsAndroid } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import TouchableScale from 'react-native-touchable-scale';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -13,6 +13,11 @@ import CheckBox from 'react-native-check-box'
 //import Environment from '../../../Components/Environment/index';
 //import VideoPlayer from '../../screens/VideoPlayer/index';
 import { API_URL } from '../constants/config';
+
+import {
+    launchCamera,
+    launchImageLibrary
+  } from 'react-native-image-picker';
 
 class Students extends Component {
 
@@ -33,6 +38,7 @@ class Students extends Component {
             activity_id: '',
             statusVal: [],
             checked: false,
+            filePath: ''
 
         };
 
@@ -200,6 +206,93 @@ class Students extends Component {
         });
     }
 
+    // ==============================================================================
+
+    requestCameraPermission = async () => {
+        if (Platform.OS === 'android') {
+          try {
+            const granted = await PermissionsAndroid.request(
+              PermissionsAndroid.PERMISSIONS.CAMERA,
+              {
+                title: 'Camera Permission',
+                message: 'App needs camera permission',
+              },
+            );
+            // If CAMERA Permission is granted
+            return granted === PermissionsAndroid.RESULTS.GRANTED;
+          } catch (err) {
+            console.warn(err);
+            return false;
+          }
+        } else return true;
+      };
+    
+    requestExternalWritePermission = async () => {
+        if (Platform.OS === 'android') {
+          try {
+            const granted = await PermissionsAndroid.request(
+              PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+              {
+                title: 'External Storage Write Permission',
+                message: 'App needs write permission',
+              },
+            );
+            // If WRITE_EXTERNAL_STORAGE Permission is granted
+            return granted === PermissionsAndroid.RESULTS.GRANTED;
+          } catch (err) {
+            console.warn(err);
+            alert('Write permission err', err);
+          }
+          return false;
+        } else return true;
+      };
+    
+    captureImage = async (type) => {
+        let options = {
+          mediaType: type,
+          maxWidth: 300,
+          maxHeight: 550,
+          quality: 1,
+          videoQuality: 'low',
+          durationLimit: 30, //Video max duration in seconds
+          saveToPhotos: true,
+        };
+        let isCameraPermitted = await this.requestCameraPermission();
+        let isStoragePermitted = await this.requestExternalWritePermission();
+        if (isCameraPermitted && isStoragePermitted) {
+          launchCamera(options, (response) => {
+            console.log('Response = ', response);
+    
+            if (response.didCancel) {
+              alert('User cancelled camera picker');
+              return;
+            } else if (response.errorCode == 'camera_unavailable') {
+              alert('Camera not available on device');
+              return;
+            } else if (response.errorCode == 'permission') {
+              alert('Permission not satisfied');
+              return;
+            } else if (response.errorCode == 'others') {
+              alert(response.errorMessage);
+              return;
+            }
+            console.log('base64 -> ', response.base64);
+            console.log('uri -> ', response.uri);
+            console.log('width -> ', response.width);
+            console.log('height -> ', response.height);
+            console.log('fileSize -> ', response.fileSize);
+            console.log('type -> ', response.type);
+            console.log('fileName -> ', response.fileName);
+            this.setState({ filePath: response});
+            console.log("==================");
+            console.log(this.state.filePath)
+            console.log("==================");
+          });
+        }
+      };
+
+    // ==============================================================================
+
 
     render() {
         const { state, navigate } = this.props.navigation;
@@ -269,7 +362,11 @@ class Students extends Component {
                     <View style={styleData.outercontainer}>
                         <Icon name="chevron-left" onPress={() => this.goBack()} style={{ fontSize: 22, color: '#23ABE2', marginTop: 8 }} />
                         <Text onPress={() => this.goBack()} style={{ fontSize: 25, fontColor: "#000", fontWeight: 'bold', marginLeft: 10 }}>Students</Text>
+                        {/* ============================================================== */}    
+                        <Icon name="camera" onPress={() => this.captureImage('photo')} style={{ fontSize: 22, color: '#23ABE2', marginTop: 8, marginRight: 8, position: 'absolute', right: 0 }} />
+                        {/* =============================================================== */}
                     </View>
+                    
                     <View style={{ backgroundColor: '#F7F7F7', marginTop: 50, marginBottom: 10, marginRight: 15, marginLeft: 15, padding: 6 }}>
                         <Text style={{ fontSize: 22, fontWeight: "bold", fontColor: "#4B4B4C", }}> {state.params.schoolData.school_name}
                             <Text style={{ fontSize: 18, fontColor: "#4B4B4C", }}>-{state.params.schoolData.school_address}</Text>
@@ -305,6 +402,8 @@ class Students extends Component {
 
         )
     }
+
+
 }
 
 const styleData = StyleSheet.create({
@@ -401,6 +500,13 @@ const styleData = StyleSheet.create({
         fontWeight: '600',
         color: '#23ABE2',
         fontSize: 12
+    },
+    buttonStyle: {
+        alignItems: 'center',
+        backgroundColor: '#DDDDDD',
+        padding: 5,
+        marginVertical: 10,
+        width: 250,
     },
     spaceBetween: {
         marginTop: 10,
