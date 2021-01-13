@@ -17,110 +17,116 @@
 13    <uses-permission android:name="android.permission.CAMERA" />
 13-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:5:5-65
 13-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:5:22-62
-14    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+14    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- Define ACCESS_FINE_LOCATION if you will use enableHighAccuracy=true -->
 14-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:6:5-81
 14-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:6:22-78
-15    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- Required to access Google Play Licensing -->
-15-->[com.facebook.flipper:flipper:0.54.0] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\54fec94f1db356169b82f56255ba815e\flipper-0.54.0\AndroidManifest.xml:16:5-76
-15-->[com.facebook.flipper:flipper:0.54.0] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\54fec94f1db356169b82f56255ba815e\flipper-0.54.0\AndroidManifest.xml:16:22-73
-16    <uses-permission android:name="com.android.vending.CHECK_LICENSE" />
-16-->[:rn-fetch-blob] E:\office\76East\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:5-73
-16-->[:rn-fetch-blob] E:\office\76East\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:22-70
-17    <!--
-18         Required to keep CPU alive while downloading files
-19        (NOT to keep screen awake)
-20    -->
-21    <uses-permission android:name="android.permission.WAKE_LOCK" />
-21-->[:rn-fetch-blob] E:\office\76East\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:21:5-68
-21-->[:rn-fetch-blob] E:\office\76East\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:21:22-65
-22    <!--
-23         Required to poll the state of the network connection
-24        and respond to changes
-25    -->
-26    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-26-->[:rn-fetch-blob] E:\office\76East\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:27:5-79
-26-->[:rn-fetch-blob] E:\office\76East\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:27:22-76
-27
-28    <application
-28-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:8:5-27:19
-29        android:name="com.envolve.MainApplication"
-29-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:9:7-38
-30        android:allowBackup="false"
-30-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:13:7-34
-31        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-31-->[androidx.core:core:1.3.1] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\be9e34592ae36a5bf81d8356ed2781a4\core-1.3.1\AndroidManifest.xml:24:18-86
-32        android:debuggable="true"
-33        android:icon="@mipmap/ic_launcher"
-33-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:11:7-41
-34        android:label="@string/app_name"
-34-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:10:7-39
-35        android:roundIcon="@mipmap/ic_launcher_round"
-35-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:12:7-52
-36        android:theme="@style/AppTheme"
-36-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:14:7-38
-37        android:usesCleartextTraffic="true" >
-37-->E:\office\76East\Envolve_app\android\app\src\debug\AndroidManifest.xml:7:18-53
-38        <activity
-38-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:15:7-25:18
-39            android:name="com.envolve.MainActivity"
-39-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:16:9-37
-40            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
-40-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:18:9-86
-41            android:label="@string/app_name"
-41-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:17:9-41
-42            android:launchMode="singleTask"
-42-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:19:9-40
-43            android:windowSoftInputMode="adjustResize" >
-43-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:20:9-51
-44            <intent-filter>
-44-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:21:9-24:25
-45                <action android:name="android.intent.action.MAIN" />
-45-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:22:13-65
-45-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:22:21-62
-46
-47                <category android:name="android.intent.category.LAUNCHER" />
-47-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:23:13-73
-47-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:23:23-70
-48            </intent-filter>
-49        </activity>
-50        <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
-50-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:26:7-84
-50-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:26:17-81
-51
-52        <provider
-52-->[:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:9-20:20
-53            android:name="com.imagepicker.ImagePickerProvider"
-53-->[:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:13-63
-54            android:authorities="com.envolve.imagepickerprovider"
-54-->[:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:14:13-71
-55            android:exported="false"
-55-->[:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:15:13-37
-56            android:grantUriPermissions="true" >
-56-->[:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:16:13-47
-57            <meta-data
-57-->[:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:17:13-19:70
-58                android:name="android.support.FILE_PROVIDER_PATHS"
-58-->[:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:18:17-67
-59                android:resource="@xml/imagepicker_provider_paths" />
-59-->[:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:19:17-67
-60        </provider>
-61        <provider
-61-->[:rn-fetch-blob] E:\office\76East\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:36:9-44:20
-62            android:name="com.RNFetchBlob.Utils.FileProvider"
-62-->[:rn-fetch-blob] E:\office\76East\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:37:13-62
-63            android:authorities="com.envolve.provider"
-63-->[:rn-fetch-blob] E:\office\76East\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:38:13-60
-64            android:exported="false"
-64-->[:rn-fetch-blob] E:\office\76East\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:39:13-37
-65            android:grantUriPermissions="true" >
-65-->[:rn-fetch-blob] E:\office\76East\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:40:13-47
-66            <meta-data
-66-->[:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:17:13-19:70
-67                android:name="android.support.FILE_PROVIDER_PATHS"
-67-->[:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:18:17-67
-68                android:resource="@xml/provider_paths" />
-68-->[:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:19:17-67
-69        </provider>
-70    </application>
-71
-72</manifest>
+15    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- Define ACCESS_COARSE_LOCATION if you will use enableHighAccuracy=false -->
+15-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:8:5-78
+15-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:8:22-76
+16    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+16-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:11:5-80
+16-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:11:22-78
+17    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- Required to access Google Play Licensing -->
+17-->[com.facebook.flipper:flipper:0.54.0] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\54fec94f1db356169b82f56255ba815e\flipper-0.54.0\AndroidManifest.xml:16:5-76
+17-->[com.facebook.flipper:flipper:0.54.0] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\54fec94f1db356169b82f56255ba815e\flipper-0.54.0\AndroidManifest.xml:16:22-73
+18    <uses-permission android:name="com.android.vending.CHECK_LICENSE" />
+18-->[:rn-fetch-blob] E:\office\76East\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:5-73
+18-->[:rn-fetch-blob] E:\office\76East\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:22-70
+19    <!--
+20         Required to keep CPU alive while downloading files
+21        (NOT to keep screen awake)
+22    -->
+23    <uses-permission android:name="android.permission.WAKE_LOCK" />
+23-->[:rn-fetch-blob] E:\office\76East\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:21:5-68
+23-->[:rn-fetch-blob] E:\office\76East\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:21:22-65
+24    <!--
+25         Required to poll the state of the network connection
+26        and respond to changes
+27    -->
+28    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+28-->[:rn-fetch-blob] E:\office\76East\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:27:5-79
+28-->[:rn-fetch-blob] E:\office\76East\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:27:22-76
+29
+30    <application
+30-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:13:5-32:19
+31        android:name="com.envolve.MainApplication"
+31-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:14:7-38
+32        android:allowBackup="false"
+32-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:18:7-34
+33        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+33-->[androidx.core:core:1.3.1] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\be9e34592ae36a5bf81d8356ed2781a4\core-1.3.1\AndroidManifest.xml:24:18-86
+34        android:debuggable="true"
+35        android:icon="@mipmap/ic_launcher"
+35-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:16:7-41
+36        android:label="@string/app_name"
+36-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:15:7-39
+37        android:roundIcon="@mipmap/ic_launcher_round"
+37-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:17:7-52
+38        android:theme="@style/AppTheme"
+38-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:19:7-38
+39        android:usesCleartextTraffic="true" >
+39-->E:\office\76East\Envolve_app\android\app\src\debug\AndroidManifest.xml:7:18-53
+40        <activity
+40-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:20:7-30:18
+41            android:name="com.envolve.MainActivity"
+41-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:21:9-37
+42            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
+42-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:23:9-86
+43            android:label="@string/app_name"
+43-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:22:9-41
+44            android:launchMode="singleTask"
+44-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:24:9-40
+45            android:windowSoftInputMode="adjustResize" >
+45-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:25:9-51
+46            <intent-filter>
+46-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:26:9-29:25
+47                <action android:name="android.intent.action.MAIN" />
+47-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:27:13-65
+47-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:27:21-62
+48
+49                <category android:name="android.intent.category.LAUNCHER" />
+49-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:28:13-73
+49-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:28:23-70
+50            </intent-filter>
+51        </activity>
+52        <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
+52-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:31:7-84
+52-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:31:17-81
+53
+54        <provider
+54-->[:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:9-20:20
+55            android:name="com.imagepicker.ImagePickerProvider"
+55-->[:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:13-63
+56            android:authorities="com.envolve.imagepickerprovider"
+56-->[:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:14:13-71
+57            android:exported="false"
+57-->[:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:15:13-37
+58            android:grantUriPermissions="true" >
+58-->[:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:16:13-47
+59            <meta-data
+59-->[:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:17:13-19:70
+60                android:name="android.support.FILE_PROVIDER_PATHS"
+60-->[:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:18:17-67
+61                android:resource="@xml/imagepicker_provider_paths" />
+61-->[:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:19:17-67
+62        </provider>
+63        <provider
+63-->[:rn-fetch-blob] E:\office\76East\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:36:9-44:20
+64            android:name="com.RNFetchBlob.Utils.FileProvider"
+64-->[:rn-fetch-blob] E:\office\76East\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:37:13-62
+65            android:authorities="com.envolve.provider"
+65-->[:rn-fetch-blob] E:\office\76East\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:38:13-60
+66            android:exported="false"
+66-->[:rn-fetch-blob] E:\office\76East\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:39:13-37
+67            android:grantUriPermissions="true" >
+67-->[:rn-fetch-blob] E:\office\76East\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:40:13-47
+68            <meta-data
+68-->[:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:17:13-19:70
+69                android:name="android.support.FILE_PROVIDER_PATHS"
+69-->[:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:18:17-67
+70                android:resource="@xml/provider_paths" />
+70-->[:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:19:17-67
+71        </provider>
+72    </application>
+73
+74</manifest>

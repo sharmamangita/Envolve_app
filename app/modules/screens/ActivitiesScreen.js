@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { NavigationActions } from 'react-navigation';
 import { API_URL } from '../constants/config';
 import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
+import GetLocation from 'react-native-get-location'
 
 import {
     launchCamera,
@@ -31,9 +32,9 @@ class ActivitiesScreen extends Component {
             schoolData: [],
             navparams: [],
             loading: false,
-            filePath: ''
+            filePath: '',
+            location: ''
         }
-
     }
 
     getStudents = (school, teacher, item) => {
@@ -51,7 +52,9 @@ class ActivitiesScreen extends Component {
                     students: this.state.value1,
                     schoolData: this.state.schoolData,
                     activityData: item,
-                    gotImage: this.state.gotImage
+                    gotImage: this.state.gotImage,
+                    imagePath: this.state.filePath,
+                    location: this.state.location
                 }
             });
             this.props.navigation.dispatch(navigateAction);
@@ -90,7 +93,7 @@ class ActivitiesScreen extends Component {
           }
         } else return true;
       };
-    
+
     requestExternalWritePermission = async () => {
         if (Platform.OS === 'android') {
           try {
@@ -110,7 +113,25 @@ class ActivitiesScreen extends Component {
           return false;
         } else return true;
       };
-    
+    requestGeoLocation = async () => {
+      try{
+        await GetLocation.getCurrentPosition({
+          enableHighAccuracy: true,
+          timeout: 15000,
+        })
+        .then(location => {
+          this.setState({location});
+        })
+        .catch(error => {
+          const { code, message } = error;
+          console.warn(code, message);
+        })
+      } catch(err){
+        console.warn(err);
+        alert('Write permission err', err);
+      }
+    };
+
     captureImage = async (type) => {
         let options = {
           mediaType: type,
@@ -123,6 +144,7 @@ class ActivitiesScreen extends Component {
         };
         let isCameraPermitted = await this.requestCameraPermission();
         let isStoragePermitted = await this.requestExternalWritePermission();
+        let isgeoLocation = await this.requestGeoLocation();
         if (isCameraPermitted && isStoragePermitted) {
           launchCamera(options, (response) => {
             console.log('Response = ', response);
@@ -149,11 +171,14 @@ class ActivitiesScreen extends Component {
             console.log('fileName -> ', response.fileName);
             this.setState({ filePath: response});
             console.log("==================");
-            console.log(this.state.filePath)
+            console.log(this.state.filePath);
+            console.log(this.state.location);
             console.log("==================");
+
           });
         }
       };
+
 
     // ==============================================================================
 

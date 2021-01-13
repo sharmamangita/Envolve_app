@@ -21,6 +21,8 @@ import com.reactnativecommunity.picker.RNCPickerPackage;
 import com.reactnativecommunity.slider.ReactSliderPackage;
 // react-native-gesture-handler
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
+// react-native-get-location
+import com.github.douglasjunior.reactNativeGetLocation.ReactNativeGetLocationPackage;
 // react-native-image-picker
 import com.imagepicker.ImagePickerPackage;
 // react-native-reanimated
@@ -85,6 +87,7 @@ public class PackageList {
       new RNCPickerPackage(),
       new ReactSliderPackage(),
       new RNGestureHandlerPackage(),
+      new ReactNativeGetLocationPackage(),
       new ImagePickerPackage(),
       new ReanimatedPackage(),
       new SafeAreaContextPackage(),

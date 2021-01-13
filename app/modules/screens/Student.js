@@ -36,6 +36,10 @@ class Students extends Component {
 
         };
 
+        console.log("=======================");
+        console.log(this.props.navigation.state.params.location);
+        console.log(this.props.navigation.state.params.imagePath);
+        console.log("=========================")
     }
 
 
@@ -138,6 +142,8 @@ class Students extends Component {
                 body: JSON.stringify({
                     student_id_arr: this.state.check_arr,
                     activity_id: this.state.activity_id,
+                    location:this.props.navigation.state.params.location,
+                    image: this.props.navigation.state.params.imagePath
                 }),
             }).then(res => {
                 if (res.status == '200') {
