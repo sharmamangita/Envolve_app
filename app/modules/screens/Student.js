@@ -154,7 +154,7 @@ class Students extends Component {
                             {
                                 text: "Cancel",
                                 onPress: () => console.log("Cancel Pressed"),
-                                style: "cancel"
+                                style: "cancel" 
                             },
                             { text: "OK", onPress: () => console.log("OK Pressed") }
                         ],
