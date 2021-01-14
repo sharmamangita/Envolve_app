@@ -33,7 +33,8 @@ class ActivitiesScreen extends Component {
             navparams: [],
             loading: false,
             filePath: '',
-            location: ''
+            location: '',
+            trainerAttendance: false
         }
     }
 
@@ -162,22 +163,60 @@ class ActivitiesScreen extends Component {
               alert(response.errorMessage);
               return;
             }
-            console.log('base64 -> ', response.base64);
-            console.log('uri -> ', response.uri);
-            console.log('width -> ', response.width);
-            console.log('height -> ', response.height);
-            console.log('fileSize -> ', response.fileSize);
-            console.log('type -> ', response.type);
-            console.log('fileName -> ', response.fileName);
+            // console.log('base64 -> ', response.base64);
+            // console.log('uri -> ', response.uri);
+            // console.log('width -> ', response.width);
+            // console.log('height -> ', response.height);
+            // console.log('fileSize -> ', response.fileSize);
+            // console.log('type -> ', response.type);
+            // console.log('fileName -> ', response.fileName);
             this.setState({ filePath: response});
             console.log("==================");
             console.log(this.state.filePath);
             console.log(this.state.location);
             console.log("==================");
-
+            this.sendTrainerAttendance();
           });
         }
       };
+
+      createFormData = (photo, body) => {
+        const data = new FormData();
+      
+        data.append("photo", {
+          name: photo.fileName,
+          type: photo.type,
+          uri:
+            Platform.OS === "android" ? photo.uri : photo.uri.replace("file://", "")
+        });
+      
+        Object.keys(body).forEach(key => {
+          data.append(key, body[key]);
+          
+        });
+      
+        return data;
+      };
+
+      sendTrainerAttendance = async () =>{
+        console.log("===========================================================");
+        console.log(this.createFormData(this.state.filePath, this.state.location));
+        console.log("===========================================================");
+        // await fetch("http://localhost:3000/api/upload", {
+        //   method: "POST",
+        //   body: this.createFormData(this.state.filePath, this.state.location)
+        // })
+        //   .then(response => response.json())
+        //   .then(response => {
+        //     console.log("upload succes", response);
+        //     alert("Upload success!");
+        //     this.setState({ photo: null });
+        //   })
+        //   .catch(error => {
+        //     console.log("upload error", error);
+        //     alert("Upload failed!");
+        //   });
+      }
 
 
     // ==============================================================================
