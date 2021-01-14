@@ -18,6 +18,7 @@ import StudentListingActivitiesScreen from '../screens/StudentListingActivitiesS
 import VideoPlayer from '../screens/VideoPlayer';
 import CarouselScreen from '../screens/CarouselScreen';
 import Header from '../shared/header';
+import TrainerAttendanceChart from '../screens/TrainerAttendanceChart';
 
 const HomeStack = createStackNavigator({
     Start: {
@@ -123,6 +124,16 @@ const HomeStack = createStackNavigator({
                 header: null,
             }
         }   
+    },
+    TrainerAttendanceChart:{
+        screen: TrainerAttendanceChart,
+        navigationOptions: ({ navigation }) => {
+            return {
+                headerTitle: () => <Header navigation={navigation} />,
+                headerLeft: null,
+                header: null,
+            }
+        }  
     },
     TrainerAttendance: {
         screen: TrainerAttendance,

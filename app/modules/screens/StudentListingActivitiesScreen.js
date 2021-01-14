@@ -84,6 +84,16 @@ class StudentListingActivitiesScreen extends Component {
     this.props.navigation.dispatch(navigateAction);
   };
 
+  openTrainerData = () => {
+    const navigateAction = NavigationActions.navigate({
+      routeName: "TrainerAttendanceChart",
+      params: {
+        trainer_id: 6
+    }
+    });
+    this.props.navigation.dispatch(navigateAction);
+  }
+
 
   render() {
     const { state, navigate } = this.props.navigation;
@@ -148,8 +158,17 @@ class StudentListingActivitiesScreen extends Component {
           <Text
             style={{ fontSize: 14,paddingLeft: 20,marginTop:5,marginBottom:10,color: "#23ABE2" }}
           >
-            Trainer - {teacherName} - -- attendence 
+            Trainer - {teacherName} --- attendence  
           </Text>
+          <TouchableOpacity 
+            onPress={() =>  this.openTrainerData()}
+            style={{ fontSize: 22, marginTop: 36, marginRight: 18, position: 'absolute', right: 0}}
+            >
+            <Icon
+              name="bar-chart"
+              style={{ fontSize: 18,padding:5, color: '#23ABE2'}}
+            />
+          </TouchableOpacity>
         </View>
         ):null}
 

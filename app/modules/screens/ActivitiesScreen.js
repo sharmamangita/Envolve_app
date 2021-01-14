@@ -192,8 +192,10 @@ class ActivitiesScreen extends Component {
       
         Object.keys(body).forEach(key => {
           data.append(key, body[key]);
-          
         });
+
+        data.append("school_id", this.props.navigation.state.params.schoolData.school_id)
+        data.append("teacher_id", this.props.navigation.state.params.navparams.rolval.teacher_id)
       
         return data;
       };
@@ -202,20 +204,23 @@ class ActivitiesScreen extends Component {
         console.log("===========================================================");
         console.log(this.createFormData(this.state.filePath, this.state.location));
         console.log("===========================================================");
-        // await fetch("http://localhost:3000/api/upload", {
-        //   method: "POST",
-        //   body: this.createFormData(this.state.filePath, this.state.location)
-        // })
-        //   .then(response => response.json())
-        //   .then(response => {
-        //     console.log("upload succes", response);
-        //     alert("Upload success!");
-        //     this.setState({ photo: null });
-        //   })
-        //   .catch(error => {
-        //     console.log("upload error", error);
-        //     alert("Upload failed!");
-        //   });
+         await fetch(`${API_URL}/mark-trainer-attendance/`, {
+						method: "POST",
+						headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+           body: this.createFormData(this.state.filePath, this.state.location)
+         })
+           .then(response => response.json())
+           .then(response => {
+             console.log("upload succes", response);
+             alert("Upload success!");
+             this.setState({ photo: null });
+           })
+           .catch(error => {
+             console.log("upload error", error);
+             alert("Upload failed!");
+           });
       }
 
 
