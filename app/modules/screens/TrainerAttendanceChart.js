@@ -18,20 +18,71 @@ class TrainerAttendanceChart extends Component {
 
   constructor(props) {
     super(props);
-    this.studentsNames = [];
+
     this.state = {
-      studentsNames:[],
-      teacherName:null,
-      actClassName:null,
-      activityName:null,
-      emptyMsg:null,
-      loading: false
+      teacherName: this.props.navigation.state.params.trainerName,
+      teacher_id: this.props.navigation.state.params.trainer_id,
+      threeMonthsLable:this.getLastThreeMonth(),
+      attendance: '',
+      apiResponseState:0,
+      loading: true,
+      attendanceData: [
+        {
+          "id": "21",
+          "image": "",
+          "latitude": "0",
+          "longitude": "0",
+          "school_id": "1",
+          "update_at": "2021-01-14 11:25:09",
+          "user_id": "6"
+        }
+      ],
+      chartMonthwise: ''
     };
   }
 
-//  componentDidMount() {
+ async componentDidMount() {
+    this.setState({chartMonthwise: `${this.state.threeMonthsLable[0].year}-${this.state.threeMonthsLable[0].monthInNumber}`})
+      await this.getTrainerAttendance();   
+  }
 
-//   }
+  getLastThreeMonth = () => {
+    // console.log(this.state.attendanceData[0].update_at);
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+                        "July", "August", "September", "October", "November", "December"
+                      ];
+    let threemonths = []
+    for(let i= 0; i < 3; i++){
+      var d = new Date();
+      d.setMonth(d.getMonth()-i)
+      threemonths.push({
+        year: d.getFullYear(),
+        month: monthNames[d.getMonth()],
+        monthInNumber: String(d.getMonth()).length == 2? d.getMonth() + 1 : `0${d.getMonth() + 1}`
+      });
+    }
+    return threemonths;
+    
+  }
+
+getTrainerAttendance = async () => {
+    this.setState({ loading: true})
+  await fetch(`${API_URL}/get-trainer-attendance-record/`, {
+      method: 'POST',
+      headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+          teacher_id: this.state.teacher_id
+      }),
+  }).then(response => response.json())
+  .then(response => {
+      this.setState({loading: false})
+      console.log("Response ---> ", response.length);
+      response.length != 0? this.setState({attendanceData: response, apiResponseState: 1}) : null;
+  })
+}
 
 
   goBack = () => {
@@ -41,15 +92,10 @@ class TrainerAttendanceChart extends Component {
     this.props.navigation.dispatch(navigateAction);
   };
 
-
   render() {
-    let sampleData = [
-      {x: '2018-01-01', y: 1},
-      {x: '2018-01-02', y: 2},
-      {x: '2018-01-03', y: 3},
-      {x: '2018-01-04', y: 5},
-      {x: '2018-01-05', y: 24}
-    ]
+
+    let XYData= this.state.attendanceData.map(d => ({ "x":d.update_at.slice(0, 10), "y": Number(d.update_at.slice(11, 16).replace(":","."))}));
+    let sampleData = XYData.filter(xa => xa.x.slice(0,7) == this.state.chartMonthwise);
 
     return (
       <ScrollView style={styleData.screenContainer}>
@@ -65,36 +111,38 @@ class TrainerAttendanceChart extends Component {
           <Text
             style={{ fontSize: 15,textAlign: 'right',fontWeight:'bold',marginRight: 15 }}
           >
-            Thrainer Name
+            {this.state.teacherName}
           </Text>
           </View>
         </View>
-        {this.state.loading==false ?
-        (<View>
-          <TouchableOpacity
-            onPress={() =>  this.goBack()}
-            style={{ fontSize: 22, marginTop: 36, marginRight: 16, position: 'absolute', right: 0 }}
-            >
-            <Icon
-            name="bar-chart"
-            style={{ fontSize: 18, color: '#23ABE2', padding:5}}
-          />
-            </TouchableOpacity>
-        </View>
-        ):null}
 
         <View>
-        
-
-
-          <Text>Hello</Text>
-          
-          <View>
+          {!this.state.loading ? (
+            
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+          <View style={{ width: "100%"}}>
+            
             <DropDownPicker
               items={[
-                  {label: 'JUN', value: 'usa', hidden: true},
-                  {label: 'JUL', value: 'uk'},
-                  {label: 'AUG', value: 'france'},
+                  {
+                    label: `${this.state.threeMonthsLable[0].month} - ${this.state.threeMonthsLable[0].year}`,
+                    value: `${this.state.threeMonthsLable[0].year}-${this.state.threeMonthsLable[0].monthInNumber}`,
+                    hidden: true
+                  },
+                  {
+                    label: `${this.state.threeMonthsLable[1].month} - ${this.state.threeMonthsLable[1].year}`,
+                    value: `${this.state.threeMonthsLable[1].year}-${this.state.threeMonthsLable[1].monthInNumber}`
+                  },
+                  {
+                    label: `${this.state.threeMonthsLable[2].month} - ${this.state.threeMonthsLable[2].year}`,
+                    value: `${this.state.threeMonthsLable[2].year}-${this.state.threeMonthsLable[2].monthInNumber}`
+                  },
               ]}
               containerStyle={{height: 40}}
               style={{backgroundColor: '#fafafa'}}
@@ -103,41 +151,56 @@ class TrainerAttendanceChart extends Component {
               }}
               dropDownStyle={{backgroundColor: '#fafafa'}}
               onChangeItem={item => this.setState({
-                  country: item.value
+                chartMonthwise: item.value
               })}
-          />  
+            />  
           </View>
+              <View
+                style={{
+                  marginTop: "10%"
+                }}
+              >
+                <PureChart 
+                  data={sampleData} 
+                  type={'line'}
+                  height={200}
+                  />
 
-          <View>
-          <PureChart data={sampleData} type='line' />
-          </View>
-          <Text>Teacher Name: </Text>
-          <Text> Last Attendance: </Text>
-          <Text>Location: </Text>
-{/* 
-          {this.state.loading ? (
-            <View
-              style={{
+              </View>
+              <View style={{
                 flex: 1,
                 alignItems: "center",
                 justifyContent: "center",
-                marginTop: "40%",
-              }}
-            >
-              <Bubbles size={20} color="#1CAFF6" />
+                marginTop: "10%",
+                marginBottom: 10,
+              }}>
+              <Text style={{
+                fontSize: 16,
+                fontWeight: "bold"}}>Teacher Name: {this.state.teacherName}</Text>
+              <Text style={{
+                fontSize: 16,
+                fontWeight: "bold"}}> Last Attendance: {this.state.apiResponseState == 1? this.state.attendanceData[0].update_at : "data is not available"}</Text>
+              <Text style={{
+                fontSize: 16,
+                fontWeight: "bold"}}>
+                  Location: 
+                  latitude: {this.state.attendanceData[0].latitude} - 
+                  longitude: {this.state.attendanceData[0].longitude}
+                  </Text>
+              </View>
             </View>
-          ) : null}
-          <Text
-            style={{
-              fontSize: 16,
-              fontWeight: "bold",
-              textAlign: "center",
-              marginTop: 65,
-              marginBottom: 10,
-            }}
+          ) : 
+          <View
+          style={{
+            flex: 1,
+            alignItems: "center",
+            justifyContent: "center",
+            marginTop: "40%",
+          }}
           >
-            {emptyMsg}
-          </Text> */}
+          <Bubbles size={20} color="#1CAFF6" />
+          </View>
+          }
         </View>
       </ScrollView>
     );

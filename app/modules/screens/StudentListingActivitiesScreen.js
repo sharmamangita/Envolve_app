@@ -19,6 +19,7 @@ class StudentListingActivitiesScreen extends Component {
     this.state = {
       studentsNames:[],
       teacherName:null,
+      teacher_id:null,
       actClassName:null,
       activityName:null,
       emptyMsg:null,
@@ -35,12 +36,18 @@ class StudentListingActivitiesScreen extends Component {
         .then((responsed) => {
           if (responsed != undefined && responsed.length) {
             let teacherName = null;
+            let teacherId = null
+            console.log("=========================");
+            console.log(responsed);
+            console.log("==========================");
             responsed.forEach(function (item, index) {
               teacherName = item.teacher_name;
+              teacherId = item.teacher_id;
               that.studentsNames.push(item);
             });
             if (teacherName) {
               that.setState({
+                teacher_id: teacherId,
                 teacherName: teacherName,
                 studentsNames: that.studentsNames,
                 activityName:params.activityName,
@@ -88,7 +95,8 @@ class StudentListingActivitiesScreen extends Component {
     const navigateAction = NavigationActions.navigate({
       routeName: "TrainerAttendanceChart",
       params: {
-        trainer_id: 6
+        trainer_id: this.state.teacher_id,
+        trainerName: this.state.teacherName
     }
     });
     this.props.navigation.dispatch(navigateAction);
@@ -158,16 +166,19 @@ class StudentListingActivitiesScreen extends Component {
           <Text
             style={{ fontSize: 14,paddingLeft: 20,marginTop:5,marginBottom:10,color: "#23ABE2" }}
           >
-            Trainer - {teacherName} --- attendence  
+            Trainer - {teacherName}
           </Text>
           <TouchableOpacity 
             onPress={() =>  this.openTrainerData()}
-            style={{ fontSize: 22, marginTop: 36, marginRight: 18, position: 'absolute', right: 0}}
+            style={{ fontSize: 22, marginTop: 18, marginRight: 18, position: 'absolute', right: 0,alignItems: 'center'}}
             >
             <Icon
               name="bar-chart"
               style={{ fontSize: 18,padding:5, color: '#23ABE2'}}
             />
+            <Text
+              style={{color: '#23ABE2'}}
+            >attendence</Text>
           </TouchableOpacity>
         </View>
         ):null}
