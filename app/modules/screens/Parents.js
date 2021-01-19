@@ -6,6 +6,10 @@ import { NavigationActions } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { API_URL } from '../constants/config';
 import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
+import { List } from 'react-native-paper';
+import { Alert } from 'react-native';
+import { forEach } from 'lodash';
+
 class Parents extends Component {
     constructor(props) {
         super(props);
@@ -14,6 +18,7 @@ class Parents extends Component {
             Api_url: '',
             roleval: Object.assign({}, this.props.navigation.state.params),
             navparams: '',
+            expanded: false,
             loading: false,
         }
     }
@@ -29,9 +34,9 @@ class Parents extends Component {
         var mobile_num = JSON.stringify(navparams.rolval.mobile_num);
         var mobile_number = mobile_num.replace(/^"|"$/g, '');
         fetch(`${API_URL}/student-activities/${mobile_number}`).then((res) => res.json()).then((response) => {
-            //alert(JSON.stringify(response));
+
             if (response.length > 0) {
-                this.setState({ schools: response,loading:false });
+                this.setState({ schools: response,loading:false});
             }
         }).catch((err) =>{
             this.setState({loading:false });
@@ -76,6 +81,39 @@ class Parents extends Component {
             this.props.navigation.dispatch(navigateAction);
         }).catch((err) => alert(err))
     }
+    
+    // experiment
+    listbody = () => {
+        if(this.state.schools != ''){
+            let arr = []
+            console.log("======================================77==========================")
+            let listwise = [...new Set(this.state.schools.map(x => x.student_id))];
+            listwise.map(x =>{
+                let name  = this.state.schools.filter(name => name.student_id == x );
+                arr.push(<List.Accordion
+                title={name[0].student_name}
+                left={props => <List.Icon {...props} icon="folder" />}>
+                    {this.listdata(x)}
+                    
+                </List.Accordion>)
+            });
+            return arr;
+        }
+    }
+    listdata = (id) => {
+            let list = []
+            for (let studentObject of this.state.schools) {
+                if(id == studentObject.student_id){
+                    list.push(<List.Item 
+                        title={`${studentObject.school_name} | ${studentObject.activity_name}`} 
+                        onPress={() => this.getStudents(studentObject) }
+                        />)
+                }
+            }
+            return list;
+
+    }
+
     render() {
         const { navigate, state } = this.props.navigation;
         var viewbtton = [];
@@ -85,50 +123,8 @@ class Parents extends Component {
         }
         var arr = [];
         if (this.state.schools != '') {
-            this.state.schools.map((item) => {
-                arr.push(
-                    <View>
-                        <View>
-                            <ListItem onPress={() => this.student_info(item)}
-                                component={TouchableScale}
-                                avatar={
-                                    <Avatar
-                                        size="large"
-                                        rounded
-                                        source={require('../assets/images/download.png')}
-                                        showEditButton
-                                        onPress={() => alert('clicked avatar')}
-                                    />
-                                }
-                                title={<Text style={{ fontSize: 20, fontWeight: 'bold', paddingLeft: 5, paddingTop: 5 }}>{item.student_name}</Text>}
 
-                            />
-                        </View>
 
-                        <View>
-                            <Text style={styleData.school_name}>{item.school_name}</Text>
-                        </View>
-
-                        <View>
-                            <ListItem onPress={() => this.getStudents(item)}
-                                component={TouchableScale}
-                                style={{ borderTop: 0 }}
-                                title={<Text style={{ paddingLeft: 10, color: '#23ABE2', fontSize: 20 }}>{item.activity_name}</Text>}
-                                rightIcon={<Icon name="users" style={{ fontSize: 20, color: "#23ABE2", paddingRight: 20, }} />}
-                            />
-                        </View>
-                        <View
-                            style={{
-                                borderBottomColor: '#000',
-                                borderBottomWidth: 1,
-                                paddingTop: 8,
-                                marginRight: 15,
-                                marginLeft: 15
-                            }}
-                        />
-                    </View>
-                )
-            })
         } else {
             if(this.state.loading==false){
             arr.push(
@@ -140,6 +136,7 @@ class Parents extends Component {
             )
             }
         }
+
         return (
             <View style={{ flex: 1, height: '100%', width: '100%', backgroundColor: '#fff' }}>
                 <ScrollView style={this.state.loading?{opacity:0.1}:{opacity:1}}>
@@ -147,7 +144,10 @@ class Parents extends Component {
                         <Text style={{ fontSize: 20, fontWeight: 'bold' }}> Hello Parents! </Text>
                     </View>
                     <View style={{ marginBottom: 25 }}>
-                        {arr}
+                        {/* {arr} */}
+
+                        { this.listbody() }
+
                     </View>
                 </ScrollView>
                  {this.state.loading ? (

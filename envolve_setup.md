@@ -29,6 +29,10 @@ IN CASE WE WANT TO USE COMMAND terminal ONLY TO BUILD AND RUN PROJECT THEN USE T
 NOTE: if app runs successfully or in case your changes are not updating in app , you will need to run this command each time before sending apk to test 
 >"react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res"
 
+if app-debug.apk is not update then go to android folder then
+type this command "gradlew assembleDebug" it will update apk.
+
+
 
 POTENTIAL PROBLEMS WITH BUILD AND INSTALL AND SOLUTIONS:---------
 >gradele issue: open android emulator and open the project by selecting project android directory and the navigate to " file>project structure> set "android gradle plugin version =3.5.3 and  set gradle version =6.4

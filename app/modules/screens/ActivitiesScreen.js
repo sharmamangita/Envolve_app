@@ -213,12 +213,12 @@ class ActivitiesScreen extends Component {
          })
            .then(response => response.json())
            .then(response => {
-             console.log("upload succes", response);
-             alert("Upload success!");
+             console.log("Attendance has Sumited", response);
+             alert("Attendance has Sumited");
              this.setState({ photo: null });
            })
            .catch(error => {
-             console.log("upload error", error);
+             console.log("Attendance submition error", error);
              alert("Upload failed!");
            });
       }

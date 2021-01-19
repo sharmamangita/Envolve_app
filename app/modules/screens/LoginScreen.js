@@ -42,6 +42,7 @@ class LoginScreen extends Component {
             const userdata =response['user'];
             console.log('yyyyyyyy',response)
 	        if (response.status == 200) {
+                console.log(token)
 	            fetch(`${API_URL}/check-user/${formValues['phone_number']}/${formValues['password']}/${device_id}/${token}`, {
 	                method: 'GET',
 	                headers: {
@@ -72,7 +73,11 @@ class LoginScreen extends Component {
                         this.props.navigation.dispatch(navigateAction);
                     } else if (responsed.role == 'principal') {
                         AsyncStorage.setItem('@userData', userdata.users_id);
-			AsyncStorage.setItem('@userRoll', responsed.role);
+            AsyncStorage.setItem('@userRoll', responsed.role);
+                        console.log("===================");
+                        console.log(responsed)
+                        console.log(response)
+                        console.log("===================");
                        const navigateAction = NavigationActions.navigate({
                             routeName: 'ActivitiesStatsScreen',
                             params: {

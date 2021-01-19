@@ -38,12 +38,16 @@ class ActivitiesStatsScreen extends Component {
     let that = this;
     if (params.schoolData != undefined && params.schoolData) {
       let schoolData = params.schoolData;
+
       if (schoolData.school_id != undefined && schoolData.school_id) {
         fetch(
           `${API_URL}/count-activities-totoalStudents/${schoolData.school_id}`
         )
           .then((res) => res.json())
           .then((responsed) => {
+            console.log("=============school===============");
+            console.log(responsed);
+            console.log("============================");
             if (responsed != undefined && responsed.length) {
               let schoolName = null;
               let schoolId=null;

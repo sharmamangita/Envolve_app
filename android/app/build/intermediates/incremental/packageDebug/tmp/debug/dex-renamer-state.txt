@@ -1,4 +1,4 @@
-#Fri Jan 15 10:06:10 IST 2021
+#Tue Jan 19 16:57:36 IST 2021
 base.2=E\:\\office\\76East\\Envolve_app\\android\\app\\build\\intermediates\\dex\\debug\\mergeLibDexDebug\\out\\classes_0.dex
 base.1=E\:\\office\\76East\\Envolve_app\\android\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\out\\classes.dex
 base.0=E\:\\office\\76East\\Envolve_app\\android\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\out\\classes.dex
@@ -21,12 +21,18 @@ path.1=classes.dex
 renamed.2=classes3.dex
 path.0=classes.dex
 renamed.1=classes2.dex
+renamed.16=classes17.dex
 renamed.0=classes.dex
+renamed.15=classes16.dex
 renamed.14=classes15.dex
 renamed.13=classes14.dex
 renamed.12=classes13.dex
 renamed.11=classes12.dex
+path.16=classes_14.dex
+base.16=E\:\\office\\76East\\Envolve_app\\android\\app\\build\\intermediates\\dex\\debug\\mergeLibDexDebug\\out\\classes_14.dex
 renamed.10=classes11.dex
+path.15=classes_13.dex
+base.15=E\:\\office\\76East\\Envolve_app\\android\\app\\build\\intermediates\\dex\\debug\\mergeLibDexDebug\\out\\classes_13.dex
 path.14=classes_12.dex
 base.14=E\:\\office\\76East\\Envolve_app\\android\\app\\build\\intermediates\\dex\\debug\\mergeLibDexDebug\\out\\classes_12.dex
 path.13=classes_9.dex

@@ -8,6 +8,20 @@ import { API_URL } from "../constants/config";
 import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
 import PureChart from 'react-native-pure-chart';
 import DropDownPicker from 'react-native-dropdown-picker';
+import {
+  SlideAreaChart,
+  SlideBarChart,
+  SlideBarChartProps,
+  SlideAreaChartProps,
+  YAxisProps,
+  XAxisProps,
+  XAxisLabelAlignment,
+  YAxisLabelAlignment,
+  CursorProps,
+  ToolTipProps,
+  ToolTipTextRenderersInput,
+  GradientProps,
+} from 'react-native-slide-charts'
 
 class TrainerAttendanceChart extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -86,17 +100,18 @@ getTrainerAttendance = async () => {
 
 
   goBack = () => {
-    const navigateAction = NavigationActions.navigate({
-      routeName: "StudentListingActivitiesScreen",
-    });
-    this.props.navigation.dispatch(navigateAction);
+    this.props.navigation.goBack(null)
+    // const navigateAction = NavigationActions.navigate({
+    //   routeName: "StudentListingActivitiesScreen",
+    // });
+    // this.props.navigation.dispatch(navigateAction);
   };
 
   render() {
 
     let XYData= this.state.attendanceData.map(d => ({ "x":d.update_at.slice(0, 10), "y": Number(d.update_at.slice(11, 16).replace(":","."))}));
     let sampleData = XYData.filter(xa => xa.x.slice(0,7) == this.state.chartMonthwise);
-
+    const markerSpacing = sampleData.length > 20 ? 2 : sampleData.length > 10 ? 1 : 0;
     return (
       <ScrollView style={styleData.screenContainer}>
         <View style={styleData.container}>
@@ -160,11 +175,44 @@ getTrainerAttendance = async () => {
                   marginTop: "10%"
                 }}
               >
-                <PureChart 
+                {/* <PureChart 
                   data={sampleData} 
                   type={'line'}
                   height={200}
-                  />
+                  /> */}
+
+          <SlideBarChart
+            scrollable
+            selectionChangedCallback={() => Haptics.selectionAsync()}
+            style={{ marginTop: 64 }}
+            shouldCancelWhenOutside={false}
+            data={sampleData}
+            axisWidth={34}
+            axisHeight={16}
+            yAxisProps={{
+              numberOfTicks: 4,
+              axisLabel: '24-H',
+              // axisLabelAlignment: 'aboveTicks',
+            }}
+            xAxisProps={{
+              axisMarkerLabels: sampleData.map(item => item.x.toString()),
+              specialEndMarker: 'Last',
+              specialStartMarker: 'First',
+              adjustForSpecialMarkers: true,
+              markerSpacing,
+              minimumSpacing: markerSpacing,
+            }}
+            toolTipProps={{
+              lockTriangleCenter: true,
+              toolTipTextRenderers: [
+                ({ selectedBarNumber }) => ({
+                  text: sampleData[selectedBarNumber]?sampleData[selectedBarNumber].y.toString().replace(".",":"): null,
+                }),
+                () => ({ text: 'Time' }),
+              ],
+            }}
+          />
+
 
               </View>
               <View style={{
@@ -188,6 +236,7 @@ getTrainerAttendance = async () => {
                   longitude: {this.state.attendanceData[0].longitude}
                   </Text>
               </View>
+
             </View>
           ) : 
           <View

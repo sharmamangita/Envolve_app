@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, Image, View, Text, StyleSheet } from 'react-native';
+import { ScrollView, Image, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import TouchableScale from 'react-native-touchable-scale';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -31,6 +31,7 @@ class TrainerAttendance extends Component {
         fetch(`${API_URL}/get-trainer-attendance/`).then((res) => res.json()).then((response) => {
             if (response.length > 0) {
                 this.setState({ students: response });
+                console.log("====>", response);
             }
         }).catch((err) => alert(err))
     }
@@ -42,6 +43,16 @@ class TrainerAttendance extends Component {
         this.props.navigation.dispatch(navigateAction);
     }
 
+    openTrainerData = (teacher_id, teacherName) => {
+        const navigateAction = NavigationActions.navigate({
+          routeName: "TrainerAttendanceChart",
+          params: {
+            trainer_id: teacher_id,
+            trainerName: teacherName
+        }
+        });
+        this.props.navigation.dispatch(navigateAction);
+      }
 
 
     render() {
@@ -52,7 +63,7 @@ class TrainerAttendance extends Component {
 
             this.state.students.map((t) => {
                 arr.push(
-                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginTop: -36 }}>
+                    <TouchableOpacity onPress={ () => this.openTrainerData(5, "sweta")} style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginTop: -36 }}>
                         <View style={[styleData.box, styleData.box2]}>
                             <Text style={{ color: '#23ABE2', textAlign: 'center', marginTop: 10 }}>{t.teacher_name}</Text>
                         </View>
@@ -68,7 +79,7 @@ class TrainerAttendance extends Component {
                         <View style={[styleData.box, styleData.box2]}>
                             <Text style={{ textAlign: 'center', marginTop: 10 }}>{t.update_at}</Text>
                         </View>
-                    </View>
+                    </TouchableOpacity>
                 );
             })
         } else {
