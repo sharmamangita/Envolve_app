@@ -61,7 +61,7 @@ class SchoolScreen extends Component {
         fetch(`${API_URL}/get-activities/${teacher}/${val}/${users}`, {
             method: 'GET'
         }).then((res) => res.json()).then((response) => {
-            this.setState({ value: response,loading:false })
+            this.setState({ value: response,loading:false });
            const navigateAction = NavigationActions.navigate({
                 routeName: 'ActivitiesScreen',
                 params: {
@@ -76,6 +76,9 @@ class SchoolScreen extends Component {
 
     render() {
         var viewbtton = [];
+        console.log("==========================");
+        console.log(this.props.navigation.state.params)
+        console.log("==========================");
         var navparams = this.props.navigation.state.params ? this.props.navigation.state.params : null;
         if (navparams == null && this.props) {
             var navparams = this.props;
@@ -103,7 +106,11 @@ class SchoolScreen extends Component {
         }
         var arr = [];
         if (this.state.schools != '') {
+            console.log("=========================== school ========================");
+            console.log(this.state.schools)
+            console.log("===========================================================");
             this.state.schools.map((item) => {
+
                 arr.push(
                     <ListItem onPress={() => this.getData(item.school_id, item)}
                         component={TouchableScale}
@@ -116,10 +123,10 @@ class SchoolScreen extends Component {
                                 onPress={() => alert('clicked avatar')}
                             />
                         }
-                        title={<Text style={{ fontSize: 20, fontWeight: 'bold', paddingLeft: 20, paddingTop: 5 }}>{item.school_name}sds</Text>}
+                        title={<Text style={{ fontSize: 20, fontWeight: 'bold', paddingLeft: 20, paddingTop: 5 }}>{item.school_name}</Text>}
                         subtitle={
                             <View style={{ flexDirection: 'row', paddingLeft: 10, paddingTop: 5 }}>
-                                <Text style={{ paddingLeft: 10, color: 'grey', fontSize: 20 }}>{item.school_address}dfdf</Text>
+                                <Text style={{ paddingLeft: 10, color: 'grey', fontSize: 20 }}>{item.school_address}</Text>
                             </View>
                         }
                         chevron

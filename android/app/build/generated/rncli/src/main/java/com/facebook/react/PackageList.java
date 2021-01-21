@@ -19,6 +19,12 @@ import org.reactnative.maskedview.RNCMaskedViewPackage;
 import com.reactnativecommunity.picker.RNCPickerPackage;
 // @react-native-community/slider
 import com.reactnativecommunity.slider.ReactSliderPackage;
+// @react-native-firebase/app
+import io.invertase.firebase.app.ReactNativeFirebaseAppPackage;
+// @react-native-firebase/messaging
+import io.invertase.firebase.messaging.ReactNativeFirebaseMessagingPackage;
+// react-native-firebase
+import io.invertase.firebase.RNFirebasePackage;
 // react-native-gesture-handler
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 // react-native-get-location
@@ -90,6 +96,9 @@ public class PackageList {
       new RNCMaskedViewPackage(),
       new RNCPickerPackage(),
       new ReactSliderPackage(),
+      new ReactNativeFirebaseAppPackage(),
+      new ReactNativeFirebaseMessagingPackage(),
+      new RNFirebasePackage(),
       new RNGestureHandlerPackage(),
       new ReactNativeGetLocationPackage(),
       new ImagePickerPackage(),

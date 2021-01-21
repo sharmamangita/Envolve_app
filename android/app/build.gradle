@@ -1,5 +1,5 @@
 apply plugin: "com.android.application"
-
+// apply plugin: 'com.google.gms.google-services'
 import com.android.build.OutputFile
 
 /**
@@ -181,12 +181,27 @@ android {
 }
 
 dependencies {
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation platform('com.google.firebase:firebase-bom:26.3.0')
+    implementation project(':react-native-firebase')
+
+    implementation "com.google.android.gms:play-services-base:16.1.0"
+    implementation "com.google.firebase:firebase-core:16.0.9"
+    implementation "com.google.firebase:firebase-config:17.0.0"
+    implementation "com.google.firebase:firebase-invites:17.0.0"
+    implementation "com.google.firebase:firebase-messaging:18.0.0"
+    implementation "me.leolin:ShortcutBadger:1.1.21@aar"
+
     implementation project(':react-native-vector-icons')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+
+    // compile(project(':react-native-firebase')) {   
+    //    transitive = false
+    // }
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'
@@ -218,3 +233,4 @@ task copyDownloadableDepsToLibs(type: Copy) {
 }
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
+// apply plugin: 'com.google.gms.google-services'

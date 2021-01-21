@@ -206,7 +206,9 @@ class Students extends Component {
         var arr = [];
         var that = this;
         if (state.params.students != '') {
-
+            console.log("============stateusVal============");
+            console.log(this.state.statusVal);
+            console.log("===================================")
             this.state.statusVal.map((t, i) => {
                 let playFileName = state.params.students[0].videoUrl;
                 videoLink=`${API_URL}/upload/${playFileName}`;
@@ -215,7 +217,7 @@ class Students extends Component {
                         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginTop: -36 }}>
 
                             <View style={[styleData.box, styleData.box2]}>
-                                <Text style={{ textAlign: 'center', marginTop: 10 }}>{t.admission_number}sd</Text>
+                                <Text style={{ textAlign: 'center', marginTop: 10 }}>{t.admission_number}</Text>
                             </View>
 
                             <View style={[styleData.box, styleData.box2]}>

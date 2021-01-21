@@ -67,6 +67,9 @@ class StudentAttendance extends Component {
             method: 'GET'
         }).then((res) => res.json()).then((response) => {
             if(response.length){
+                console.log("==================== video url =======================");
+                console.log(response);
+                console.log("==================== video url =======================");
                 let video_Url = response[0].videoUrl;
                 this.setState({
                     videoUrl:video_Url

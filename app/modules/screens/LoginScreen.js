@@ -13,6 +13,7 @@ import { NavigationActions } from 'react-navigation';
 import t from 'tcomb-form-native';
 import { API_URL } from '../constants/config';
 import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
+import firebase from 'react-native-firebase';
 const GenerateForm = t.form.Form;
 
 class LoginScreen extends Component {
@@ -22,7 +23,18 @@ class LoginScreen extends Component {
         this.state={
             loading:false,
             isButtonDisable:false,
+            firebaseToken: ''
         }
+        // this.getfireToken()
+    }
+
+    getfireToken = async() => {
+        console.log("============================fire===================================")
+        const firebaseToken = await firebase.messaging().getToken();
+        // this.setState({firebaseToken})
+        console.log(firebaseToken)
+        console.log("============================fire===================================")
+        return firebaseToken;
     }
 
     login(device_id, token) {
@@ -158,7 +170,7 @@ class LoginScreen extends Component {
                         />
                     </View> 
                     <View style={styles.box1}>
-                        <TouchableOpacity disabled={this.state.isButtonDisable} style={styles.loginButton} onPress={() => this.login('fsdfjsbdfjsbfjk', 'fjkhfjhsdjfhsjk')} >
+                        <TouchableOpacity disabled={this.state.isButtonDisable} style={styles.loginButton} onPress={() => this.login('fsdfjsbdfjsbfjk', 'fsdfjsbdfjsbfjk')} >
                             <Text style={styles.loginText} > Login </Text>
                         </TouchableOpacity>
                     </View>

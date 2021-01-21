@@ -46,7 +46,12 @@ class ActivitiesScreen extends Component {
         fetch(`${API_URL}/get-students/${school}/${teacher}/${activitity_id}`, {
             method: 'GET'
         }).then((res) => res.json()).then((response) => {
-            this.setState({ value1: response,loading:false })
+            this.setState({ value1: response,loading:false });
+            console.log("=============================== testing =========================")
+            console.log(item);
+            console.log(this.state.value1);
+            console.log(this.state.schoolData);
+            console.log("=============================== testing =========================")
             const navigateAction = NavigationActions.navigate({
                 routeName: 'Student',
                 params: {
@@ -204,6 +209,7 @@ class ActivitiesScreen extends Component {
         console.log("===========================================================");
         console.log(this.createFormData(this.state.filePath, this.state.location));
         console.log("===========================================================");
+        this.setState({ loading: true});
          await fetch(`${API_URL}/mark-trainer-attendance/`, {
 						method: "POST",
 						headers: {
@@ -213,13 +219,15 @@ class ActivitiesScreen extends Component {
          })
            .then(response => response.json())
            .then(response => {
-             console.log("Attendance has Sumited", response);
-             alert("Attendance has Sumited");
-             this.setState({ photo: null });
+             console.log("Attendance has been Sumited", response);
+             this.setState({ loading: false});
+             alert("Attendance has been Sumited");
+             this.setState({ photo: null, trainerAttendance: true });
            })
            .catch(error => {
              console.log("Attendance submition error", error);
-             alert("Upload failed!");
+             this.setState({ loading: false, trainerAttendance: false});
+             alert("Attendance submition error!");
            });
       }
 
@@ -266,7 +274,8 @@ class ActivitiesScreen extends Component {
                     <Icon name="chevron-left" onPress={() => this.goBack()} style={{ fontSize: 22, color: '#23ABE2', marginTop: 8 }} />
                     <Text onPress={() => this.goBack()} style={{ fontSize: 25, fontColor: "#000", fontWeight: 'bold', marginLeft: 10 }}>Activities</Text>
                     {/* ============================================================== */}    
-                    <Icon name="camera" onPress={() => this.captureImage('photo')} style={{ fontSize: 22, color: '#23ABE2', marginTop: 8, marginRight: 8, position: 'absolute', right: 0 }} />
+                    {this.state.trainerAttendance? null : <Icon name="camera" onPress={() => this.captureImage('photo')} style={{ fontSize: 22, color: '#23ABE2', marginTop: 8, marginRight: 8, position: 'absolute', right: 0 }} />}
+                    
                     {/* =============================================================== */}
                 </View>
                 <View style={styleData.activityText}>
