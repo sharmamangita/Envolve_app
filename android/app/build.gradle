@@ -1,5 +1,5 @@
 apply plugin: "com.android.application"
-// apply plugin: 'com.google.gms.google-services'
+  apply plugin: 'com.google.gms.google-services'
 import com.android.build.OutputFile
 
 /**
@@ -181,7 +181,6 @@ android {
 }
 
 dependencies {
-    implementation 'com.google.firebase:firebase-analytics'
     implementation platform('com.google.firebase:firebase-bom:26.3.0')
     implementation project(':react-native-firebase')
 
@@ -190,6 +189,7 @@ dependencies {
     implementation "com.google.firebase:firebase-config:17.0.0"
     implementation "com.google.firebase:firebase-invites:17.0.0"
     implementation "com.google.firebase:firebase-messaging:18.0.0"
+    implementation 'com.google.firebase:firebase-analytics'
     implementation "me.leolin:ShortcutBadger:1.1.21@aar"
 
     implementation project(':react-native-vector-icons')

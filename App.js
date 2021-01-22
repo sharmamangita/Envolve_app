@@ -86,6 +86,8 @@ export default class App extends Component {
     this.state = { listDataSource: CONTENT };
   }
 
+
+
   updateLayout = index => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     const array = [...this.state.listDataSource];

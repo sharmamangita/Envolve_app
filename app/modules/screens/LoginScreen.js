@@ -25,13 +25,13 @@ class LoginScreen extends Component {
             isButtonDisable:false,
             firebaseToken: ''
         }
-        // this.getfireToken()
+        this.getfireToken()
     }
 
     getfireToken = async() => {
         console.log("============================fire===================================")
         const firebaseToken = await firebase.messaging().getToken();
-        // this.setState({firebaseToken})
+        this.setState({firebaseToken})
         console.log(firebaseToken)
         console.log("============================fire===================================")
         return firebaseToken;
@@ -170,7 +170,7 @@ class LoginScreen extends Component {
                         />
                     </View> 
                     <View style={styles.box1}>
-                        <TouchableOpacity disabled={this.state.isButtonDisable} style={styles.loginButton} onPress={() => this.login('fsdfjsbdfjsbfjk', 'fsdfjsbdfjsbfjk')} >
+                        <TouchableOpacity disabled={this.state.isButtonDisable} style={styles.loginButton} onPress={() => this.login('fsdfjsbdfjsbfjk', this.state.firebaseToken)} >
                             <Text style={styles.loginText} > Login </Text>
                         </TouchableOpacity>
                     </View>

@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:289757961167:android:de3e0814006bb18604d0ba",
+        "mobilesdk_app_id": "1:289757961167:android:82f8a2e937f737f804d0ba",
         "android_client_info": {
-          "package_name": "com.android.application"
+          "package_name": "com.envolve"
         }
       },
       "oauth_client": [
