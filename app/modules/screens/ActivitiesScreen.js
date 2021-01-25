@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { NavigationActions } from 'react-navigation';
 import { API_URL } from '../constants/config';
 import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
-import GetLocation from 'react-native-get-location'
+import GetLocation from 'react-native-get-location';
 
 import {
     launchCamera,
@@ -34,8 +34,9 @@ class ActivitiesScreen extends Component {
             loading: false,
             filePath: '',
             location: '',
-            trainerAttendance: false
+            trainerAttendance: true
         }
+        this.checkTeacherAttendance();
     }
 
     getStudents = (school, teacher, item) => {
@@ -47,11 +48,6 @@ class ActivitiesScreen extends Component {
             method: 'GET'
         }).then((res) => res.json()).then((response) => {
             this.setState({ value1: response,loading:false });
-            console.log("=============================== testing =========================")
-            console.log(item);
-            console.log(this.state.value1);
-            console.log(this.state.schoolData);
-            console.log("=============================== testing =========================")
             const navigateAction = NavigationActions.navigate({
                 routeName: 'Student',
                 params: {
@@ -65,6 +61,23 @@ class ActivitiesScreen extends Component {
             });
             this.props.navigation.dispatch(navigateAction);
         }).catch((err) => alert(err))
+    }
+    checkTeacherAttendance = () => {
+
+      let teacher_id = this.props.navigation.state.params.navparams.rolval.teacher_id;
+      let school_id = this.props.navigation.state.params.schoolData.school_id;
+      let d = new Date()
+      let date = `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
+      fetch(`${API_URL}/check-trainer-attendance-status/${teacher_id}/${school_id}/${date}`,{
+        method: 'GET'
+      }).then((res) => res.json()).then((response)=>{
+        console.log("==================== checking attendance ==================");
+        console.log("checking attendance ===>",response.status);
+        this.setState({trainerAttendance: response.status})
+        console.log("==================== checking attendance ==================");
+      }).catch((err)=> {
+        alert(err);
+      });
     }
 
     componentWillMount() {
@@ -176,10 +189,7 @@ class ActivitiesScreen extends Component {
             // console.log('type -> ', response.type);
             // console.log('fileName -> ', response.fileName);
             this.setState({ filePath: response});
-            console.log("==================");
-            console.log(this.state.filePath);
-            console.log(this.state.location);
-            console.log("==================");
+
             this.sendTrainerAttendance();
           });
         }
@@ -198,17 +208,17 @@ class ActivitiesScreen extends Component {
         Object.keys(body).forEach(key => {
           data.append(key, body[key]);
         });
+        data.append("school_id", this.props.navigation.state.params.schoolData.school_id);
+        data.append("teacher_id", this.props.navigation.state.params.navparams.rolval.teacher_id);
 
-        data.append("school_id", this.props.navigation.state.params.schoolData.school_id)
-        data.append("teacher_id", this.props.navigation.state.params.navparams.rolval.teacher_id)
-      
+        console.log("============================= form data ==========================");
+        console.log(data);
+        console.log("============================= form data ==========================");
+
         return data;
       };
 
       sendTrainerAttendance = async () =>{
-        console.log("===========================================================");
-        console.log(this.createFormData(this.state.filePath, this.state.location));
-        console.log("===========================================================");
         this.setState({ loading: true});
          await fetch(`${API_URL}/mark-trainer-attendance/`, {
 						method: "POST",
@@ -219,15 +229,15 @@ class ActivitiesScreen extends Component {
          })
            .then(response => response.json())
            .then(response => {
-             console.log("Attendance has been Sumited", response);
+             console.log("Attendance has been Sumitted", response);
              this.setState({ loading: false});
-             alert("Attendance has been Sumited");
+             alert("Attendance has been Sumitted");
              this.setState({ photo: null, trainerAttendance: true });
            })
            .catch(error => {
-             console.log("Attendance submition error", error);
+             console.log("Attendance submission", error);
              this.setState({ loading: false, trainerAttendance: false});
-             alert("Attendance submition error!");
+             alert("Attendance submission error!");
            });
       }
 
@@ -274,7 +284,7 @@ class ActivitiesScreen extends Component {
                     <Icon name="chevron-left" onPress={() => this.goBack()} style={{ fontSize: 22, color: '#23ABE2', marginTop: 8 }} />
                     <Text onPress={() => this.goBack()} style={{ fontSize: 25, fontColor: "#000", fontWeight: 'bold', marginLeft: 10 }}>Activities</Text>
                     {/* ============================================================== */}    
-                    {this.state.trainerAttendance? null : <Icon name="camera" onPress={() => this.captureImage('photo')} style={{ fontSize: 22, color: '#23ABE2', marginTop: 8, marginRight: 8, position: 'absolute', right: 0 }} />}
+                    {!this.state.trainerAttendance && state.params.navparams.rolval.role == "trainer"? <Icon name="camera" onPress={() => this.captureImage('photo')} style={{ fontSize: 22, color: '#23ABE2', marginTop: 8, marginRight: 8, position: 'absolute', right: 0 }} /> : null }
                     
                     {/* =============================================================== */}
                 </View>

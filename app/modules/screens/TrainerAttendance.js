@@ -60,10 +60,12 @@ class TrainerAttendance extends Component {
         const { state, navigate } = this.props.navigation;
         var arr = [];
         if (this.state.students != '') {
-
+            console.log("================= student name =======================");
+            console.log(this.state.students);
+            console.log("===================== student name ===============");
             this.state.students.map((t) => {
                 arr.push(
-                    <TouchableOpacity onPress={ () => this.openTrainerData(5, "sweta")} style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginTop: -36 }}>
+                    <TouchableOpacity onPress={ () => this.openTrainerData(t.user_id, t.teacher_name)} style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginTop: -36 }}>
                         <View style={[styleData.box, styleData.box2]}>
                             <Text style={{ color: '#23ABE2', textAlign: 'center', marginTop: 10 }}>{t.teacher_name}</Text>
                         </View>
@@ -113,7 +115,7 @@ class TrainerAttendance extends Component {
                     <View style={[styleData.box, styleData.box1]}><Text style={styleData.tableTextData}>Attendance Time</Text></View>
                 </View>
                 <View>
-                    {arr}
+                    {arr.reverse()}
                 </View>
             </ScrollView>
 

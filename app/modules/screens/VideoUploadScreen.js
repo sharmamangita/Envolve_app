@@ -56,6 +56,9 @@ class VideoUploadScreen extends Component {
     //get-new-activites
     AsyncStorage.getItem("@userData").then(
       (user) => {
+        console.log("==================video screen=================");
+        console.log(user)
+        console.log("==================video screen=====================");
         this.setState({ teacher_id: user });
       },
       (err) => {

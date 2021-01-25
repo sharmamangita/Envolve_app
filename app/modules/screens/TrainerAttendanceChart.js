@@ -40,6 +40,7 @@ class TrainerAttendanceChart extends Component {
       attendance: '',
       apiResponseState:0,
       loading: true,
+      
       attendanceData: [
         {
           "id": "21",
@@ -51,13 +52,15 @@ class TrainerAttendanceChart extends Component {
           "user_id": "6"
         }
       ],
-      chartMonthwise: ''
+      chartMonthwise: '',
+      sampleData:'',
     };
   }
 
  async componentDidMount() {
-    this.setState({chartMonthwise: `${this.state.threeMonthsLable[0].year}-${this.state.threeMonthsLable[0].monthInNumber}`})
-      await this.getTrainerAttendance();   
+    await this.setState({chartMonthwise: `${this.state.threeMonthsLable[0].year}-${this.state.threeMonthsLable[0].monthInNumber}`})
+    await this.getTrainerAttendance();
+    // await this.graph()   
   }
 
   getLastThreeMonth = () => {
@@ -94,6 +97,7 @@ getTrainerAttendance = async () => {
   .then(response => {
       this.setState({loading: false})
       console.log("Response ---> ", response.length);
+      console.log(response);
       response.length != 0? this.setState({attendanceData: response, apiResponseState: 1}) : null;
   })
 }
@@ -107,11 +111,16 @@ getTrainerAttendance = async () => {
     // this.props.navigation.dispatch(navigateAction);
   };
 
-  render() {
-
+  graph = async () => {
     let XYData= this.state.attendanceData.map(d => ({ "x":d.update_at.slice(0, 10), "y": Number(d.update_at.slice(11, 16).replace(":","."))}));
+    console.log("================>>>>>>",this.state.chartMonthwise)
     let sampleData = XYData.filter(xa => xa.x.slice(0,7) == this.state.chartMonthwise);
-    const markerSpacing = sampleData.length > 20 ? 2 : sampleData.length > 10 ? 1 : 0;
+    await this.setState({sampleData})
+    console.log("====================>>>>>>>>", this.state.sampleData);
+  }
+
+  render() {
+    const markerSpacing = this.state.sampleData.length > 20 ? 2 : this.state.sampleData.length > 10 ? 1 : 0;
     return (
       <ScrollView style={styleData.screenContainer}>
         <View style={styleData.container}>
@@ -165,9 +174,11 @@ getTrainerAttendance = async () => {
                   justifyContent: 'flex-start'
               }}
               dropDownStyle={{backgroundColor: '#fafafa'}}
-              onChangeItem={item => this.setState({
-                chartMonthwise: item.value
-              })}
+              onChangeItem={ async item => {
+                  await this.setState({chartMonthwise: item.value});
+                  this.graph();
+                }
+              }
             />  
           </View>
               <View
@@ -186,7 +197,7 @@ getTrainerAttendance = async () => {
             selectionChangedCallback={() => Haptics.selectionAsync()}
             style={{ marginTop: 64 }}
             shouldCancelWhenOutside={false}
-            data={sampleData}
+            data={this.state.sampleData}
             axisWidth={34}
             axisHeight={16}
             yAxisProps={{
@@ -195,7 +206,7 @@ getTrainerAttendance = async () => {
               // axisLabelAlignment: 'aboveTicks',
             }}
             xAxisProps={{
-              axisMarkerLabels: sampleData.map(item => item.x.toString()),
+              axisMarkerLabels: this.state.sampleData.map(item => item.x.toString()),
               specialEndMarker: 'Last',
               specialStartMarker: 'First',
               adjustForSpecialMarkers: true,
@@ -206,7 +217,7 @@ getTrainerAttendance = async () => {
               lockTriangleCenter: true,
               toolTipTextRenderers: [
                 ({ selectedBarNumber }) => ({
-                  text: sampleData[selectedBarNumber]?sampleData[selectedBarNumber].y.toString().replace(".",":"): null,
+                  text: this.state.sampleData[selectedBarNumber]?this.state.sampleData[selectedBarNumber].y.toString().replace(".",":"): null,
                 }),
                 () => ({ text: 'Time' }),
               ],

@@ -46,6 +46,7 @@ class ActivitiesStatsScreen extends Component {
           .then((res) => res.json())
           .then((responsed) => {
             console.log("=============school===============");
+            console.log(schoolData.school_id);
             console.log(responsed);
             console.log("============================");
             if (responsed != undefined && responsed.length) {

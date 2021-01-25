@@ -65,7 +65,10 @@ class LoginScreen extends Component {
                     this.setState({loading:false,isButtonDisable:false});
                     if (responsed.role == 'trainer') {
                        AsyncStorage.setItem('@userData', userdata.users_id);
-						AsyncStorage.setItem('@userRoll', userdata.role);
+                        AsyncStorage.setItem('@userRoll', userdata.role);
+                        console.log("===========================login response==============================");
+                        console.log("login - response =>",responsed);
+                        console.log("===========================login response==============================");
                         const navigateAction = NavigationActions.navigate({
                             routeName: 'SchoolScreen',
                             params: {
@@ -86,10 +89,6 @@ class LoginScreen extends Component {
                     } else if (responsed.role == 'principal') {
                         AsyncStorage.setItem('@userData', userdata.users_id);
             AsyncStorage.setItem('@userRoll', responsed.role);
-                        console.log("===================");
-                        console.log(responsed)
-                        console.log(response)
-                        console.log("===================");
                        const navigateAction = NavigationActions.navigate({
                             routeName: 'ActivitiesStatsScreen',
                             params: {
