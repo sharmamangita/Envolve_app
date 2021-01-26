@@ -22,6 +22,7 @@ import {
   ToolTipTextRenderersInput,
   GradientProps,
 } from 'react-native-slide-charts'
+import { sample } from "lodash";
 
 class TrainerAttendanceChart extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -50,17 +51,36 @@ class TrainerAttendanceChart extends Component {
           "school_id": "1",
           "update_at": "2021-01-14 11:25:09",
           "user_id": "6"
+        },
+        {
+          "id": "21",
+          "image": "",
+          "latitude": "0",
+          "longitude": "0",
+          "school_id": "1",
+          "update_at": "2021-01-15 11:25:09",
+          "user_id": "6"
+        },
+        {
+          "id": "21",
+          "image": "",
+          "latitude": "0",
+          "longitude": "0",
+          "school_id": "1",
+          "update_at": "2021-01-16 11:25:09",
+          "user_id": "6"
         }
       ],
       chartMonthwise: '',
-      sampleData:'',
+      XYvalue:[],
+      XYData:[],
     };
   }
 
  async componentDidMount() {
     await this.setState({chartMonthwise: `${this.state.threeMonthsLable[0].year}-${this.state.threeMonthsLable[0].monthInNumber}`})
     await this.getTrainerAttendance();
-    // await this.graph()   
+    await this.graph()   
   }
 
   getLastThreeMonth = () => {
@@ -99,7 +119,7 @@ getTrainerAttendance = async () => {
       console.log("Response ---> ", response.length);
       console.log(response);
       response.length != 0? this.setState({attendanceData: response, apiResponseState: 1}) : null;
-  })
+  });
 }
 
 
@@ -112,15 +132,22 @@ getTrainerAttendance = async () => {
   };
 
   graph = async () => {
-    let XYData= this.state.attendanceData.map(d => ({ "x":d.update_at.slice(0, 10), "y": Number(d.update_at.slice(11, 16).replace(":","."))}));
-    console.log("================>>>>>>",this.state.chartMonthwise)
-    let sampleData = XYData.filter(xa => xa.x.slice(0,7) == this.state.chartMonthwise);
-    await this.setState({sampleData})
-    console.log("====================>>>>>>>>", this.state.sampleData);
+
+    
+    let sampleData= this.state.attendanceData.map(d => ({ "x":d.update_at.slice(0, 10), "y": Number(d.update_at.slice(11, 16).replace(":","."))}));
+    
+    let XYData = sampleData.filter(xa => xa.x.slice(0,7) == this.state.chartMonthwise);
+    let XY = XYData.map(d => ({ "x":Number(d.x.slice(8, 10)), "y": d.y}))
+    console.log("========XY========>>>>>>",XY)
+    console.log("========XYData=====>>>", XYData);
+    
+    // console.log(sampleData)
+    await this.setState({ XYvalue:XY, XYData:XYData });
+    
   }
 
   render() {
-    const markerSpacing = this.state.sampleData.length > 20 ? 2 : this.state.sampleData.length > 10 ? 1 : 0;
+    const markerSpacing = this.state.XYvalue.length > 20 ? 2 : this.state.XYvalue.length > 10 ? 1 : 0;
     return (
       <ScrollView style={styleData.screenContainer}>
         <View style={styleData.container}>
@@ -194,10 +221,10 @@ getTrainerAttendance = async () => {
 
           <SlideBarChart
             scrollable
-            selectionChangedCallback={() => Haptics.selectionAsync()}
+            // selectionChangedCallback={() => Haptics.selectionAsync()}
             style={{ marginTop: 64 }}
             shouldCancelWhenOutside={false}
-            data={this.state.sampleData}
+            data={this.state.XYvalue}
             axisWidth={34}
             axisHeight={16}
             yAxisProps={{
@@ -206,9 +233,9 @@ getTrainerAttendance = async () => {
               // axisLabelAlignment: 'aboveTicks',
             }}
             xAxisProps={{
-              axisMarkerLabels: this.state.sampleData.map(item => item.x.toString()),
-              specialEndMarker: 'Last',
-              specialStartMarker: 'First',
+              axisMarkerLabels: this.state.XYvalue.map(item => item.x.toString()),
+              // specialEndMarker: 'Last',
+              // specialStartMarker: 'First',
               adjustForSpecialMarkers: true,
               markerSpacing,
               minimumSpacing: markerSpacing,
@@ -217,7 +244,7 @@ getTrainerAttendance = async () => {
               lockTriangleCenter: true,
               toolTipTextRenderers: [
                 ({ selectedBarNumber }) => ({
-                  text: this.state.sampleData[selectedBarNumber]?this.state.sampleData[selectedBarNumber].y.toString().replace(".",":"): null,
+                  text: this.state.XYData[selectedBarNumber]?this.state.XYData[selectedBarNumber].y.toString().replace(".",":"): null,
                 }),
                 () => ({ text: 'Time' }),
               ],
@@ -238,13 +265,12 @@ getTrainerAttendance = async () => {
                 fontWeight: "bold"}}>Teacher Name: {this.state.teacherName}</Text>
               <Text style={{
                 fontSize: 16,
-                fontWeight: "bold"}}> Last Attendance: {this.state.apiResponseState == 1? this.state.attendanceData[0].update_at : "data is not available"}</Text>
+                fontWeight: "bold"}}> Last Attendance: {this.state.apiResponseState == 1? this.state.attendanceData[(this.state.attendanceData.length-1)].update_at : "data is not available"}</Text>
               <Text style={{
                 fontSize: 16,
                 fontWeight: "bold"}}>
-                  Location: 
-                  latitude: {this.state.attendanceData[0].latitude} - 
-                  longitude: {this.state.attendanceData[0].longitude}
+                  latitude: {this.state.attendanceData[this.state.attendanceData.length-1].latitude} - 
+                  longitude: {this.state.attendanceData[this.state.attendanceData.length-1].longitude}
                   </Text>
               </View>
 
