@@ -30,6 +30,7 @@ class VideoPlayer extends Component {
   onSeek = (seek) => {
     //Handler for change in seekbar video
     this.VideoPlayer.seek(seek);
+    console.log(seek);
   };
 
   onPaused = (playerState) => {
