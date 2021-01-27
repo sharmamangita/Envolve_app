@@ -229,9 +229,9 @@ class ActivitiesScreen extends Component {
          })
            .then(response => response.json())
            .then(response => {
-             console.log("Attendance has been Sumitted", response);
+             console.log("Attendance has been Submitted", response);
              this.setState({ loading: false});
-             alert("Attendance has been Sumitted");
+             alert("Attendance has been Submitted");
              this.setState({ photo: null, trainerAttendance: true });
            })
            .catch(error => {

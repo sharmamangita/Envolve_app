@@ -8,16 +8,6 @@ export default class App extends Component{
 
     constructor() {
         super();
-        // console.log("===================================didmount1======================");
-        // const channel = firebase.notifications.Android.Channel(
-        //     'channelId',
-        //     'channelName',
-        //     firebase.notifications.Android.Importance.Max,
-        //   ).setDescription('Description');
-        //   firebase.notifications().android.createChannel(channel);
-        //   console.log("===================================didmount2======================");
-        //   notificationListener();
-        //   console.log("===================================didmount3======================");
 
     }
 
@@ -29,7 +19,6 @@ export default class App extends Component{
         console.log("=======================================checking checking ===============================");
         this.createChannel()
         this.notificationListener()
-        console.log(unsubscribe)
     }
 
     createChannel = () => {
