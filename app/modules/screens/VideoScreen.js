@@ -9,6 +9,7 @@ import {
   TouchableHighlight,
   Alert,
 } from "react-native";
+import AsyncStorage from "@react-native-community/async-storage";
 import { ListItem } from "react-native-elements";
 import TouchableScale from "react-native-touchable-scale";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -34,10 +35,18 @@ class VideoScreen extends Component {
       loading: false,
       showAlert: false,
       video_id: 0,
+      teacherId: ''
     };
   }
 
-  componentDidMount() {
+async  componentDidMount() {
+    await AsyncStorage.getItem("@teacher_id").then(
+      (teacher) =>{
+        console.log(teacher);
+        this.setState({ teacherId: teacher });
+      }, (err) =>{
+        console.log("error",err)
+      })
     this.getActivitesVideos();
   }
 
@@ -55,7 +64,7 @@ class VideoScreen extends Component {
       videos: that.videos,
       loading: true,
     });
-    fetch(`${API_URL}/get-activites-videos/`)
+    fetch(`${API_URL}/get-activites-videos/${this.state.teacherId}`)
       .then((res) => res.json())
       .then((responsed) => {
         if (responsed != undefined && responsed.length) {

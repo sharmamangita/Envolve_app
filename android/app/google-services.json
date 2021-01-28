@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "377542014398",
-    "project_id": "envolve-4baa1",
-    "storage_bucket": "envolve-4baa1.appspot.com"
+    "project_number": "289757961167",
+    "project_id": "evol-77c53",
+    "storage_bucket": "evol-77c53.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:377542014398:android:2b2dde3884772cfc2f35ef",
+        "mobilesdk_app_id": "1:289757961167:android:46d9005d9b21833f04d0ba",
         "android_client_info": {
           "package_name": "com.envolve"
         }
       },
       "oauth_client": [
         {
-          "client_id": "377542014398-f58p1maabts7t4ncpksh5bv3fp4nf101.apps.googleusercontent.com",
+          "client_id": "289757961167-sto5t9065neovvthkjkt5ord64jiuru5.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA7gHVFVSi9cMCoBM6pQkHS1Paaa6UEIEQ"
+          "current_key": "AIzaSyD4EDOym3WhpJ7v_wtpFN9xH3iuWvXDYXU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "377542014398-f58p1maabts7t4ncpksh5bv3fp4nf101.apps.googleusercontent.com",
+              "client_id": "289757961167-sto5t9065neovvthkjkt5ord64jiuru5.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
