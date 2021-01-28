@@ -65,7 +65,7 @@ class TrainerAttendance extends Component {
             console.log("===================== student name ===============");
             this.state.students.map((t) => {
                 arr.push(
-                    <TouchableOpacity onPress={ () => this.openTrainerData(t.user_id, t.teacher_name)} style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginTop: -36 }}>
+                    <TouchableOpacity onPress={ () => this.openTrainerData(t.teacher_id, t.teacher_name)} style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginTop: -36 }}>
                         <View style={[styleData.box, styleData.box2]}>
                             <Text style={{ color: '#23ABE2', textAlign: 'center', marginTop: 10 }}>{t.teacher_name}</Text>
                         </View>

@@ -41,8 +41,11 @@ class VideoUploadScreen extends Component {
       videoUri: null,
       activityType: [],
       activities: [],
+      school: [],
       activity_id: 0,
       teacher_id: 0,
+      school_id: 0,
+      teacherId:'',
       isProgressBar: false,
       progressRuning: 0,
       loading: true,
@@ -52,9 +55,9 @@ class VideoUploadScreen extends Component {
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     //get-new-activites
-    AsyncStorage.getItem("@userData").then(
+    await AsyncStorage.getItem("@userData").then(
       (user) => {
         console.log("==================video screen=================");
         console.log(user)
@@ -66,11 +69,21 @@ class VideoUploadScreen extends Component {
       }
     );
 
+    await AsyncStorage.getItem("@teacher_id").then(
+      (teacher) =>{
+        console.log(teacher);
+        this.setState({ teacherId: teacher });
+      }, (err) =>{
+        console.log("error",err)
+      })
+
     let that = this;
-    fetch(`${API_URL}/get-new-activites-types/`)
+    console.log("================================ teacher id ==========================");
+    console.log("teacher =====>>>",this.state.teacherId);
+    await fetch(`${API_URL}/get-new-activites-types/${this.state.teacherId}`)
       .then((res) => res.json())
       .then((responsed) => {
-        //alert(JSON.stringify(responsed))
+        // alert(JSON.stringify(responsed))
         if (responsed != undefined && responsed.length) {
           responsed.forEach(function (item, index) {
             let dropDownObj = {};
@@ -82,8 +95,37 @@ class VideoUploadScreen extends Component {
             activityType: responsed,
             loading: false,
           });
+        } else {
+          alert("No activities assigned");
+          const navigateAction = NavigationActions.navigate({
+            routeName: "VideoScreen",
+          });
+          this.props.navigation.dispatch(navigateAction);
         }
       });
+
+    await fetch(`${API_URL}/get-trainer-schools/${this.state.teacherId}`)
+          .then((res)=>res.json())
+          .then((responsed) => {
+            if(responsed != undefined && responsed.length){
+              let schoolData = []
+              responsed.forEach(function(item, index){
+                let dropDownObj = {};
+                dropDownObj.label = item.school_name;
+                dropDownObj.value = item.school_id;
+                schoolData.push(dropDownObj);
+              });
+              this.setState({ school: schoolData})
+            } else {
+              alert("No School found");
+              const navigateAction = NavigationActions.navigate({
+                routeName: "VideoScreen",
+              });
+              this.props.navigation.dispatch(navigateAction);
+            }
+          });
+          console.log(" ======>>>",this.state.school)
+
   }
 
   goBack = () => {
@@ -101,8 +143,8 @@ class VideoUploadScreen extends Component {
   };
 
   selectVideoSubmit = () => {
-    const { videoFileName, videoUri, activity_id, teacher_id } = this.state;
-    if (teacher_id && activity_id) {
+    const { videoFileName, videoUri, activity_id, teacher_id, school_id } = this.state;
+    if (teacher_id && activity_id && school_id) {
       RNFetchBlob.fetch(
         "POST",
         `${API_URL}/upload-video/`,
@@ -111,6 +153,7 @@ class VideoUploadScreen extends Component {
           Accept: "multipart/form-data",
           activity_id: activity_id,
           teacher_id: teacher_id,
+          school_id: school_id
         },
         [
           //the value of name depends on the key from server
@@ -167,10 +210,12 @@ class VideoUploadScreen extends Component {
   getActivites(activity_type = null) {
     let that = this;
     if (activity_type != null) {
-      fetch(`${API_URL}/get-new-activites/${activity_type}`)
+      fetch(`${API_URL}/get-new-activites/${activity_type}/${this.state.teacherId}`)
         .then((res) => res.json())
         .then((responsed) => {
-          //alert(JSON.stringify(responsed));
+          // this.setState({activities: emptyarray})
+          that.activities = [];
+          // alert(JSON.stringify(responsed));
           if (responsed != undefined && responsed.length) {
             responsed.forEach(function (item, index) {
               let dropDownObj = {};
@@ -178,9 +223,12 @@ class VideoUploadScreen extends Component {
               dropDownObj.value = item.activity_id;
               that.activities.push(dropDownObj);
             });
+
             that.setState({
               activities: responsed,
+              activity_id: 0
             });
+            console.log("==========>>>>>>>>>>>",this.state.activities)
           }
         });
     }
@@ -260,7 +308,7 @@ class VideoUploadScreen extends Component {
                   placeholder="Select Activity Type"
                 />
               </View>
-
+                  
               <View style={{ marginBottom: 30 }}>
                 <DropDownPicker
                   items={this.activities}
@@ -277,6 +325,25 @@ class VideoUploadScreen extends Component {
                     })
                   }
                   placeholder="Select an activitie"
+                />
+              </View>
+
+              <View style={{ marginBottom: 30 }}>
+                <DropDownPicker
+                  items={this.state.school}
+                  defaultValue=""
+                  containerStyle={{ height: 40 }}
+                  style={{ paddingBottom: 10 }}
+                  itemStyle={{
+                    justifyContent: "flex-start",
+                  }}
+                  dropDownStyle={{ backgroundColor: "#fafafa" }}
+                  onChangeItem={(item) =>
+                    this.setState({
+                      school_id: item.value,
+                    })
+                  }
+                  placeholder="Select School"
                 />
               </View>
 

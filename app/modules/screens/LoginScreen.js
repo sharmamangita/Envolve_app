@@ -66,6 +66,7 @@ class LoginScreen extends Component {
                     if (responsed.role == 'trainer') {
                        AsyncStorage.setItem('@userData', userdata.users_id);
                         AsyncStorage.setItem('@userRoll', userdata.role);
+                        AsyncStorage.setItem('@teacher_id', userdata.teacher_id);
                         console.log("===========================login response==============================");
                         console.log("login - response =>",responsed);
                         console.log("===========================login response==============================");
@@ -169,7 +170,7 @@ class LoginScreen extends Component {
                         />
                     </View> 
                     <View style={styles.box1}>
-                        <TouchableOpacity disabled={this.state.isButtonDisable} style={styles.loginButton} onPress={() => this.login('fsdfjsbdfjsbfjk', this.state.firebaseToken)} >
+                        <TouchableOpacity disabled={this.state.isButtonDisable} style={styles.loginButton} onPress={() => this.login('fsdfjsbdfjsbfjk', 'fsdfjsbdfjsbfjk')} >
                             <Text style={styles.loginText} > Login </Text>
                         </TouchableOpacity>
                     </View>

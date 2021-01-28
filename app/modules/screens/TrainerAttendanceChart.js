@@ -51,24 +51,6 @@ class TrainerAttendanceChart extends Component {
           "school_id": "1",
           "update_at": "2021-01-14 11:25:09",
           "user_id": "6"
-        },
-        {
-          "id": "21",
-          "image": "",
-          "latitude": "0",
-          "longitude": "0",
-          "school_id": "1",
-          "update_at": "2021-01-15 11:25:09",
-          "user_id": "6"
-        },
-        {
-          "id": "21",
-          "image": "",
-          "latitude": "0",
-          "longitude": "0",
-          "school_id": "1",
-          "update_at": "2021-01-16 11:25:09",
-          "user_id": "6"
         }
       ],
       chartMonthwise: '',
@@ -116,6 +98,7 @@ getTrainerAttendance = async () => {
   }).then(response => response.json())
   .then(response => {
       this.setState({loading: false})
+      console.log("teacher id ---> ", this.state.teacher_id);
       console.log("Response ---> ", response.length);
       console.log(response);
       response.length != 0? this.setState({attendanceData: response, apiResponseState: 1}) : null;
@@ -225,12 +208,13 @@ getTrainerAttendance = async () => {
             style={{ marginTop: 64 }}
             shouldCancelWhenOutside={false}
             data={this.state.XYvalue}
-            axisWidth={34}
+            axisWidth={20}
             axisHeight={16}
             yAxisProps={{
-              numberOfTicks: 4,
+              numberOfTicks: 8,
+              interval: 3,
               axisLabel: '24-H',
-              // axisLabelAlignment: 'aboveTicks',
+              axisLabelAlignment: 'aboveTicks',
             }}
             xAxisProps={{
               axisMarkerLabels: this.state.XYvalue.map(item => item.x.toString()),
