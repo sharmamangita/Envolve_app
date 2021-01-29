@@ -6,7 +6,8 @@ import {
     TouchableOpacity,
     Text,
     Image,
-    ScrollView
+    ScrollView,
+    Alert,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationActions } from 'react-navigation';
@@ -26,6 +27,21 @@ class LoginScreen extends Component {
             firebaseToken: ''
         }
         this.getfireToken()
+    }
+
+    async componentDidUpdate() {
+        console.log("=========================== check login data ===========================")
+        await AsyncStorage.getItem("@userData").then(
+            (user) =>{
+
+                if (user) {
+                    let profile = JSON.parse(user);
+                    Alert(profile);
+                  }
+
+            }, (err) =>{
+              console.log("error",err)
+            })
     }
 
     getfireToken = async() => {

@@ -4,7 +4,7 @@ import { ListItem } from 'react-native-elements';
 import TouchableScale from 'react-native-touchable-scale';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { NavigationActions } from 'react-navigation';
-
+import AsyncStorage from "@react-native-community/async-storage";
 import CheckBox from 'react-native-check-box'
 // import School from '../School/index';
 // import Activities from '../Activities/index';
@@ -33,9 +33,19 @@ class Students extends Component {
             activity_id: '',
             statusVal: [],
             checked: false,
-
+            userRoll: ''
         };
     }
+
+    async  componentDidMount() {
+        await AsyncStorage.getItem("@userRoll").then(
+          (user) =>{
+            console.log("user roll ====>>>>",user);
+            this.setState({ userRoll: user });
+          }, (err) =>{
+            console.log("error",err)
+          });
+      }
 
 
     componentWillUnMount() {
@@ -230,6 +240,9 @@ class Students extends Component {
                                 </Text>
                             </View>
 
+                            {this.state.userRoll == 'admin'? <View style={[styleData.box, styleData.box2]}><Text style={{ textAlign: 'center', marginTop: 10 }}>{t.teacher_name}</Text></View> : null}
+
+
                             <View style={[styleData.box, styleData.box2]}>
                                 <Text style={{ textAlign: 'center', marginTop: 10 }}>{t.section}</Text>
                             </View>
@@ -293,6 +306,7 @@ class Students extends Component {
                         <View style={[styleData.box, styleData.box2]}><Text style={styleData.tableTextData}>Admission Number</Text></View>
                         <View style={[styleData.box, styleData.box2]}><Text style={styleData.tableTextData}>Student Name</Text></View>
                         <View style={[styleData.box, styleData.box2]}><Text style={styleData.tableTextData}>Class</Text></View>
+                        {this.state.userRoll == 'admin'? <View style={[styleData.box, styleData.box2]}><Text style={styleData.tableTextData}>Trainer</Text></View> : null}
                         <View style={[styleData.box, styleData.box2]}><Text style={styleData.tableTextData}>Section</Text></View>
                         <View style={[styleData.box, styleData.box2]}><Text style={styleData.tableTextData}>Attendance</Text><CheckBox style={{ flex: 1, padding: 10 }} onClick={() => { this.select_all() }} checkedCheckBoxColor="green" isChecked={this.state.checked} /></View>
                     </View>

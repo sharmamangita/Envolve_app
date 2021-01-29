@@ -73,6 +73,7 @@ class ActivitiesStatsScreen extends Component {
 
   goToClassActivities(activity_id = null,activity_name = null) {
     const {schoolName,schoolId}=this.state;
+    console.log("go to class activities ====>>>>",activity_id, ", ", activity_name, ", ", schoolName, ", ", schoolId);
     const navigateAction = NavigationActions.navigate({
       routeName: "ActivitiesClassesScreen",
      params: {
@@ -146,7 +147,7 @@ class ActivitiesStatsScreen extends Component {
     return (
       <ScrollView style={styleData.screenContainer}>
         <View style={styleData.container}>
-          <TouchableOpacity onPress={() => this.goToClassActivities("Cricket")}>
+          <TouchableOpacity onPress={() => this.goBack()}>
             <Icon
               name="chevron-left"
               onPress={() => this.goBack()}

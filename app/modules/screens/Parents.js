@@ -36,6 +36,7 @@ class Parents extends Component {
         fetch(`${API_URL}/student-activities/${mobile_number}`).then((res) => res.json()).then((response) => {
 
             if (response.length > 0) {
+                console.log("student-activities ========>>>", response)
                 this.setState({ schools: response,loading:false});
             }
         }).catch((err) =>{
@@ -70,6 +71,7 @@ class Parents extends Component {
         fetch(`${API_URL}/get-students-attendance/${studentid}/${activityid}`, {
             method: 'GET'
         }).then((res) => res.json()).then((response) => {
+            console.log("get-students-attendance =======>>", response)
             this.setState({ value1: response,loading:false })
             const navigateAction = NavigationActions.navigate({
                 routeName: 'StudentAttendance',

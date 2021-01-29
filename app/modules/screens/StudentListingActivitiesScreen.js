@@ -31,6 +31,8 @@ class StudentListingActivitiesScreen extends Component {
     const { params } = this.props.navigation.state;
     let that = this;
     if (params.activityId != undefined && params.activityName && params.activityClass) {
+      console.log("in didMount activityClass ======>>>", params.activityClass);
+      console.log("in didMount activityId ======>>>", params.activityId);
       fetch(`${API_URL}/student-attendance-by-activity/${params.activityClass}/${params.activityId}`)
         .then((res) => res.json())
         .then((responsed) => {

@@ -48,6 +48,8 @@ class ActivitiesScreen extends Component {
             method: 'GET'
         }).then((res) => res.json()).then((response) => {
             this.setState({ value1: response,loading:false });
+            console.log("get-students =========>>>>>>>>>>>",response);
+            console.log("url are ==========>>>> ", url)
             const navigateAction = NavigationActions.navigate({
                 routeName: 'Student',
                 params: {

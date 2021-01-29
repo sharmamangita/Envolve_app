@@ -40,10 +40,18 @@ class ActivitiesClassesScreen extends Component {
   componentDidMount() {
     const { params } = this.props.navigation.state;
     let that = this;
+    console.log("checking params for list-class-activities ===>>", params);
+    console.log(params.schoolId);
+    console.log(params.activity_id);
+    console.log(params.activity_name)
     if (params.activity_id != undefined && params.activity_name) {
-      fetch(`${API_URL}/list-class-activities/${params.activity_id}`)
+        console.log("activity_id in componentDidMount ===>>>", params.activity_id);
+        console.log("schoolId in componentDidMount ===>>>", params.schoolId);
+
+      fetch(`${API_URL}/list-class-activities/${params.activity_id}/${params.schoolId}`)
         .then((res) => res.json())
         .then((responsed) => {
+          console.log("list-class-activites response ==>>", responsed);
           if (responsed != undefined && responsed.length) {
             let activityName = null;
             let activityId = null;
@@ -59,6 +67,7 @@ class ActivitiesClassesScreen extends Component {
                 classNames: that.classNames,
                 loading: false,
               });
+              console.log("list-class-activites ===>>>", activityName, ", ", activityId, ", ", that.classNames)
             }
           } else {
             that.setState({
