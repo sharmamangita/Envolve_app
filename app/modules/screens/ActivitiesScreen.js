@@ -164,7 +164,8 @@ class ActivitiesScreen extends Component {
         let isCameraPermitted = await this.requestCameraPermission();
         let isStoragePermitted = await this.requestExternalWritePermission();
         let isgeoLocation = await this.requestGeoLocation();
-        if (isCameraPermitted && isStoragePermitted) {
+        console.log("==========>>>>>>>", this.state.location)
+        if (isCameraPermitted && isStoragePermitted && this.state.location != '') {
           launchCamera(options, (response) => {
             console.log('Response = ', response);
     
