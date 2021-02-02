@@ -34,6 +34,7 @@ MERGED from [:react-native-community_slider] E:\office\76East\Envolve_app\node_m
 MERGED from [:react-native-gesture-handler] E:\office\76East\Envolve_app\node_modules\react-native-gesture-handler\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-11:12
 MERGED from [:react-native-get-location] E:\office\76East\Envolve_app\node_modules\react-native-get-location\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-11:12
 MERGED from [:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-23:12
+MERGED from [:react-native-permissions] E:\office\76East\Envolve_app\node_modules\react-native-permissions\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-reanimated] E:\office\76East\Envolve_app\node_modules\react-native-reanimated\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-11:12
 MERGED from [:react-native-safe-area-context] E:\office\76East\Envolve_app\node_modules\react-native-safe-area-context\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-screens] E:\office\76East\Envolve_app\node_modules\react-native-screens\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-11:12
@@ -433,6 +434,8 @@ MERGED from [:react-native-get-location] E:\office\76East\Envolve_app\node_modul
 MERGED from [:react-native-get-location] E:\office\76East\Envolve_app\node_modules\react-native-get-location\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-permissions] E:\office\76East\Envolve_app\node_modules\react-native-permissions\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-permissions] E:\office\76East\Envolve_app\node_modules\react-native-permissions\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-reanimated] E:\office\76East\Envolve_app\node_modules\react-native-reanimated\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-reanimated] E:\office\76East\Envolve_app\node_modules\react-native-reanimated\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-safe-area-context] E:\office\76East\Envolve_app\node_modules\react-native-safe-area-context\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-7:41

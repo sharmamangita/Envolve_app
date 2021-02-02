@@ -7,6 +7,7 @@ import { NavigationActions } from 'react-navigation';
 import { API_URL } from '../constants/config';
 import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
 import GetLocation from 'react-native-get-location';
+import { openSettings } from 'react-native-permissions'
 
 import {
     launchCamera,
@@ -34,6 +35,7 @@ class ActivitiesScreen extends Component {
             loading: false,
             filePath: '',
             location: '',
+            secondtime:false,
             trainerAttendance: true
         }
         this.checkTeacherAttendance();
@@ -135,22 +137,22 @@ class ActivitiesScreen extends Component {
         } else return true;
       };
     requestGeoLocation = async () => {
-      try{
-        await GetLocation.getCurrentPosition({
-          enableHighAccuracy: true,
-          timeout: 15000,
-        })
-        .then(location => {
-          this.setState({location});
-        })
-        .catch(error => {
-          const { code, message } = error;
-          console.warn(code, message);
-        })
-      } catch(err){
-        console.warn(err);
-        alert('Write permission err', err);
-      }
+      if(Platform.OS === 'android'){
+        try {
+          const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+            {
+              title: 'Location Permission',
+              message: 'App needs access to your location',
+            },
+          );
+          return granted === PermissionsAndroid.RESULTS.GRANTED;
+        } catch (err) {
+          console.warn(err);
+          alert("Location permission err", err);
+          return false;
+        }
+      } else return true;
     };
 
     captureImage = async (type) => {
@@ -166,35 +168,43 @@ class ActivitiesScreen extends Component {
         let isCameraPermitted = await this.requestCameraPermission();
         let isStoragePermitted = await this.requestExternalWritePermission();
         let isgeoLocation = await this.requestGeoLocation();
-        console.log("==========>>>>>>>", this.state.location)
-        if (isCameraPermitted && isStoragePermitted && this.state.location != '') {
-          launchCamera(options, (response) => {
-            console.log('Response = ', response);
-    
-            if (response.didCancel) {
-              alert('User cancelled camera picker');
-              return;
-            } else if (response.errorCode == 'camera_unavailable') {
-              alert('Camera not available on device');
-              return;
-            } else if (response.errorCode == 'permission') {
-              alert('Permission not satisfied');
-              return;
-            } else if (response.errorCode == 'others') {
-              alert(response.errorMessage);
-              return;
-            }
-            // console.log('base64 -> ', response.base64);
-            // console.log('uri -> ', response.uri);
-            // console.log('width -> ', response.width);
-            // console.log('height -> ', response.height);
-            // console.log('fileSize -> ', response.fileSize);
-            // console.log('type -> ', response.type);
-            // console.log('fileName -> ', response.fileName);
-            this.setState({ filePath: response});
+        console.log("==========>>>>>>>", isgeoLocation)
+        if (isCameraPermitted && isStoragePermitted && isgeoLocation) {
+            launchCamera(options, (response) => {
+              console.log('Response = ', response);
+      
+              if (response.didCancel) {
+                alert('User cancelled camera picker');
+                return;
+              } else if (response.errorCode == 'camera_unavailable') {
+                alert('Camera not available on device');
+                return;
+              } else if (response.errorCode == 'permission') {
+                alert('Permission not satisfied');
+                return;
+              } else if (response.errorCode == 'others') {
+                alert(response.errorMessage);
+                return;
+              }
+              // console.log('base64 -> ', response.base64);
+              // console.log('uri -> ', response.uri);
+              // console.log('width -> ', response.width);
+              // console.log('height -> ', response.height);
+              // console.log('fileSize -> ', response.fileSize);
+              // console.log('type -> ', response.type);
+              // console.log('fileName -> ', response.fileName);
 
-            this.sendTrainerAttendance();
-          });
+              this.setState({ filePath: response});
+  
+              this.sendTrainerAttendance();
+            });
+        } else {
+          if(this.state.secondtime){
+            openSettings();
+          }else {
+            alert("App need to access Loacation, Camera, and External Storage Write Permission");
+          }
+          this.setState({secondtime: true});
         }
       };
 
@@ -223,6 +233,28 @@ class ActivitiesScreen extends Component {
 
       sendTrainerAttendance = async () =>{
         this.setState({ loading: true});
+        try{
+          await GetLocation.getCurrentPosition({
+            enableHighAccuracy: true,
+            timeout: 15000,
+          })
+          .then(location => {
+            this.setState({location});
+          })
+          .catch(error => {
+            const { code, message } = error;
+            console.warn(code, message);
+            alert("Alert", message);
+            this.setState({ loading: false});
+            return false;
+          })
+        } catch(err){
+          console.warn(err);
+          alert('Fetch Location err', err);
+          this.setState({ loading: false});
+          return false;
+        }
+
          await fetch(`${API_URL}/mark-trainer-attendance/`, {
 						method: "POST",
 						headers: {

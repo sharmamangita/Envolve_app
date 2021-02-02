@@ -104,8 +104,10 @@ class LoginScreen extends Component {
                         });
                         this.props.navigation.dispatch(navigateAction);
                     } else if (responsed.role == 'principal') {
+                        console.log("during login ======>>>>> ", responsed);
                         AsyncStorage.setItem('@userData', userdata.users_id);
-            AsyncStorage.setItem('@userRoll', responsed.role);
+                        AsyncStorage.setItem('@schoolId', responsed.school_id);
+                        AsyncStorage.setItem('@userRoll', responsed.role);
                        const navigateAction = NavigationActions.navigate({
                             routeName: 'ActivitiesStatsScreen',
                             params: {
@@ -118,6 +120,7 @@ class LoginScreen extends Component {
 
                     else {
                         AsyncStorage.setItem('@userData', userdata.users_id);
+                        AsyncStorage.setItem('@userDataForNotification', userdata);
                         AsyncStorage.setItem('@userRoll', responsed.role);
                         const navigateAction = NavigationActions.navigate({
                             routeName: 'Parents',

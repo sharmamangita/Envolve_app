@@ -19,6 +19,7 @@ import VideoPlayer from '../screens/VideoPlayer';
 import CarouselScreen from '../screens/CarouselScreen';
 import Header from '../shared/header';
 import TrainerAttendanceChart from '../screens/TrainerAttendanceChart';
+import SendNotification from '../screens/SendNotification';
 
 const HomeStack = createStackNavigator({
     Start: {
@@ -195,6 +196,17 @@ const HomeStack = createStackNavigator({
             }
         }
     },
+
+    SendNotification: {
+        screen: SendNotification,
+        navigationOptions: ({ navigation }) => {
+            return {
+                headerTitle: () => <Header navigation={navigation} />,
+                headerLeft: null,
+                header: null,
+            }
+        }
+    }
 
 }, { initialRouteName: "Start" });
 export default HomeStack;

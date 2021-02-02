@@ -10,6 +10,7 @@ import HomeStack from './homestack';
 import AsyncStorage from '@react-native-community/async-storage';
 import Sidemenu from './sidemenu';
 import { Icon } from 'react-native-elements';
+
 import HomeScreen from '../screens/HomeScreen';
 import SignupScreen from '../screens/SignupScreen';
 import LoginScreen from '../screens/LoginScreen';
@@ -26,6 +27,7 @@ import ActivitiesStatsScreen from '../screens/ActivitiesStatsScreen';
 import ActivitiesClassesScreen from '../screens/ActivitiesClassesScreen';
 import StudentListingActivitiesScreen from '../screens/StudentListingActivitiesScreen';
 import VideoScreen from '../screens/VideoScreen';
+import SendNotification from '../screens/SendNotification'
 import Video from 'react-native-vector-icons/FontAwesome';
 const items = [
   {
@@ -148,6 +150,26 @@ const renderMenu = (navigation) => {
 
         </View>
       </View>: null }
+
+      {user != "" && user != null && user != undefined
+      && (userrole=='principal') ? 
+      <View style={styles.menuItemsActivities}>
+        <View style={styles.menuActivities}>
+         <TouchableOpacity
+          onPress={() => navigation.navigate("SendNotification")}>
+          <>
+          <View style={styles.menuItemIcon}>
+          <Text style={{color: '#23ABE2',fontSize: 18, marginTop: 5}}>
+          {"  "}
+            Announcement
+          </Text>
+          </View>
+         </>
+        </TouchableOpacity>
+
+        </View>
+      </View>: null }
+
       <View style={styles.menuItemsActivities}>
         <View style={styles.menuActivities}>
           <View style={styles.menuItemIcon}>

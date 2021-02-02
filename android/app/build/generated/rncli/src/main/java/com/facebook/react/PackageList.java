@@ -31,6 +31,8 @@ import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.github.douglasjunior.reactNativeGetLocation.ReactNativeGetLocationPackage;
 // react-native-image-picker
 import com.imagepicker.ImagePickerPackage;
+// react-native-permissions
+import com.zoontek.rnpermissions.RNPermissionsPackage;
 // react-native-push-notification
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 // react-native-reanimated
@@ -102,6 +104,7 @@ public class PackageList {
       new RNGestureHandlerPackage(),
       new ReactNativeGetLocationPackage(),
       new ImagePickerPackage(),
+      new RNPermissionsPackage(),
       new ReactNativePushNotificationPackage(),
       new ReanimatedPackage(),
       new SafeAreaContextPackage(),

@@ -167,7 +167,7 @@ class Students extends Component {
                 }
                 else {
                     Alert.alert(
-                        "Error",
+                        "Alert",
                         "Attendance not submit",
                         [
                             {
@@ -186,7 +186,7 @@ class Students extends Component {
                 });
         } else {
             Alert.alert(
-                "Error",
+                "Alert",
                 "Please mark student attendance",
                 [
                     {
