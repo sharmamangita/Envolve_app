@@ -37,6 +37,8 @@ class LoginScreen extends Component {
                 if (user) {
                     let profile = JSON.parse(user);
                     Alert(profile);
+                  } else { 
+                      console.log("=======>>>> no user found <<<<=======")
                   }
 
             }, (err) =>{

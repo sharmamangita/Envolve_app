@@ -27,7 +27,8 @@ import ActivitiesStatsScreen from '../screens/ActivitiesStatsScreen';
 import ActivitiesClassesScreen from '../screens/ActivitiesClassesScreen';
 import StudentListingActivitiesScreen from '../screens/StudentListingActivitiesScreen';
 import VideoScreen from '../screens/VideoScreen';
-import SendNotification from '../screens/SendNotification'
+import SendNotification from '../screens/SendNotification';
+import {Icon as Icons} from 'native-base';
 import Video from 'react-native-vector-icons/FontAwesome';
 const items = [
   {
@@ -156,12 +157,13 @@ const renderMenu = (navigation) => {
       <View style={styles.menuItemsActivities}>
         <View style={styles.menuActivities}>
          <TouchableOpacity
-          onPress={() => navigation.navigate("SendNotification")}>
+          onPress={() => navigation.navigate("NotificationHistory")}>
           <>
           <View style={styles.menuItemIcon}>
           <Text style={{color: '#23ABE2',fontSize: 18, marginTop: 5}}>
+            <Icons name="paper-plane" style={{ size: 25, color:"#23ABE2"}} />
           {"  "}
-            Announcement
+            Notifications
           </Text>
           </View>
          </>

@@ -5,7 +5,7 @@ import { API_URL } from "../constants/config";
 import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
 import DropDownPicker from 'react-native-dropdown-picker';
 import { sample } from "lodash";
-import {Container, Header, Content, Textarea, Form, Input, Label, Item, Button} from 'native-base';
+import {Container, Header, Content, Textarea, Form, Input, Label, Item, Button, Icon as Icons} from 'native-base';
 import MultiSelect from 'react-native-multiple-select';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -23,6 +23,10 @@ class SendNotification extends Component {
     super(props);
 
     this.state = {
+      loading: false,
+      emptyheader: false,
+      emptymsg: false,
+      emptyusertype: false,
       headline: '',
       message: '',
       userType: [
@@ -35,8 +39,8 @@ class SendNotification extends Component {
           name: 'admin'
         },
         {
-          id: 'Parents',
-          name: 'Parents'
+          id: 'parents',
+          name: 'parents'
         }
       ],
       principal_id: '',
@@ -75,15 +79,48 @@ class SendNotification extends Component {
     this.setState({ selectedUserType });
   };
 
-  hitApi = () => {
+  checkAndSubmit = async () => {
+    if(!this.state.headline){
+      this.setState({ emptyheader: true});
+      return
+    }
+    if(!this.state.message){
+      this.setState({ emptymsg: true});
+      return
+    }
+    if(!this.state.selectedUserType.length) {
+      this.setState({ emptyusertype: true});
+      alert("Please select user type");
+      return
+    }
+      this.hitApi();
+  }
+
+   hitApi = async() => {
+      this.setState({loading: true})
     if(this.state.headline && this.state.message && this.state.selectedUserType.length){
-      console.log(this.state.headline);
-      console.log(this.state.message);
-      console.log(this.state.principal_id);
-      console.log(this.state.school_id);
-      console.log(this.state.selectedUserType);
+			var data = {
+				principal_id:this.state.principal_id,
+				title:this.state.headline,
+				message:this.state.message,
+				school_id:this.state.school_id,
+				receiver_type:this.state.selectedUserType
+			}
+			await fetch(`${API_URL}/principal-send-notifications/`, {
+						method: "POST",
+						headers: {
+            "Accept": "application/json",
+						"Content-Type": "application/json"
+          },
+           body: JSON.stringify(data)
+         })
+           .then(response => response.json())
+           .then(response => {
+             console.log('resonse=>>>>>>>>>>>>>',response);
+             this.setState({ headline: '', message: '', selectedUserType: [], loading: false});
+					 });
     } else {
-      console.log("all fields are required")
+      alert("all fields are required")
     }
   }
 
@@ -125,24 +162,26 @@ class SendNotification extends Component {
                   <Text style={styleData.announceText}>ANNOUNCE</Text>
                 </View>
                 <Form>
-                  <Item style={styleData.headline}>
+                  <Item style={styleData.headline} error={this.state.emptyheader}>
                     <Label>Heading:</Label>
                     <Input 
-                      onChangeText={ headline => this.setState({ headline })}
+                      onChangeText={ headline => this.setState({ headline, emptyheader: false })}
                       autoCorrect={false}
                       keyboardType="default"
                       autoCapitalize="sentences"
                       value={this.state.headline}
                     />
+                    {this.state.emptyheader?<Icons name='close-circle' />:null}
                   </Item>
                     <Textarea 
                       rowSpan={5} 
                       bordered 
                       placeholder="Announcement"
-                      onChangeText={ message => this.setState({message})}
+                      onChangeText={ message => this.setState({message, emptymsg:false})}
                       keyboardType="default"
                       autoCapitalize="sentences"
                       value={this.state.message}
+                      style={this.state.emptymsg?{ borderColor: "red"}:null}
                       />
                 </Form>
               {/* ======================================================================= */}
@@ -156,7 +195,6 @@ class SendNotification extends Component {
                         onSelectedItemsChange={this.onSelectedItemsChange}
                         selectedItems={this.state.selectedUserType}
                         selectText="User Role"
-                        searchInputPlaceholderText="Search Items..."
                         onChangeInput={ (text)=> console.log(text)}
                         altFontFamily="ProximaNova-Light"
                         tagRemoveIconColor="#CCC"
@@ -177,10 +215,11 @@ class SendNotification extends Component {
                 style={styleData.button}
                 full
                 onPress={()=>{
-                  this.hitApi();
+                  this.checkAndSubmit();
                 }}
               >
-                <Text style={styleData.buttonText}> Send</Text>
+                <Text style={styleData.buttonText}>Send</Text>
+                
               </Button>
 
             {/* ============================================================== */}
