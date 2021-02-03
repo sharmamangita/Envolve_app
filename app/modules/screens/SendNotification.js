@@ -8,7 +8,7 @@ import { sample } from "lodash";
 import {Container, Header, Content, Textarea, Form, Input, Label, Item, Button, Icon as Icons} from 'native-base';
 import MultiSelect from 'react-native-multiple-select';
 import AsyncStorage from '@react-native-community/async-storage';
-
+import { NavigationActions } from 'react-navigation';
 // import {  } from '';
 import { auth } from "react-native-firebase";
 
@@ -68,11 +68,10 @@ class SendNotification extends Component {
   }
 
   goBack = () => {
-    this.props.navigation.goBack(null)
-    // const navigateAction = NavigationActions.navigate({
-    //   routeName: "StudentListingActivitiesScreen",
-    // });
-    // this.props.navigation.dispatch(navigateAction);
+    const navigateAction = NavigationActions.navigate({
+      routeName: "NotificationHistory",
+    });
+    this.props.navigation.dispatch(navigateAction);
   };
 
   onSelectedItemsChange = selectedUserType => {
@@ -80,6 +79,7 @@ class SendNotification extends Component {
   };
 
   checkAndSubmit = async () => {
+
     if(!this.state.headline){
       this.setState({ emptyheader: true});
       return
@@ -116,8 +116,14 @@ class SendNotification extends Component {
          })
            .then(response => response.json())
            .then(response => {
-             console.log('resonse=>>>>>>>>>>>>>',response);
              this.setState({ headline: '', message: '', selectedUserType: [], loading: false});
+             alert("Notification Sent Successfully")
+             const navigateAction = NavigationActions.navigate({
+              routeName: "NotificationHistory",
+              params: { listupdated: true }
+            });
+            this.props.navigation.dispatch(navigateAction);
+        
 					 });
     } else {
       alert("all fields are required")
@@ -132,9 +138,12 @@ class SendNotification extends Component {
           <Icon
             name="arrow-left"
             onPress={() => this.goBack()}
-            style={{ fontSize: 18,padding:5}}
+            style={{ fontSize: 18,padding:5, color:"#1CAFF6"}}
           />
           </TouchableOpacity>
+          <TouchableOpacity style={styleData.headerView1} onPress={() =>  this.goBack()}>
+				<Text style={{fontSize: 18, fontWeight: "bold", color:"#1CAFF6"}}>Notifications</Text>
+            </TouchableOpacity>
           <View style={styleData.headerView}>
 							<TouchableOpacity>
 								<Image source={require('../assets/images/sm-logo.png')} />
@@ -154,7 +163,8 @@ class SendNotification extends Component {
             >
           <View
             style={{
-            marginTop: "10%"
+            marginTop: "10%",
+            width: "100%"
             }}
           >
             {/* ============================================================== */}
@@ -181,12 +191,12 @@ class SendNotification extends Component {
                       keyboardType="default"
                       autoCapitalize="sentences"
                       value={this.state.message}
-                      style={this.state.emptymsg?{ borderColor: "red"}:null}
+                      style={this.state.emptymsg?{ borderColor: "red", width: "95%", alignSelf: "center"}:{width: "95%", alignSelf: "center"}}
                       />
                 </Form>
               {/* ======================================================================= */}
 
-              <View style={{ flex: 1, marginTop: 20 }}>
+              <View style={{ flex: 1, marginTop: 20, width: "95%", alignSelf: "center" }}>
                       <MultiSelect
                         hideTags
                         items={this.state.userType}
@@ -298,13 +308,20 @@ const styleData = StyleSheet.create({
     flexDirection: 'row-reverse',
     marginLeft: 10
   },
+  headerView1:{
+    flex:1, 
+    // flexDirection: 'row-reverse',
+    marginLeft: 10
+  },
   headline:{
-    width: 300,
+    width: "95%",
     margin: 10
   },
   button: {
     backgroundColor: "#23ABE2",
-    marginTop: 40
+    marginTop: 40,
+    width: "95%",
+    alignSelf: "center"
   },
   buttonText: {
     color: "#fff",

@@ -157,7 +157,7 @@ const renderMenu = (navigation) => {
       <View style={styles.menuItemsActivities}>
         <View style={styles.menuActivities}>
          <TouchableOpacity
-          onPress={() => navigation.navigate("NotificationHistory")}>
+          onPress={() => navigation.navigate("NotificationHistory", { listupdated: false })}>
           <>
           <View style={styles.menuItemIcon}>
           <Text style={{color: '#23ABE2',fontSize: 18, marginTop: 5}}>
