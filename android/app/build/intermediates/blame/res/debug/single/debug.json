@@ -2944,6 +2944,10 @@
         "source": "C:\\Users\\vishu\\.gradle\\caches\\transforms-2\\files-2.1\\6232594a71a653df7d1cbb43b1fd04c1\\material-1.1.0\\res\\layout\\mtrl_picker_text_input_date_range.xml"
     },
     {
+        "merged": "E:\\office\\76East\\Envolve_app\\android\\app\\build\\intermediates\\res\\merged\\debug\\raw_node_modules_nativebase_dist_src_basic_icon_selection.json.flat",
+        "source": "E:\\office\\76East\\Envolve_app\\android\\app\\src\\main\\res\\raw\\node_modules_nativebase_dist_src_basic_icon_selection.json"
+    },
+    {
         "merged": "E:\\office\\76East\\Envolve_app\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_list_pressed_holo_dark.9.png.flat",
         "source": "C:\\Users\\vishu\\.gradle\\caches\\transforms-2\\files-2.1\\158a52e635dba5286f861fa1bdd245ee\\appcompat-1.1.0\\res\\drawable-xhdpi-v4\\abc_list_pressed_holo_dark.9.png"
     },
