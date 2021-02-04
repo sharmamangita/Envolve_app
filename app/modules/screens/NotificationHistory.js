@@ -78,12 +78,7 @@ class NotificationHistory extends Component {
 
     if(this.props.navigation.state.params.listupdated){
       this.props.navigation.state.params.listupdated = false;
-        fetch(`${API_URL}/get-all-notifications/${this.state.principal_id}`, {
-          method: 'GET'
-      }).then((res) => res.json()).then((response) => {
-          this.setState({notificationData: response.reverse(), listChange: false});
-
-      }).catch((err) => alert(err))
+        this.setState({notificationData: this.props.navigation.state.params.notificationData, listChange: false});
     }
   }
 
@@ -122,24 +117,19 @@ class NotificationHistory extends Component {
     )
   }
 
-  deleteOldNotification = (value) => {
-    let n = []
+  deleteOldNotification = async(value) => {
+    /*let n = []
     
     n.push(value.id);
-    let data = { "ids": n}
-    console.log("deleting array list hare",data)
+    let data = { "ids": n}*/
+    console.log("deleting array list here",value.id)
     let filteredData = this.state.notificationData.filter(item => item.id !== value.id);
-    fetch(`${API_URL}/delete-notifications`, {
-      method: "POST",
-      headers: {
-      "Accept": "application/json",
-      "Content-Type": "application/json"
-    },
-     body: JSON.stringify(data)
-   }).then(response => response.json())
+    await fetch(`${API_URL}/remove-messages/${value.id}`, {
+      method: 'GET',
+     }).then(response => response.json())
    .then(response => {
      console.log("deleted response is here ====>>>", response);
-     if(response){
+     if(response.status == "success"){
       this.setState({ notificationData: filteredData });
       alert(`"${value.title}" notification has been deleted`);
      } else {
@@ -195,7 +185,6 @@ class NotificationHistory extends Component {
                     <Button success onPress={() => this.props.navigation.navigate("SendNotification")}>
                         <Icons active name="paper-plane" />
                     </Button>
-                    
                     }
                 />
               <FlatList

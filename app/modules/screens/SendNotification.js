@@ -116,18 +116,28 @@ class SendNotification extends Component {
          })
            .then(response => response.json())
            .then(response => {
-             this.setState({ headline: '', message: '', selectedUserType: [], loading: false});
-             alert("Notification Sent Successfully")
-             const navigateAction = NavigationActions.navigate({
-              routeName: "NotificationHistory",
-              params: { listupdated: true }
-            });
-            this.props.navigation.dispatch(navigateAction);
-        
+             this.setState({ headline: '', message: '', selectedUserType: []});
+             alert("Notification Sent Successfully");
+             this.getlistpriviuspage();        
 					 });
     } else {
       alert("all fields are required")
     }
+  }
+
+  getlistpriviuspage = () => {
+
+    fetch(`${API_URL}/get-all-notifications/${this.state.principal_id}`, {
+      method: 'GET'
+  }).then((res) => res.json()).then((response) => {
+      this.setState({loading: false});
+      const navigateAction = NavigationActions.navigate({
+        routeName: "NotificationHistory",
+        params: { listupdated: true, notificationData: response.reverse() }
+      });
+      this.props.navigation.dispatch(navigateAction);
+
+  }).catch((err) => alert(err))
   }
 
   render() {
