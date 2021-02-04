@@ -124,13 +124,14 @@ class NotificationHistory extends Component {
     let data = { "ids": n}*/
     console.log("deleting array list here",value.id)
     let filteredData = this.state.notificationData.filter(item => item.id !== value.id);
+    this.setState({ notificationData: filteredData });
     await fetch(`${API_URL}/remove-messages/${value.id}`, {
       method: 'GET',
      }).then(response => response.json())
    .then(response => {
      console.log("deleted response is here ====>>>", response);
      if(response.status == "success"){
-      this.setState({ notificationData: filteredData });
+      
       alert(`"${value.title}" notification has been deleted`);
      } else {
       alert(`"${value.title}" deletion error`);
