@@ -232,30 +232,26 @@ class ActivitiesScreen extends Component {
       };
 
       sendTrainerAttendance = async () =>{
+        let gotlocation = false;
         this.setState({ loading: true});
-        try{
-          await GetLocation.getCurrentPosition({
-            enableHighAccuracy: true,
-            timeout: 15000,
-          })
-          .then(location => {
-            this.setState({location});
-          })
-          .catch(error => {
-            const { code, message } = error;
-            console.warn(code, message);
-            alert("Alert", message);
-            this.setState({ loading: false});
-            return false;
-          })
-        } catch(err){
-          console.warn(err);
-          alert('Fetch Location err', err);
+        await GetLocation.getCurrentPosition({
+          enableHighAccuracy: true,
+          timeout: 15000,
+        })
+        .then(location => {
+          this.setState({location});
+          gotlocation = true;
+        })
+        .catch(error => {
+          const { code, message } = error;
+          console.warn(code, message);
+          alert("Not able to fetch device loacation make sure GPS is ON");
           this.setState({ loading: false});
-          return false;
-        }
+          gotlocation = false;
+        })
 
-         await fetch(`${API_URL}/mark-trainer-attendance/`, {
+        if(gotlocation){
+          await fetch(`${API_URL}/mark-trainer-attendance/`, {
 						method: "POST",
 						headers: {
             'Content-Type': 'multipart/form-data',
@@ -274,6 +270,8 @@ class ActivitiesScreen extends Component {
              this.setState({ loading: false, trainerAttendance: false});
              alert("Attendance submission error!");
            });
+        }
+        return null;
       }
 
 

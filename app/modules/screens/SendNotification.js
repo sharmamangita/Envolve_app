@@ -214,7 +214,7 @@ class SendNotification extends Component {
                         ref={(component) => { this.multiSelect = component }}
                         onSelectedItemsChange={this.onSelectedItemsChange}
                         selectedItems={this.state.selectedUserType}
-                        selectText="User Role"
+                        selectText="Send to: "
                         onChangeInput={ (text)=> console.log(text)}
                         altFontFamily="ProximaNova-Light"
                         tagRemoveIconColor="#CCC"

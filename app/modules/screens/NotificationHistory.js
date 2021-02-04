@@ -91,6 +91,7 @@ class NotificationHistory extends Component {
   };
 
   showlist = (value) => {
+    console.log(value.receiver_role)
     return(
         <Card style={{flex: 0, width: "95%", alignSelf:"center"}}>
           <CardItem>
@@ -108,10 +109,17 @@ class NotificationHistory extends Component {
           </CardItem>
           <CardItem>
             <Body>
-              <Text>
+              <Text style={{ paddingStart: 10}}>
                 {value.message}
               </Text>
             </Body>
+          </CardItem>
+          <CardItem>
+            <Left>
+              <Body>
+                <Text style={ styleData.infoDate1} note>Sent to: {JSON.parse(value.receiver_role).toString().replace(/,/gi, ', ')}</Text>
+              </Body>
+            </Left>
           </CardItem>
         </Card>
     )
@@ -251,6 +259,9 @@ const styleData = StyleSheet.create({
   },
   infoDate: {
     color: "gray",
+  },
+  infoDate1: {
+    color: '#87838B'
   }
 });
 

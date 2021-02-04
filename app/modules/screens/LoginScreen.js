@@ -10,7 +10,7 @@ import {
     Alert,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import { NavigationActions } from 'react-navigation';
+import { NavigationActions, withNavigationFocus } from 'react-navigation';
 import t from 'tcomb-form-native';
 import { API_URL } from '../constants/config';
 import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
@@ -29,21 +29,11 @@ class LoginScreen extends Component {
         this.getfireToken()
     }
 
-    async componentDidUpdate() {
+    componentDidUpdate(prevProps) {
         console.log("=========================== check login data ===========================")
-        await AsyncStorage.getItem("@userData").then(
-            (user) =>{
-
-                if (user) {
-                    let profile = JSON.parse(user);
-                    Alert(profile);
-                  } else { 
-                      console.log("=======>>>> no user found <<<<=======")
-                  }
-
-            }, (err) =>{
-              console.log("error",err)
-            })
+        if(prevProps.isFocused !== this.props.isFocused){
+            console.log("checking is focuse screen working or not ===>>")
+        }
     }
 
     getfireToken = async() => {
