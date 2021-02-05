@@ -3,7 +3,7 @@ import { createAppContainer } from 'react-navigation';
 
 import React, { useEffect, useState } from 'react';
 //import {createStackNavigator,createDrawerNavigator, createMaterialTopTabNavigator, createAppContainer} from 'react-navigation';
-import { View, StyleSheet, Image, Text, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Image, Text, TouchableOpacity, Alert } from 'react-native';
 
 import { TouchableItem } from 'react-native-tab-view';
 import HomeStack from './homestack';
@@ -30,6 +30,7 @@ import VideoScreen from '../screens/VideoScreen';
 import SendNotification from '../screens/SendNotification';
 import {Icon as Icons} from 'native-base';
 import Video from 'react-native-vector-icons/FontAwesome';
+import { check } from 'react-native-permissions';
 const items = [
   {
     navOptionThumb: 'circle',
@@ -96,6 +97,23 @@ const renderMenu = (navigation) => {
 
 
   console.log("rendering the menu");
+  if(navigation.state.routes[0].routes.length <= 3){
+    AsyncStorage.getItem("@userRoll").then(
+      (user) =>{
+        if(user){
+          AsyncStorage.removeItem('@userData');
+          AsyncStorage.removeItem('@userRoll');
+          AsyncStorage.removeItem('@teacher_id');
+          AsyncStorage.removeItem('@schoolId');
+          navigation.closeDrawer();
+          navigation.navigate("SignupScreen");
+          setUser();
+        }
+      }, (err) =>{
+        console.log("error",err)
+      })
+  }
+  
   const toggleClose = () => {
     navigation.closeDrawer();
   }
@@ -103,6 +121,8 @@ const renderMenu = (navigation) => {
   const LogOut = () => {
     AsyncStorage.removeItem('@userData');
 		AsyncStorage.removeItem('@userRoll');
+		AsyncStorage.removeItem('@teacher_id');
+    AsyncStorage.removeItem('@schoolId');
     navigation.closeDrawer();
     navigation.navigate("SignupScreen");
     setUser();

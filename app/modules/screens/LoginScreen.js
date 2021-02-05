@@ -10,7 +10,7 @@ import {
     Alert,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import { NavigationActions, withNavigationFocus } from 'react-navigation';
+import { NavigationActions } from 'react-navigation';
 import t from 'tcomb-form-native';
 import { API_URL } from '../constants/config';
 import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
@@ -27,13 +27,6 @@ class LoginScreen extends Component {
             firebaseToken: ''
         }
         this.getfireToken()
-    }
-
-    componentDidUpdate(prevProps) {
-        console.log("=========================== check login data ===========================")
-        if(prevProps.isFocused !== this.props.isFocused){
-            console.log("checking is focuse screen working or not ===>>")
-        }
     }
 
     getfireToken = async() => {
@@ -87,7 +80,8 @@ class LoginScreen extends Component {
                         this.props.navigation.dispatch(navigateAction);
                     } else if (responsed.role == 'admin') {
                         AsyncStorage.setItem('@userData', userdata.users_id);
-						AsyncStorage.setItem('@userRoll', responsed.role);
+                        AsyncStorage.setItem('@userRoll', responsed.role);
+                        AsyncStorage.setItem('@teacher_id', 0);
                         const navigateAction = NavigationActions.navigate({
                             routeName: 'SchoolScreen',
                             params: {

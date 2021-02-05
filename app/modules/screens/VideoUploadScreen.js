@@ -52,6 +52,7 @@ class VideoUploadScreen extends Component {
       showAlert: false,
       alertMsg:'',
       alertTitle:'',
+      userRoll: ''
     };
   }
 
@@ -77,10 +78,19 @@ class VideoUploadScreen extends Component {
         console.log("error",err)
       })
 
+    await AsyncStorage.getItem("@userRoll").then(
+      (roll) =>{
+        console.log(roll);
+        this.setState({ userRoll: roll });
+      }, (err) =>{
+        console.log("error",err)
+      });
+
+
     let that = this;
     console.log("================================ teacher id ==========================");
     console.log("teacher =====>>>",this.state.teacherId);
-    await fetch(`${API_URL}/get-new-activites-types/${this.state.teacherId}`)
+    await fetch(`${API_URL}/get-new-activites-types/${this.state.teacherId}/${this.state.userRoll}`)
       .then((res) => res.json())
       .then((responsed) => {
         // alert(JSON.stringify(responsed))
@@ -104,7 +114,7 @@ class VideoUploadScreen extends Component {
         }
       });
 
-    await fetch(`${API_URL}/get-trainer-schools/${this.state.teacherId}`)
+    await fetch(`${API_URL}/get-trainer-schools/${this.state.teacherId}/${this.state.userRoll}`)
           .then((res)=>res.json())
           .then((responsed) => {
             if(responsed != undefined && responsed.length){
@@ -210,7 +220,7 @@ class VideoUploadScreen extends Component {
   getActivites(activity_type = null) {
     let that = this;
     if (activity_type != null) {
-      fetch(`${API_URL}/get-new-activites/${activity_type}/${this.state.teacherId}`)
+      fetch(`${API_URL}/get-new-activites/${activity_type}/${this.state.teacherId}/${this.state.userRoll}`)
         .then((res) => res.json())
         .then((responsed) => {
           // this.setState({activities: emptyarray})

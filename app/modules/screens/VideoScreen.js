@@ -35,7 +35,8 @@ class VideoScreen extends Component {
       loading: false,
       showAlert: false,
       video_id: 0,
-      teacherId: ''
+      teacherId: '',
+      userRoll: ''
     };
   }
 
@@ -47,6 +48,15 @@ async  componentDidMount() {
       }, (err) =>{
         console.log("error",err)
       })
+
+    await AsyncStorage.getItem("@userRoll").then(
+      (roll) =>{
+        console.log(roll);
+        this.setState({ userRoll: roll });
+      }, (err) =>{
+        console.log("error",err)
+      });
+
     this.getActivitesVideos();
   }
 
@@ -64,7 +74,7 @@ async  componentDidMount() {
       videos: that.videos,
       loading: true,
     });
-    fetch(`${API_URL}/get-activites-videos/${this.state.teacherId}`)
+    fetch(`${API_URL}/get-activites-videos/${this.state.teacherId}/${this.state.userRoll}`)
       .then((res) => res.json())
       .then((responsed) => {
         if (responsed != undefined && responsed.length) {
