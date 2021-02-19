@@ -23,6 +23,8 @@ import com.reactnativecommunity.slider.ReactSliderPackage;
 import io.invertase.firebase.app.ReactNativeFirebaseAppPackage;
 // @react-native-firebase/messaging
 import io.invertase.firebase.messaging.ReactNativeFirebaseMessagingPackage;
+// react-native-device-info
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
 // react-native-firebase
 import io.invertase.firebase.RNFirebasePackage;
 // react-native-gesture-handler
@@ -47,6 +49,8 @@ import com.horcrux.svg.SvgPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 // react-native-video
 import com.brentvatne.react.ReactVideoPackage;
+// react-native-video-processing
+import com.shahenlibrary.RNVideoProcessingPackage;
 // rn-fetch-blob
 import com.RNFetchBlob.RNFetchBlobPackage;
 
@@ -100,6 +104,7 @@ public class PackageList {
       new ReactSliderPackage(),
       new ReactNativeFirebaseAppPackage(),
       new ReactNativeFirebaseMessagingPackage(),
+      new RNDeviceInfo(),
       new RNFirebasePackage(),
       new RNGestureHandlerPackage(),
       new ReactNativeGetLocationPackage(),
@@ -112,6 +117,7 @@ public class PackageList {
       new SvgPackage(),
       new VectorIconsPackage(),
       new ReactVideoPackage(),
+      new RNVideoProcessingPackage(),
       new RNFetchBlobPackage()
     ));
   }

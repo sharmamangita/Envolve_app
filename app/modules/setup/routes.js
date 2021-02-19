@@ -106,7 +106,6 @@ const renderMenu = (navigation) => {
           AsyncStorage.removeItem('@teacher_id');
           AsyncStorage.removeItem('@schoolId');
           navigation.closeDrawer();
-          navigation.navigate("SignupScreen");
           setUser();
         }
       }, (err) =>{

@@ -15,6 +15,7 @@ import t from 'tcomb-form-native';
 import { API_URL } from '../constants/config';
 import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
 import firebase from 'react-native-firebase';
+import { getUniqueId, getManufacturer } from 'react-native-device-info'
 const GenerateForm = t.form.Form;
 
 class LoginScreen extends Component {
@@ -24,7 +25,8 @@ class LoginScreen extends Component {
         this.state={
             loading:false,
             isButtonDisable:false,
-            firebaseToken: ''
+            firebaseToken: '',
+            deviceId: ''
         }
         this.getfireToken()
     }
@@ -32,13 +34,16 @@ class LoginScreen extends Component {
     getfireToken = async() => {
         console.log("============================fire===================================")
         const firebaseToken = await firebase.messaging().getToken();
-        this.setState({firebaseToken})
+        const deviceId = getUniqueId();
+        this.setState({firebaseToken, deviceId})
         console.log(firebaseToken)
+        console.log("device token ===>>",getUniqueId())
         console.log("============================fire===================================")
         return firebaseToken;
     }
 
     login(device_id, token) {
+        console.log("==========>>>>>>>>>>>>>>>>>>>===========>>>>>>>>>>",device_id)
         const formValues = this._form.getValue();
         this.setState({
             loading:true,
@@ -175,7 +180,7 @@ class LoginScreen extends Component {
                         />
                     </View> 
                     <View style={styles.box1}>
-                        <TouchableOpacity disabled={this.state.isButtonDisable} style={styles.loginButton} onPress={() => this.login('fsdfjsbdfjsbfjk', this.state.firebaseToken)} >
+                        <TouchableOpacity disabled={this.state.isButtonDisable} style={styles.loginButton} onPress={() => this.login(this.state.deviceId, this.state.firebaseToken)} >
                             <Text style={styles.loginText} > Login </Text>
                         </TouchableOpacity>
                     </View>

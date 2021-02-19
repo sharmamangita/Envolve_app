@@ -137,6 +137,9 @@ class Students extends Component {
     }
 
     send_attendance = async () => {
+        let d = new Date()
+        let date = `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
+
         if (this.state.check_arr.length > 0) {
             await fetch(`${API_URL}/send-attendance/`, {
                 method: 'POST',
@@ -147,6 +150,7 @@ class Students extends Component {
                 body: JSON.stringify({
                     student_id_arr: this.state.check_arr,
                     activity_id: this.state.activity_id,
+                    date: date
                 }),
             }).then(res => {
                 if (res.status == '200') {
