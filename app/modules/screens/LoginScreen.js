@@ -68,14 +68,14 @@ class LoginScreen extends Component {
 	                    'Content-Type': 'application/json',
 	                }
 	            }).then((res) => res.json()).then((responsed) => {
+                    console.log("===========================login response==============================");
+                    console.log("login - response =>",responsed);
+                    console.log("===========================login response==============================");
                     this.setState({loading:false,isButtonDisable:false});
                     if (responsed.role == 'trainer') {
                        AsyncStorage.setItem('@userData', userdata.users_id);
                         AsyncStorage.setItem('@userRoll', userdata.role);
                         AsyncStorage.setItem('@teacher_id', userdata.teacher_id);
-                        console.log("===========================login response==============================");
-                        console.log("login - response =>",responsed);
-                        console.log("===========================login response==============================");
                         const navigateAction = NavigationActions.navigate({
                             routeName: 'SchoolScreen',
                             params: {
@@ -109,7 +109,7 @@ class LoginScreen extends Component {
                         this.props.navigation.dispatch(navigateAction);
                     } 
 
-                    else {
+                    else if(responsed.role == "parent"){
                         AsyncStorage.setItem('@userData', userdata.users_id);
                         AsyncStorage.setItem('@userDataForNotification', userdata);
                         AsyncStorage.setItem('@userRoll', responsed.role);
@@ -120,9 +120,11 @@ class LoginScreen extends Component {
                             }
                         });
                         this.props.navigation.dispatch(navigateAction);
+                    } else{
+                        alert(responsed.messsage)
                     }
-	                if (response.status == 404) {
-
+	                if (responsed.status == 404) {
+                        alert(responsed.messsage)
 	                }
 	            }).catch((err) => alert(err))
 	        } else {

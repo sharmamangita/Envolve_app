@@ -29,7 +29,7 @@ class VideoPlayer extends Component {
 
   onSeek = (seek) => {
     //Handler for change in seekbar video
-    this.VideoPlayer.seek(seek);
+    this.videoPlayer.seek(seek);
     console.log(seek);
   };
 
@@ -62,8 +62,7 @@ class VideoPlayer extends Component {
     }
   };
 
-  onLoad = (data) =>
-    this.setState({ duration: data.duration, isLoading: false });
+  onLoad = (data) => this.setState({ duration: data.duration, isLoading: false });
 
   onLoadStart = (data) => this.setState({ isLoading: true });
 
@@ -96,6 +95,7 @@ class VideoPlayer extends Component {
     </View>
   );
   onSeeking = (currentTime) => this.setState({ currentTime });
+  onBuffer = () => this.setState({ isLoading: true })
   render() {
     let playVideoUrl = "";
     const { params } = this.props.navigation.state;
@@ -109,12 +109,19 @@ class VideoPlayer extends Component {
           onLoad={this.onLoad}
           onLoadStart={this.onLoadStart}
           onProgress={this.onProgress}
+          bufferConfig={{
+            minBufferMs: 15000,
+            maxBufferMs: 50000,
+            bufferForPlaybackMs: 2500,
+            bufferForPlaybackAfterRebufferMs: 5000
+          }}
+          onBuffer={this.onBuffer}
           paused={this.state.paused}
           ref={(videoPlayer) => (this.videoPlayer = videoPlayer)}
           resizeMode={this.state.screenType}
           onFullScreen={this.state.isFullScreen}
           source={{ uri: playVideoUrl }}
-          volume={10}
+          volume={50}
           style={styles.backgroundVideo}
         />
         <MediaControls

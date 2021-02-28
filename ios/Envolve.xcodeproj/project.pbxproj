@@ -39,6 +39,7 @@
 		489311F1B0444417BE38CD87 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 752D7854E9A84DA89946A99C /* libRNVectorIcons.a */; };
 		3659F1EE6C9D48D7A047A01A /* libRNVectorIcons-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7374D1439CE4B1F85F774A4 /* libRNVectorIcons-tvOS.a */; };
 		D401A1E333364799968B7026 /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD7367B139C24F35AE2540C4 /* libRNFirebase.a */; };
+		583E189EE1BC4ABCA474F4DA /* libReactNativeFFmpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EFDAF4365A254DFD94675F41 /* libReactNativeFFmpeg.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,6 +108,8 @@
 		B7374D1439CE4B1F85F774A4 /* libRNVectorIcons-tvOS.a */ = {isa = PBXFileReference; name = "libRNVectorIcons-tvOS.a"; path = "libRNVectorIcons-tvOS.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		793345A6B38144808BA11AC5 /* RNFirebase.xcodeproj */ = {isa = PBXFileReference; name = "RNFirebase.xcodeproj"; path = "../node_modules/react-native-firebase/ios/RNFirebase.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		AD7367B139C24F35AE2540C4 /* libRNFirebase.a */ = {isa = PBXFileReference; name = "libRNFirebase.a"; path = "libRNFirebase.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		BB5FE5F7EBBA4C60A1A88C9B /* ReactNativeFFmpeg.xcodeproj */ = {isa = PBXFileReference; name = "ReactNativeFFmpeg.xcodeproj"; path = "../node_modules/react-native-ffmpeg/ios/ReactNativeFFmpeg.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		EFDAF4365A254DFD94675F41 /* libReactNativeFFmpeg.a */ = {isa = PBXFileReference; name = "libReactNativeFFmpeg.a"; path = "libReactNativeFFmpeg.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +128,7 @@
 				4E1FC7329DA7C22A20E96154 /* libPods-Envolve.a in Frameworks */,
 				489311F1B0444417BE38CD87 /* libRNVectorIcons.a in Frameworks */,
 				D401A1E333364799968B7026 /* libRNFirebase.a in Frameworks */,
+				583E189EE1BC4ABCA474F4DA /* libReactNativeFFmpeg.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -213,6 +217,7 @@
 			children = (
 				FD213B71934F4656827A7FAD /* RNVectorIcons.xcodeproj */,
 				793345A6B38144808BA11AC5 /* RNFirebase.xcodeproj */,
+				BB5FE5F7EBBA4C60A1A88C9B /* ReactNativeFFmpeg.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -717,9 +722,11 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
+					"$(SRCROOT)/..",
 					"$(SRCROOT)/..",
 					"$(SRCROOT)/..",
 				);
@@ -748,9 +755,11 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
+					"$(SRCROOT)/..",
 					"$(SRCROOT)/..",
 					"$(SRCROOT)/..",
 				);
@@ -781,6 +790,7 @@
 					"$(inherited)",
 					"$(SRCROOT)/..",
 					"$(SRCROOT)/..",
+					"$(SRCROOT)/..",
 				);
 			};
 			name = Debug;
@@ -805,6 +815,7 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
+					"$(SRCROOT)/..",
 					"$(SRCROOT)/..",
 					"$(SRCROOT)/..",
 				);
@@ -841,9 +852,11 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
+					"$(SRCROOT)/..",
 					"$(SRCROOT)/..",
 					"$(SRCROOT)/..",
 				);
@@ -880,9 +893,11 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
+					"$(SRCROOT)/..",
 					"$(SRCROOT)/..",
 					"$(SRCROOT)/..",
 				);
@@ -918,9 +933,11 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
+					"$(SRCROOT)/..",
 					"$(SRCROOT)/..",
 					"$(SRCROOT)/..",
 				);
@@ -956,9 +973,11 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
+					"$(SRCROOT)/..",
 					"$(SRCROOT)/..",
 					"$(SRCROOT)/..",
 				);
