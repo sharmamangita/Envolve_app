@@ -114,27 +114,27 @@ class VideoUploadScreen extends Component {
         }
       });
 
-    await fetch(`${API_URL}/get-trainer-schools/${this.state.teacherId}/${this.state.userRoll}`)
-          .then((res)=>res.json())
-          .then((responsed) => {
-            if(responsed != undefined && responsed.length){
-              let schoolData = []
-              responsed.forEach(function(item, index){
-                let dropDownObj = {};
-                dropDownObj.label = item.school_name;
-                dropDownObj.value = item.school_id;
-                schoolData.push(dropDownObj);
-              });
-              this.setState({ school: schoolData})
-            } else {
-              alert("No School found");
-              const navigateAction = NavigationActions.navigate({
-                routeName: "VideoScreen",
-              });
-              this.props.navigation.dispatch(navigateAction);
-            }
-          });
-          console.log(" ======>>>",this.state.school)
+    // await fetch(`${API_URL}/get-trainer-schools/${this.state.teacherId}/${this.state.userRoll}`)
+    //       .then((res)=>res.json())
+    //       .then((responsed) => {
+    //         if(responsed != undefined && responsed.length){
+    //           let schoolData = []
+    //           responsed.forEach(function(item, index){
+    //             let dropDownObj = {};
+    //             dropDownObj.label = item.school_name;
+    //             dropDownObj.value = item.school_id;
+    //             schoolData.push(dropDownObj);
+    //           });
+    //           this.setState({ school: schoolData})
+    //         } else {
+    //           alert("No School found");
+    //           const navigateAction = NavigationActions.navigate({
+    //             routeName: "VideoScreen",
+    //           });
+    //           this.props.navigation.dispatch(navigateAction);
+    //         }
+    //       });
+          // console.log(" ======>>>",this.state.school)
 
   }
 
@@ -153,8 +153,8 @@ class VideoUploadScreen extends Component {
   };
 
   selectVideoSubmit = () => {
-    const { videoFileName, videoUri, activity_id, teacher_id, school_id } = this.state;
-    if (teacher_id && activity_id && school_id) {
+    const { videoFileName, videoUri, activity_id, teacher_id} = this.state;
+    if (teacher_id && activity_id) {
       RNFetchBlob.fetch(
         "POST",
         `${API_URL}/upload-video/`,
@@ -163,7 +163,7 @@ class VideoUploadScreen extends Component {
           Accept: "multipart/form-data",
           activity_id: activity_id,
           teacher_id: teacher_id,
-          school_id: school_id
+          school_id: 0
         },
         [
           //the value of name depends on the key from server
@@ -184,10 +184,11 @@ class VideoUploadScreen extends Component {
         })
       .then((res) => res.json())
        .then((responsed) => {
+				 console.log('response up video>>>>>>',responsed);
           if(responsed.status=='existed'){
             this.setState({
-              alertTitle:'Sorry',
-              alertMsg:'This video already exits for this Activity.',
+              alertTitle:'Thank You',
+              alertMsg:'Your video updated successfully',
               isProgressBar: false,
               progressRuning: 0, 
               showAlert:true
@@ -227,6 +228,7 @@ class VideoUploadScreen extends Component {
           that.activities = [];
           // alert(JSON.stringify(responsed));
           if (responsed != undefined && responsed.length) {
+            console.log("respons ==========>>>>>>>>>", responsed)
             responsed.forEach(function (item, index) {
               let dropDownObj = {};
               dropDownObj.label = item.activity_name;
@@ -338,7 +340,7 @@ class VideoUploadScreen extends Component {
                 />
               </View>
 
-              <View style={{ marginBottom: 30 }}>
+              {/* <View style={{ marginBottom: 30 }}>
                 <DropDownPicker
                   items={this.state.school}
                   defaultValue=""
@@ -355,7 +357,7 @@ class VideoUploadScreen extends Component {
                   }
                   placeholder="Select School"
                 />
-              </View>
+              </View> */}
 
               <View
                 style={{

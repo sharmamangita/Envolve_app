@@ -18,6 +18,7 @@ class Parents extends Component {
             Api_url: '',
             roleval: Object.assign({}, this.props.navigation.state.params),
             navparams: '',
+            noData: '',
             expanded: false,
             loading: false,
         }
@@ -38,6 +39,8 @@ class Parents extends Component {
             if (response.length > 0) {
                 console.log("student-activities ========>>>", response)
                 this.setState({ schools: response,loading:false});
+            } else {
+                this.setState({noData: "Data not found", loading: false});
             }
         }).catch((err) =>{
             this.setState({loading:false });
@@ -148,7 +151,7 @@ class Parents extends Component {
                     <View style={{ marginBottom: 25 }}>
                         {/* {arr} */}
 
-                        { this.listbody() }
+                        { this.state.noData.length? <Text style={{ alignSelf: 'center', marginTop: "50%"}}>{this.state.noData}</Text>: this.listbody() }
 
                     </View>
                 </ScrollView>
