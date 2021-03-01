@@ -36,6 +36,11 @@ class SchoolScreen extends Component {
         fetch(`${API_URL}/list-schools/${teacher}/${users}`).then((res) => res.json()).then((response) => {
             if (response.length > 0) {
                 this.setState({ schools: response,loading:false });
+            } else {
+                console.log('hello')
+                this.setState({
+                    loading: false
+                });
             }
         }).catch((err) => {
             this.setState({

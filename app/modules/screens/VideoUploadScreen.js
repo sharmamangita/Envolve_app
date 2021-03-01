@@ -13,6 +13,9 @@ import {
   TouchableHighlight,
   TextInput,
   Dimensions,
+  PermissionsAndroid,
+  NativeEventEmitter,
+  NativeModules
 } from "react-native";
 import AsyncStorage from "@react-native-community/async-storage";
 import DropDownPicker from "react-native-dropdown-picker";
@@ -25,6 +28,10 @@ import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 import RNFetchBlob from "rn-fetch-blob";
 import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
 import AwesomeAlert from "react-native-awesome-alerts";
+import CompressModule from 'react-native-sili-video-compression';
+import { size } from "lodash";
+// import VideoCompress from 'react-native-video-compressor'
+
 class VideoUploadScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -52,7 +59,8 @@ class VideoUploadScreen extends Component {
       showAlert: false,
       alertMsg:'',
       alertTitle:'',
-      userRoll: ''
+      userRoll: '',
+      videoC: ''
     };
   }
 
@@ -145,6 +153,61 @@ class VideoUploadScreen extends Component {
     this.props.navigation.dispatch(navigateAction);
   };
 
+  // ================================== video compresser =============================
+  requestExternalWritePermission = async () => {
+    if (Platform.OS === 'android') {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+          {
+            title: 'External Storage Write Permission',
+            message: 'App needs write permission',
+          },
+        );
+        // If WRITE_EXTERNAL_STORAGE Permission is granted
+        return granted === PermissionsAndroid.RESULTS.GRANTED;
+      } catch (err) {
+        console.warn(err);
+        alert('Write permission err', err);
+      }
+      return false;
+    } else return true;
+  };
+  
+  successCall = (fileName, size, path, message) => {
+    console.log("is working ===========>>>>>>",message);
+  }
+
+  errorCall = (errorMessage) => { 
+    // Do your work
+    console.log("is not working ===========>>>>>>", errorMessage);
+  };
+
+  videoCompress = async () => {
+    console.log("---------------++++++++++++++++++++++--------------++++++++++++++-----------");
+    console.log(this.state.videoUri);
+    let isStoragePermitted = await this.requestExternalWritePermission();
+    let v = '/storage/emulated/0/Screenshot/0A.mp4';
+    // let v = this.state.videoUri;
+    console.log("=========--------========", v);
+    if(isStoragePermitted){
+      console.log("---------------++++++++++++++++++++++22--------------++++++++++++++-----------");
+      
+      // const EVENT_NAME = new NativeEventEmitter(NativeModules.CompressModule);
+      // this.subscription = EVENT_NAME.addListener(
+      //   CompressModule.VIDEO_COMPRESS_PROGRESS_EMITTER,
+      //   (value)=> console.log(value));
+      CompressModule.compressVideoWithQuality(v, 0.5, 0.5, this.errorCall, this.successCall);
+      // CompressModule.compressVideo(v,CompressModule.LOW, this.errorCall, this.successCall);
+      // this.subscription.remove();
+    } else {
+      console.log("hahhahhahhaahahhahahahahahahahhaha")
+    }
+
+  }
+  
+  // ================================= /video compresser/ ============================
+
   uploadvideo = () => {
     const navigateAction = NavigationActions.navigate({
       routeName: "VideoUploadScreen",
@@ -152,6 +215,7 @@ class VideoUploadScreen extends Component {
     this.props.navigation.dispatch(navigateAction);
   };
 
+<<<<<<< HEAD
   selectVideoSubmit = () => {
     const { videoFileName, videoUri, activity_id, teacher_id} = this.state;
     if (teacher_id && activity_id) {
@@ -207,6 +271,64 @@ class VideoUploadScreen extends Component {
           Alert.alert("Error", JSON.stringify(err));
         });
     }
+=======
+  selectVideoSubmit = async () => {
+    const { videoFileName, videoUri, activity_id, teacher_id} = this.state;
+    let call = await this.videoCompress();
+    // if (teacher_id && activity_id) {
+    //   RNFetchBlob.fetch(
+    //     "POST",
+    //     `${API_URL}/upload-video/`,
+    //     {
+    //       "content-type": "multipart/form-data",
+    //       Accept: "multipart/form-data",
+    //       activity_id: activity_id,
+    //       teacher_id: teacher_id,
+    //       school_id: 0
+    //     },
+    //     [
+    //       //the value of name depends on the key from server
+    //       {
+    //         name: "video",
+    //         filename: videoFileName,
+    //         data: RNFetchBlob.wrap(videoUri),
+    //       },
+    //     ]
+    //   )
+    //     .uploadProgress({ interval: 250 }, (written, total) => {
+    //       console.log("uploaded", written / total);
+    //       let progressRuning = written / total;
+    //       this.setState({
+    //         isProgressBar: true,
+    //         progressRuning: progressRuning,
+    //       });
+    //     })
+    //   .then((res) => res.json())
+    //    .then((responsed) => {
+    //      console.log(responsed);
+    //       if(responsed.status=='existed'){
+    //         this.setState({
+    //           alertTitle:'Thank You',
+    //           alertMsg:'Your video updated successfully',
+    //           isProgressBar: false,
+    //           progressRuning: 0, 
+    //           showAlert:true
+    //         });
+    //       } else {
+    //          this.setState({
+    //           isProgressBar: false,
+    //           progressRuning: 0, 
+    //           showAlert:true,
+    //           alertTitle:'Thank You',
+    //           alertMsg:'Your video is uploaded successfully.',
+    //         });
+    //        }
+    //     })
+    //     .catch((err) => {
+    //       Alert.alert("Error", JSON.stringify(err));
+    //     });
+    // }
+>>>>>>> d8b63845441a0d606f0e39140a98ea01ec486bc4
   };
 
   hideAlert = () => {
@@ -259,6 +381,7 @@ class VideoUploadScreen extends Component {
           that.setState({
             videoFileName: videoResponse.fileName,
             videoUri: videoResponse.uri,
+            videoC: videoResponse
           });
         } else {
           Alert.alert("Error", "This file is not supported");
