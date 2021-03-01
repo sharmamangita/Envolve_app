@@ -60,7 +60,8 @@ class VideoUploadScreen extends Component {
       alertMsg:'',
       alertTitle:'',
       userRoll: '',
-      videoC: ''
+      videoC: '',
+      secondtime: false
     };
   }
 
@@ -153,8 +154,27 @@ class VideoUploadScreen extends Component {
     this.props.navigation.dispatch(navigateAction);
   };
 
-  // ================================== video compresser =============================
-  requestExternalWritePermission = async () => {
+
+  requestCameraPermission = async () => {
+    if (Platform.OS === 'android') {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.CAMERA,
+          {
+            title: 'Camera Permission',
+            message: 'App needs camera permission',
+          },
+        );
+        // If CAMERA Permission is granted
+        return granted === PermissionsAndroid.RESULTS.GRANTED;
+      } catch (err) {
+        console.warn(err);
+        return false;
+      }
+    } else return true;
+  };
+
+    requestExternalWritePermission = async () => {
     if (Platform.OS === 'android') {
       try {
         const granted = await PermissionsAndroid.request(
@@ -173,6 +193,13 @@ class VideoUploadScreen extends Component {
       return false;
     } else return true;
   };
+
+  // ================================== start recording ==============================
+
+
+  // =================================== end recording ===============================
+
+  // ================================== video compresser =============================
   
   successCall = (fileName, size, path, message) => {
     console.log("is working ===========>>>>>>",message);
@@ -215,8 +242,7 @@ class VideoUploadScreen extends Component {
     this.props.navigation.dispatch(navigateAction);
   };
 
-<<<<<<< HEAD
-  selectVideoSubmit = () => {
+  selectVideoSubmit = async () => {
     const { videoFileName, videoUri, activity_id, teacher_id} = this.state;
     if (teacher_id && activity_id) {
       RNFetchBlob.fetch(
@@ -248,7 +274,7 @@ class VideoUploadScreen extends Component {
         })
       .then((res) => res.json())
        .then((responsed) => {
-				 console.log('response up video>>>>>>',responsed);
+         console.log(responsed);
           if(responsed.status=='existed'){
             this.setState({
               alertTitle:'Thank You',
@@ -271,64 +297,6 @@ class VideoUploadScreen extends Component {
           Alert.alert("Error", JSON.stringify(err));
         });
     }
-=======
-  selectVideoSubmit = async () => {
-    const { videoFileName, videoUri, activity_id, teacher_id} = this.state;
-    let call = await this.videoCompress();
-    // if (teacher_id && activity_id) {
-    //   RNFetchBlob.fetch(
-    //     "POST",
-    //     `${API_URL}/upload-video/`,
-    //     {
-    //       "content-type": "multipart/form-data",
-    //       Accept: "multipart/form-data",
-    //       activity_id: activity_id,
-    //       teacher_id: teacher_id,
-    //       school_id: 0
-    //     },
-    //     [
-    //       //the value of name depends on the key from server
-    //       {
-    //         name: "video",
-    //         filename: videoFileName,
-    //         data: RNFetchBlob.wrap(videoUri),
-    //       },
-    //     ]
-    //   )
-    //     .uploadProgress({ interval: 250 }, (written, total) => {
-    //       console.log("uploaded", written / total);
-    //       let progressRuning = written / total;
-    //       this.setState({
-    //         isProgressBar: true,
-    //         progressRuning: progressRuning,
-    //       });
-    //     })
-    //   .then((res) => res.json())
-    //    .then((responsed) => {
-    //      console.log(responsed);
-    //       if(responsed.status=='existed'){
-    //         this.setState({
-    //           alertTitle:'Thank You',
-    //           alertMsg:'Your video updated successfully',
-    //           isProgressBar: false,
-    //           progressRuning: 0, 
-    //           showAlert:true
-    //         });
-    //       } else {
-    //          this.setState({
-    //           isProgressBar: false,
-    //           progressRuning: 0, 
-    //           showAlert:true,
-    //           alertTitle:'Thank You',
-    //           alertMsg:'Your video is uploaded successfully.',
-    //         });
-    //        }
-    //     })
-    //     .catch((err) => {
-    //       Alert.alert("Error", JSON.stringify(err));
-    //     });
-    // }
->>>>>>> d8b63845441a0d606f0e39140a98ea01ec486bc4
   };
 
   hideAlert = () => {
@@ -367,27 +335,77 @@ class VideoUploadScreen extends Component {
         });
     }
   }
-  selectPhotoTapped() {
+  selectPhotoTapped = async () => {
     let that = this;
-    launchImageLibrary(
-      {
-        mediaType: "video",
-        includeBase64: false,
-        maxHeight: 200,
-        maxWidth: 200,
-      },
-      async (videoResponse) => {
-        if (videoResponse.fileName && videoResponse.uri) {
-          that.setState({
-            videoFileName: videoResponse.fileName,
-            videoUri: videoResponse.uri,
-            videoC: videoResponse
-          });
-        } else {
-          Alert.alert("Error", "This file is not supported");
-        }
+
+    let options = {
+      mediaType: 'video',
+      maxWidth: 300,
+      maxHeight: 550,
+      quality: 1,
+      videoQuality: 'low',
+      durationLimit: 300, //Video max duration in seconds
+      saveToPhotos: true,
+    };
+    let isCameraPermitted = await this.requestCameraPermission();
+    let isStoragePermitted = await this.requestExternalWritePermission();
+    if (isCameraPermitted && isStoragePermitted) {
+        launchCamera(options, (response) => {
+          console.log('Response = ', response);
+  
+          if (response.didCancel) {
+            alert('User cancelled camera picker');
+            return;
+          } else if (response.errorCode == 'camera_unavailable') {
+            alert('Camera not available on device');
+            return;
+          } else if (response.errorCode == 'permission') {
+            alert('Permission not satisfied');
+            return;
+          } else if (response.errorCode == 'others') {
+            alert(response.errorMessage);
+            return;
+          }
+          // console.log('base64 -> ', response.base64);
+          // console.log('uri -> ', response.uri);
+          // console.log('width -> ', response.width);
+          // console.log('height -> ', response.height);
+          // console.log('fileSize -> ', response.fileSize);
+          // console.log('type -> ', response.type);
+          // console.log('fileName -> ', response.fileName);
+
+          this.setState({ videoUri: response.uri, videoFileName: response.fileName});
+
+        });
+    } else {
+      if(this.state.secondtime){
+        openSettings();
+      }else {
+        alert("App need to access Loacation, Camera, and External Storage Write Permission");
       }
-    );
+      this.setState({secondtime: true});
+    }
+    
+    // launchImageLibrary(
+    //   {
+    //     mediaType: "video",
+    //     includeBase64: false,
+    //     maxHeight: 200,
+    //     maxWidth: 200,
+        
+    //   },
+    //   async (videoResponse) => {
+    //     if (videoResponse.fileName && videoResponse.uri) {
+    //       that.setState({
+    //         videoFileName: videoResponse.fileName,
+    //         videoUri: videoResponse.uri,
+    //         videoC: videoResponse
+    //       });
+    //     } else {
+    //       Alert.alert("Error", "This file is not supported");
+    //     }
+    //   }
+    // );
   }
   render() {
     const { videoFileName, videoUri, loading,showAlert,alertMsg,alertTitle } = this.state;
@@ -502,7 +520,7 @@ class VideoUploadScreen extends Component {
                 </View>
                 <View style={{ flex: 1.5, backgroundColor: "#fff" }}>
                   <Button
-                    title="Browise"
+                    title="Record"
                     onPress={this.selectPhotoTapped.bind(this)}
                   />
                 </View>

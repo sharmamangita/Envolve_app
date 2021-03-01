@@ -9,35 +9,35 @@
 9        android:targetSdkVersion="29" />
 10
 11    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-11-->E:\office\76East\Envolve_app\android\app\src\debug\AndroidManifest.xml:5:5-77
-11-->E:\office\76East\Envolve_app\android\app\src\debug\AndroidManifest.xml:5:22-75
+11-->E:\office\z\Envolve_app\android\app\src\debug\AndroidManifest.xml:5:5-77
+11-->E:\office\z\Envolve_app\android\app\src\debug\AndroidManifest.xml:5:22-75
 12    <uses-permission android:name="android.permission.INTERNET" />
-12-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:5:5-67
-12-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:5:22-64
+12-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:5:5-67
+12-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:5:22-64
 13    <uses-permission android:name="android.permission.CAMERA" />
-13-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:6:5-65
-13-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:6:22-62
+13-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:6:5-65
+13-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:6:22-62
 14    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-14-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:7:5-79
-14-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:7:22-77
+14-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:7:5-79
+14-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:7:22-77
 15    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- Define ACCESS_FINE_LOCATION if you will use enableHighAccuracy=true -->
-15-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:8:5-81
-15-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:8:22-78
+15-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:8:5-81
+15-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:8:22-78
 16    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- Define ACCESS_COARSE_LOCATION if you will use enableHighAccuracy=false -->
-16-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:10:5-78
-16-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:10:22-76
+16-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:10:5-78
+16-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:10:22-76
 17    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-17-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:13:5-80
-17-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:13:22-78
+17-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:13:5-80
+17-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:13:22-78
 18    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 18-->[com.facebook.flipper:flipper:0.54.0] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\edde5321470e972df3c3729d10f062eb\flipper-0.54.0\AndroidManifest.xml:16:5-76
 18-->[com.facebook.flipper:flipper:0.54.0] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\edde5321470e972df3c3729d10f062eb\flipper-0.54.0\AndroidManifest.xml:16:22-73
 19    <uses-permission android:name="android.permission.WAKE_LOCK" />
-19-->[:react-native-firebase_messaging] E:\office\76East\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:5-68
-19-->[:react-native-firebase_messaging] E:\office\76East\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:22-65
+19-->[:react-native-firebase_messaging] E:\office\z\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:5-68
+19-->[:react-native-firebase_messaging] E:\office\z\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:22-65
 20    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- Required by older versions of Google Play services to create IID tokens -->
-20-->[:react-native-firebase_messaging] E:\office\76East\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:5-79
-20-->[:react-native-firebase_messaging] E:\office\76East\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:22-76
+20-->[:react-native-firebase_messaging] E:\office\z\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:5-79
+20-->[:react-native-firebase_messaging] E:\office\z\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:22-76
 21    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" /> <!-- for android -->
 21-->[com.google.android.gms:play-services-iid:17.0.0] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\e9d61c77c9f1b25f58496dc7eca7d734\play-services-iid-17.0.0\AndroidManifest.xml:23:5-82
 21-->[com.google.android.gms:play-services-iid:17.0.0] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\e9d61c77c9f1b25f58496dc7eca7d734\play-services-iid-17.0.0\AndroidManifest.xml:23:22-79
@@ -95,178 +95,178 @@
 42-->[me.leolin:ShortcutBadger:1.1.22] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\ec1676b8c50bfac33b494da0f166eb2f\ShortcutBadger-1.1.22\AndroidManifest.xml:50:5-89
 42-->[me.leolin:ShortcutBadger:1.1.22] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\ec1676b8c50bfac33b494da0f166eb2f\ShortcutBadger-1.1.22\AndroidManifest.xml:50:22-86
 43    <uses-permission android:name="com.android.vending.CHECK_LICENSE" />
-43-->[:rn-fetch-blob] E:\office\76East\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:5-73
-43-->[:rn-fetch-blob] E:\office\76East\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:22-70
+43-->[:rn-fetch-blob] E:\office\z\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:5-73
+43-->[:rn-fetch-blob] E:\office\z\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:22-70
 44    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" />
 44-->[com.google.android.gms:play-services-measurement:18.0.1] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\1cd515d48cd00b2971fbb9f89b99274a\play-services-measurement-18.0.1\AndroidManifest.xml:26:5-110
 44-->[com.google.android.gms:play-services-measurement:18.0.1] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\1cd515d48cd00b2971fbb9f89b99274a\play-services-measurement-18.0.1\AndroidManifest.xml:26:22-107
 45
 46    <application
-46-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:15:5-57:19
+46-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:15:5-57:19
 47        android:name="com.envolve.MainApplication"
-47-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:16:7-38
+47-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:16:7-38
 48        android:allowBackup="false"
-48-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:20:7-34
+48-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:20:7-34
 49        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
 49-->[androidx.core:core:1.3.1] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\a02e804feb4e1a9133bf9573f13f9389\core-1.3.1\AndroidManifest.xml:24:18-86
 50        android:debuggable="true"
 51        android:icon="@mipmap/ic_launcher"
-51-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:18:7-41
+51-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:18:7-41
 52        android:label="@string/app_name"
-52-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:17:7-39
+52-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:17:7-39
 53        android:requestLegacyExternalStorage="true"
-53-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:22:7-50
+53-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:22:7-50
 54        android:roundIcon="@mipmap/ic_launcher_round"
-54-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:19:7-52
+54-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:19:7-52
 55        android:supportsRtl="true"
 55-->[com.github.pgmacdesign:silicompressor:3.0.6] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\f5892e177805c1edec2c66b9498dffdf\jetified-silicompressor-3.0.6\AndroidManifest.xml:17:9-35
 56        android:theme="@style/AppTheme"
-56-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:21:7-38
+56-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:21:7-38
 57        android:usesCleartextTraffic="true" >
-57-->E:\office\76East\Envolve_app\android\app\src\debug\AndroidManifest.xml:7:18-53
+57-->E:\office\z\Envolve_app\android\app\src\debug\AndroidManifest.xml:7:18-53
 58        <activity
-58-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:25:7-35:18
+58-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:25:7-35:18
 59            android:name="com.envolve.MainActivity"
-59-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:26:9-37
+59-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:26:9-37
 60            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
-60-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:28:9-86
+60-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:28:9-86
 61            android:label="@string/app_name"
-61-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:27:9-41
+61-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:27:9-41
 62            android:launchMode="singleTask"
-62-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:29:9-40
+62-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:29:9-40
 63            android:windowSoftInputMode="adjustResize" >
-63-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:30:9-51
+63-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:30:9-51
 64            <intent-filter>
-64-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:31:9-34:25
+64-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:31:9-34:25
 65                <action android:name="android.intent.action.MAIN" />
-65-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:32:13-65
-65-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:32:21-62
+65-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:32:13-65
+65-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:32:21-62
 66
 67                <category android:name="android.intent.category.LAUNCHER" />
-67-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:33:13-73
-67-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:33:23-70
+67-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:33:13-73
+67-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:33:23-70
 68            </intent-filter>
 69        </activity> <!-- Foreground Notification -->
 70        <service android:name="io.invertase.firebase.messaging.RNFirebaseMessagingService" >
-70-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:37:7-41:17
-70-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:37:16-89
+70-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:37:7-41:17
+70-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:37:16-89
 71            <intent-filter>
-71-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:38:9-40:25
+71-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:38:9-40:25
 72                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-72-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:39:11-72
-72-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:39:19-69
+72-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:39:11-72
+72-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:39:19-69
 73            </intent-filter>
 74        </service>
 75        <service android:name="io.invertase.firebase.messaging.RNFirebaseInstanceIdService" >
-75-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:42:7-46:17
-75-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:42:16-90
+75-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:42:7-46:17
+75-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:42:16-90
 76            <intent-filter>
-76-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:43:9-45:25
+76-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:43:9-45:25
 77                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-77-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:44:11-73
-77-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:44:19-71
+77-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:44:11-73
+77-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:44:19-71
 78            </intent-filter>
 79        </service>
 80
 81        <receiver android:name="io.invertase.firebase.notifications.RNFirebaseNotificationReceiver" />
-81-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:47:7-100
-81-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:47:17-98
+81-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:47:7-100
+81-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:47:17-98
 82        <receiver
-82-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:48:7-55:18
+82-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:48:7-55:18
 83            android:name="io.invertase.firebase.notifications.RNFirebaseNotificationsRebootReceiver"
-83-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:48:64-152
+83-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:48:64-152
 84            android:enabled="true"
-84-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:48:17-39
+84-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:48:17-39
 85            android:exported="true" >
-85-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:48:40-63
+85-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:48:40-63
 86            <intent-filter>
-86-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:49:7-54:23
+86-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:49:7-54:23
 87                <action android:name="android.intent.action.BOOT_COMPLETED" />
-87-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:50:9-70
-87-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:50:17-68
+87-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:50:9-70
+87-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:50:17-68
 88                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
-88-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:51:9-73
-88-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:51:17-71
+88-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:51:9-73
+88-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:51:17-71
 89                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
-89-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:52:9-73
-89-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:52:17-71
+89-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:52:9-73
+89-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:52:17-71
 90
 91                <category android:name="android.intent.category.DEFAULT" />
-91-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:53:9-68
-91-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:53:19-65
+91-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:53:9-68
+91-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:53:19-65
 92            </intent-filter>
 93        </receiver>
 94
 95        <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
-95-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:56:7-84
-95-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:56:17-81
+95-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:56:7-84
+95-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:56:17-81
 96
 97        <service android:name="io.invertase.firebase.messaging.ReactNativeFirebaseMessagingHeadlessService" />
-97-->[:react-native-firebase_messaging] E:\office\76East\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:16:9-111
-97-->[:react-native-firebase_messaging] E:\office\76East\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:16:18-108
+97-->[:react-native-firebase_messaging] E:\office\z\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:16:9-111
+97-->[:react-native-firebase_messaging] E:\office\z\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:16:18-108
 98        <service
-98-->[:react-native-firebase_messaging] E:\office\76East\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:17:9-23:19
+98-->[:react-native-firebase_messaging] E:\office\z\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:17:9-23:19
 99            android:name="io.invertase.firebase.messaging.ReactNativeFirebaseMessagingService"
-99-->[:react-native-firebase_messaging] E:\office\76East\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:18:13-95
+99-->[:react-native-firebase_messaging] E:\office\z\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:18:13-95
 100            android:exported="false" >
-100-->[:react-native-firebase_messaging] E:\office\76East\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:19:13-37
+100-->[:react-native-firebase_messaging] E:\office\z\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:19:13-37
 101            <intent-filter>
-101-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:38:9-40:25
+101-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:38:9-40:25
 102                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-102-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:39:11-72
-102-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:39:19-69
+102-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:39:11-72
+102-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:39:19-69
 103            </intent-filter>
 104        </service>
 105
 106        <receiver
-106-->[:react-native-firebase_messaging] E:\office\76East\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:25:9-32:20
+106-->[:react-native-firebase_messaging] E:\office\z\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:25:9-32:20
 107            android:name="io.invertase.firebase.messaging.ReactNativeFirebaseMessagingReceiver"
-107-->[:react-native-firebase_messaging] E:\office\76East\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:26:13-96
+107-->[:react-native-firebase_messaging] E:\office\z\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:26:13-96
 108            android:exported="true"
-108-->[:react-native-firebase_messaging] E:\office\76East\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:27:13-36
+108-->[:react-native-firebase_messaging] E:\office\z\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:27:13-36
 109            android:permission="com.google.android.c2dm.permission.SEND" >
-109-->[:react-native-firebase_messaging] E:\office\76East\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:28:13-73
+109-->[:react-native-firebase_messaging] E:\office\z\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:28:13-73
 110            <intent-filter>
-110-->[:react-native-firebase_messaging] E:\office\76East\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:29:13-31:29
+110-->[:react-native-firebase_messaging] E:\office\z\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:29:13-31:29
 111                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-111-->[:react-native-firebase_messaging] E:\office\76East\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:30:17-81
-111-->[:react-native-firebase_messaging] E:\office\76East\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:30:25-78
+111-->[:react-native-firebase_messaging] E:\office\z\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:30:17-81
+111-->[:react-native-firebase_messaging] E:\office\z\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:30:25-78
 112            </intent-filter>
 113        </receiver>
 114
 115        <meta-data
-115-->[:react-native-firebase_messaging] E:\office\76East\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:34:9-36:36
+115-->[:react-native-firebase_messaging] E:\office\z\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:34:9-36:36
 116            android:name="firebase_messaging_auto_init_enabled"
-116-->[:react-native-firebase_messaging] E:\office\76East\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:35:13-64
+116-->[:react-native-firebase_messaging] E:\office\z\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:35:13-64
 117            android:value="true" />
-117-->[:react-native-firebase_messaging] E:\office\76East\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:36:13-33
+117-->[:react-native-firebase_messaging] E:\office\z\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:36:13-33
 118        <meta-data
-118-->[:react-native-firebase_messaging] E:\office\76East\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:37:9-39:32
+118-->[:react-native-firebase_messaging] E:\office\z\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:37:9-39:32
 119            android:name="com.google.firebase.messaging.default_notification_channel_id"
-119-->[:react-native-firebase_messaging] E:\office\76East\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:38:13-89
+119-->[:react-native-firebase_messaging] E:\office\z\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:38:13-89
 120            android:value="" />
-120-->[:react-native-firebase_messaging] E:\office\76East\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:39:13-29
+120-->[:react-native-firebase_messaging] E:\office\z\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:39:13-29
 121        <meta-data
-121-->[:react-native-firebase_messaging] E:\office\76East\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:40:9-42:47
+121-->[:react-native-firebase_messaging] E:\office\z\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:40:9-42:47
 122            android:name="com.google.firebase.messaging.default_notification_color"
-122-->[:react-native-firebase_messaging] E:\office\76East\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:41:13-84
+122-->[:react-native-firebase_messaging] E:\office\z\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:41:13-84
 123            android:resource="@color/white" />
-123-->[:react-native-firebase_messaging] E:\office\76East\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:42:13-44
+123-->[:react-native-firebase_messaging] E:\office\z\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:42:13-44
 124
 125        <service
-125-->[:react-native-firebase] E:\office\76East\Envolve_app\node_modules\react-native-firebase\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:16:9-20:19
+125-->[:react-native-firebase] E:\office\z\Envolve_app\node_modules\react-native-firebase\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:16:9-20:19
 126            android:name="com.google.firebase.components.ComponentDiscoveryService"
-126-->[:react-native-firebase] E:\office\76East\Envolve_app\node_modules\react-native-firebase\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:16:18-89
+126-->[:react-native-firebase] E:\office\z\Envolve_app\node_modules\react-native-firebase\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:16:18-89
 127            android:directBootAware="true"
 127-->[com.google.firebase:firebase-common:19.5.0] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\64b6c16b200bb947e81c359bf8741eb3\jetified-firebase-common-19.5.0\AndroidManifest.xml:35:13-43
 128            android:exported="false" >
 128-->[com.google.firebase:firebase-dynamic-links:19.1.1] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\c475d3082ab4b69aeb4b7691e41e6dd2\firebase-dynamic-links-19.1.1\AndroidManifest.xml:10:13-37
 129            <meta-data
-129-->[:react-native-firebase] E:\office\76East\Envolve_app\node_modules\react-native-firebase\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:17:13-19:85
+129-->[:react-native-firebase] E:\office\z\Envolve_app\node_modules\react-native-firebase\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:17:13-19:85
 130                android:name="com.google.firebase.components:io.invertase.firebase.ReactNativeFirebaseAppRegistrar"
-130-->[:react-native-firebase] E:\office\76East\Envolve_app\node_modules\react-native-firebase\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:18:17-116
+130-->[:react-native-firebase] E:\office\z\Envolve_app\node_modules\react-native-firebase\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:18:17-116
 131                android:value="com.google.firebase.components.ComponentRegistrar" />
-131-->[:react-native-firebase] E:\office\76East\Envolve_app\node_modules\react-native-firebase\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:19:17-82
+131-->[:react-native-firebase] E:\office\z\Envolve_app\node_modules\react-native-firebase\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:19:17-82
 132            <meta-data
 132-->[com.google.firebase:firebase-dynamic-links:19.1.1] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\c475d3082ab4b69aeb4b7691e41e6dd2\firebase-dynamic-links-19.1.1\AndroidManifest.xml:11:13-13:85
 133                android:name="com.google.firebase.components:com.google.firebase.dynamiclinks.internal.FirebaseDynamicLinkRegistrar"
@@ -342,8 +342,8 @@
 170-->[com.google.android.gms:play-services-appinvite:17.0.0] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\5dfbcb8ae90533536d4bcd7649d4d939\jetified-play-services-appinvite-17.0.0\AndroidManifest.xml:30:25-87
 171
 172                <category android:name="android.intent.category.DEFAULT" />
-172-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:53:9-68
-172-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:53:19-65
+172-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:53:9-68
+172-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:53:19-65
 173            </intent-filter>
 174        </activity>
 175        <activity
@@ -383,10 +383,10 @@
 196            android:exported="false" >
 196-->[com.google.firebase:firebase-messaging:21.0.1] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\c7a4d880b11a4081b2716f2eaadc0cef\jetified-firebase-messaging-21.0.1\AndroidManifest.xml:31:13-37
 197            <intent-filter android:priority="-500" >
-197-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:38:9-40:25
+197-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:38:9-40:25
 198                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-198-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:39:11-72
-198-->E:\office\76East\Envolve_app\android\app\src\main\AndroidManifest.xml:39:19-69
+198-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:39:11-72
+198-->E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:39:19-69
 199            </intent-filter>
 200        </service>
 201
@@ -399,10 +399,10 @@
 205            android:permission="com.google.android.c2dm.permission.SEND" >
 205-->[com.google.firebase:firebase-iid:21.0.1] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\50c21b819763fd0905a7fd9c0f87f256\firebase-iid-21.0.1\AndroidManifest.xml:40:13-73
 206            <intent-filter>
-206-->[:react-native-firebase_messaging] E:\office\76East\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:29:13-31:29
+206-->[:react-native-firebase_messaging] E:\office\z\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:29:13-31:29
 207                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-207-->[:react-native-firebase_messaging] E:\office\76East\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:30:17-81
-207-->[:react-native-firebase_messaging] E:\office\76East\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:30:25-78
+207-->[:react-native-firebase_messaging] E:\office\z\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:30:17-81
+207-->[:react-native-firebase_messaging] E:\office\z\Envolve_app\node_modules\@react-native-firebase\messaging\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:30:25-78
 208            </intent-filter>
 209        </receiver>
 210
@@ -416,38 +416,38 @@
 214-->[com.google.android.gms:play-services-base:17.1.0] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\bf2f18323e8ad04f8ab621f180746a8e\play-services-base-17.1.0\AndroidManifest.xml:26:13-72
 215
 216        <provider
-216-->[:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:9-20:20
+216-->[:react-native-image-picker] E:\office\z\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:9-20:20
 217            android:name="com.imagepicker.ImagePickerProvider"
-217-->[:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:13-63
+217-->[:react-native-image-picker] E:\office\z\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:13-63
 218            android:authorities="com.envolve.imagepickerprovider"
-218-->[:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:14:13-71
+218-->[:react-native-image-picker] E:\office\z\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:14:13-71
 219            android:exported="false"
-219-->[:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:15:13-37
+219-->[:react-native-image-picker] E:\office\z\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:15:13-37
 220            android:grantUriPermissions="true" >
-220-->[:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:16:13-47
+220-->[:react-native-image-picker] E:\office\z\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:16:13-47
 221            <meta-data
-221-->[:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:17:13-19:70
+221-->[:react-native-image-picker] E:\office\z\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:17:13-19:70
 222                android:name="android.support.FILE_PROVIDER_PATHS"
-222-->[:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:18:17-67
+222-->[:react-native-image-picker] E:\office\z\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:18:17-67
 223                android:resource="@xml/imagepicker_provider_paths" />
-223-->[:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:19:17-67
+223-->[:react-native-image-picker] E:\office\z\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:19:17-67
 224        </provider>
 225        <provider
-225-->[:rn-fetch-blob] E:\office\76East\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:36:9-44:20
+225-->[:rn-fetch-blob] E:\office\z\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:36:9-44:20
 226            android:name="com.RNFetchBlob.Utils.FileProvider"
-226-->[:rn-fetch-blob] E:\office\76East\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:37:13-62
+226-->[:rn-fetch-blob] E:\office\z\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:37:13-62
 227            android:authorities="com.envolve.provider"
-227-->[:rn-fetch-blob] E:\office\76East\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:38:13-60
+227-->[:rn-fetch-blob] E:\office\z\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:38:13-60
 228            android:exported="false"
-228-->[:rn-fetch-blob] E:\office\76East\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:39:13-37
+228-->[:rn-fetch-blob] E:\office\z\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:39:13-37
 229            android:grantUriPermissions="true" >
-229-->[:rn-fetch-blob] E:\office\76East\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:40:13-47
+229-->[:rn-fetch-blob] E:\office\z\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:40:13-47
 230            <meta-data
-230-->[:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:17:13-19:70
+230-->[:react-native-image-picker] E:\office\z\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:17:13-19:70
 231                android:name="android.support.FILE_PROVIDER_PATHS"
-231-->[:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:18:17-67
+231-->[:react-native-image-picker] E:\office\z\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:18:17-67
 232                android:resource="@xml/provider_paths" />
-232-->[:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:19:17-67
+232-->[:react-native-image-picker] E:\office\z\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:19:17-67
 233        </provider>
 234
 235        <service
@@ -487,11 +487,11 @@
 253            android:grantUriPermissions="true" >
 253-->[com.github.pgmacdesign:silicompressor:3.0.6] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\f5892e177805c1edec2c66b9498dffdf\jetified-silicompressor-3.0.6\AndroidManifest.xml:22:13-47
 254            <meta-data
-254-->[:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:17:13-19:70
+254-->[:react-native-image-picker] E:\office\z\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:17:13-19:70
 255                android:name="android.support.FILE_PROVIDER_PATHS"
-255-->[:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:18:17-67
+255-->[:react-native-image-picker] E:\office\z\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:18:17-67
 256                android:resource="@xml/provider_paths" />
-256-->[:react-native-image-picker] E:\office\76East\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:19:17-67
+256-->[:react-native-image-picker] E:\office\z\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:19:17-67
 257        </provider>
 258
 259        <receiver
