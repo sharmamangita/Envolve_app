@@ -54,8 +54,8 @@ class SendNotification extends Component {
       ],
       trainer_list:[
         {
-          id: 'all',
-          name: 'all'
+          mobile_num: 'all',
+          teacher_name: 'all'
         },
       ],
       classes:[
@@ -298,7 +298,7 @@ class SendNotification extends Component {
                 <MultiSelect
                   // hideTags
                   items={this.state.trainer_list}
-                  uniqueKey="id"
+                  uniqueKey="mobile_num"
                   ref={(component) => { this.multiSelect = component }}
                   onSelectedItemsChange={this.onSelectedTrainer}
                   selectedItems={this.state.selectedTrainer}
@@ -311,7 +311,7 @@ class SendNotification extends Component {
                   selectedItemTextColor="#1CAFF6"
                   selectedItemIconColor="#1CAFF6"
                   itemTextColor="#000"
-                  displayKey="name"
+                  displayKey="teacher_name"
                   searchInputStyle={{ color: '#CCC' }}
                   submitButtonColor="#CCC"
                   submitButtonText="Selected"
