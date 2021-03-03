@@ -31,12 +31,12 @@ class SendNotification extends Component {
       message: '',
       userType: [
         {
-          id: 'trainer',
-          name: 'trainer'
-        },
-        {
           id: 'admin',
           name: 'admin'
+        },
+        {
+          id: 'trainer',
+          name: 'trainer'
         },
         {
           id: 'parents',
@@ -46,6 +46,42 @@ class SendNotification extends Component {
       principal_id: '',
       school_id: '',
       selectedUserType: [],
+      parents_list:[
+        {
+          id: 'all',
+          name: 'all'
+        },
+      ],
+      trainer_list:[
+        {
+          id: 'all',
+          name: 'all'
+        },
+      ],
+      classes:[
+        {
+          label: 'all',
+          value: 'all'
+        },
+        {
+          label: 'class-I',
+          value: '1'
+        }
+      ],
+      section:[
+        {
+          label: 'all',
+          value: 'all'
+        },
+        {
+          label: '1A',
+          value: '1A'
+        }
+      ],
+      selectedTrainer: [],
+      selectedClass:'',
+      selectedSection:'',
+      selectedParents:[]
     };
     
   }
@@ -78,6 +114,13 @@ class SendNotification extends Component {
     this.setState({ selectedUserType });
   };
 
+  onSelectedParents = selectedParents =>{
+    this.setState({selectedParents})
+  }
+  onSelectedTrainer = selectedTrainer =>{
+    this.setState({selectedTrainer})
+  }
+
   checkAndSubmit = async () => {
 
     if(!this.state.headline){
@@ -93,6 +136,20 @@ class SendNotification extends Component {
       alert("Please select user type");
       return
     }
+    if(this.state.selectedUserType.indexOf("trainer") >= 0 && !this.state.selectedTrainer.length){
+      alert("Please select trainer");
+      return
+    }
+    if(this.state.selectedUserType.indexOf("parents") >= 0 && !this.state.selectedParents.length){
+      alert("Please select parents");
+      return
+    }
+    if(this.state.selectedUserType.indexOf("trainer") < 0){
+      this.setState({ selectedTrainer: []});
+    }
+    if(this.state.selectedUserType.indexOf("parents") < 0){
+      this.setState({ selectedParents: []});
+    }
       this.hitApi();
   }
 
@@ -104,7 +161,9 @@ class SendNotification extends Component {
 				title:this.state.headline,
 				message:this.state.message,
 				school_id:this.state.school_id,
-				receiver_type:this.state.selectedUserType
+				receiver_type:this.state.selectedUserType,
+        trainer_list: this.state.selectedTrainer,
+        parents_list: this.state.selectedParents
 			}
 			await fetch(`${API_URL}/principal-send-notifications/`, {
 						method: "POST",
@@ -207,28 +266,131 @@ class SendNotification extends Component {
               {/* ======================================================================= */}
 
               <View style={{ flex: 1, marginTop: 20, width: "95%", alignSelf: "center" }}>
-                      <MultiSelect
-                        hideTags
-                        items={this.state.userType}
-                        uniqueKey="id"
-                        ref={(component) => { this.multiSelect = component }}
-                        onSelectedItemsChange={this.onSelectedItemsChange}
-                        selectedItems={this.state.selectedUserType}
-                        selectText="Send to: "
-                        onChangeInput={ (text)=> console.log(text)}
-                        altFontFamily="ProximaNova-Light"
-                        tagRemoveIconColor="#CCC"
-                        tagBorderColor="#CCC"
-                        tagTextColor="#CCC"
-                        selectedItemTextColor="#CCC"
-                        selectedItemIconColor="#CCC"
-                        itemTextColor="#000"
-                        displayKey="name"
-                        searchInputStyle={{ color: '#CCC' }}
-                        submitButtonColor="#CCC"
-                        submitButtonText="Selected"
+                <MultiSelect
+                  // hideTags
+                  items={this.state.userType}
+                  uniqueKey="id"
+                  ref={(component) => { this.multiSelect = component }}
+                  onSelectedItemsChange={this.onSelectedItemsChange}
+                  selectedItems={this.state.selectedUserType}
+                  selectText="Send to: "
+                  onChangeInput={ (text)=> console.log(text)}
+                  altFontFamily="ProximaNova-Light"
+                  tagRemoveIconColor="red"
+                  tagBorderColor="#1CAFF6"
+                  tagTextColor="#1CAFF6"
+                  selectedItemTextColor="#1CAFF6"
+                  selectedItemIconColor="#1CAFF6"
+                  itemTextColor="#000"
+                  displayKey="name"
+                  searchInputStyle={{ color: '#CCC' }}
+                  submitButtonColor="#CCC"
+                  submitButtonText="Selected"
+                />
+              </View>
+
+              {
+                this.state.selectedUserType.indexOf("trainer") >= 0?
+                <View style={{ flex: 1, marginTop: 20, width: "95%", alignSelf: "center" }}>
+                <View>
+                  <Text style={styleData.customParentStyle}>Trainer</Text>
+                </View>
+                <MultiSelect
+                  // hideTags
+                  items={this.state.trainer_list}
+                  uniqueKey="id"
+                  ref={(component) => { this.multiSelect = component }}
+                  onSelectedItemsChange={this.onSelectedTrainer}
+                  selectedItems={this.state.selectedTrainer}
+                  selectText="Select Trainer: "
+                  onChangeInput={ (text)=> console.log(text)}
+                  altFontFamily="ProximaNova-Light"
+                  tagRemoveIconColor="red"
+                  tagBorderColor="#1CAFF6"
+                  tagTextColor="#1CAFF6"
+                  selectedItemTextColor="#1CAFF6"
+                  selectedItemIconColor="#1CAFF6"
+                  itemTextColor="#000"
+                  displayKey="name"
+                  searchInputStyle={{ color: '#CCC' }}
+                  submitButtonColor="#CCC"
+                  submitButtonText="Selected"
+                />
+              </View>
+                :null
+              }
+              {
+                this.state.selectedUserType.indexOf("parents") >= 0?
+                <View>
+                  <View style={{ flex: 1, marginTop: 20, width: "95%", alignSelf: "center" }}>
+                  <Text style={styleData.customParentStyle}>Parent</Text>
+                  </View>   
+                  <View style={styleData.customDropdown}>
+                    <View style={styleData.customDropdownChild1}>
+                    <Text style={styleData.lableStyle}>Select class:</Text>
+                    </View>
+                    <View style={styleData.customDropdownChild2}>
+                      <DropDownPicker
+                        items={this.state.classes}
+                        defaultValue=""
+                        containerStyle={{ height: 50 }}
+                        style={{ ...styleData.customDropdownDivider, paddingBottom: 10, }}
+                        itemStyle={{
+                          justifyContent: "flex-start",
+                        }}
+                        dropDownStyle={{ backgroundColor: "#fafafa" }}
+                        onChangeItem={(item) => this.setState({ selectedClass: item.value})}
+                        placeholder=""
                       />
                     </View>
+                  </View>
+
+                  <View style={styleData.customDropdown}>
+                    <View  style={styleData.customDropdownChild1}>
+                      <Text style={styleData.lableStyle}>Select section:</Text>
+                    </View>
+                    <View style={styleData.customDropdownChild2}>
+                    <DropDownPicker
+                      items={this.state.section}
+                      defaultValue=""
+                      containerStyle={{ height: 50, borderRadius: 0 }}
+                      style={{ ...styleData.customDropdownDivider, paddingBottom: 10, }}
+                      itemStyle={{
+                        justifyContent: "flex-start",
+                      }}
+                      dropDownStyle={{ backgroundColor: "#fafafa" }}
+                      onChangeItem={(item) => this.setState({ selectedSection: item.value})}
+                      placeholder=""
+                    />
+                    </View>
+                  </View>
+
+                  <View style={{ flex: 1, marginTop: 20, width: "95%", alignSelf: "center" }}>
+                    <MultiSelect
+                      // hideTags
+                      items={this.state.parents_list}
+                      uniqueKey="id"
+                      ref={(component) => { this.multiSelect = component }}
+                      onSelectedItemsChange={this.onSelectedParents}
+                      selectedItems={this.state.selectedParents}
+                      selectText="Select Parents: "
+                      onChangeInput={ (text)=> console.log(text)}
+                      altFontFamily="ProximaNova-Light"
+                      tagRemoveIconColor="red"
+                      tagBorderColor="#1CAFF6"
+                      tagTextColor="#1CAFF6"
+                      selectedItemTextColor="#1CAFF6"
+                      selectedItemIconColor="#1CAFF6"
+                      itemTextColor="#000"
+                      displayKey="name"
+                      searchInputStyle={{ color: '#CCC' }}
+                      submitButtonColor="#CCC"
+                      submitButtonText="Selected"
+                    />
+                  </View>
+                </View>
+                :null
+              }
 
               {/* ======================================================================= */}
                 <Button 
@@ -329,7 +491,8 @@ const styleData = StyleSheet.create({
   },
   button: {
     backgroundColor: "#23ABE2",
-    marginTop: 40,
+    marginTop: 50,
+    marginBottom: 50,
     width: "95%",
     alignSelf: "center"
   },
@@ -348,6 +511,40 @@ const styleData = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     color: "#1CAFF6"
+  },
+
+  customParentStyle:{
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#1CAFF6",
+    marginTop: 20
+  },
+  customDropdown:{
+    flex: 1,
+    flexDirection: 'row',
+    marginTop: 10,
+    width: "95%",
+    alignSelf: "center",
+    justifyContent: 'center',
+  },
+  customDropdownDivider:{
+    borderBottomWidth: 0.8,
+    borderColor: '#fff',
+    borderBottomColor: '#e8e8e8',
+  },
+  customDropdownChild1:{
+    // flex: 2
+        borderBottomWidth: 0.8,
+    borderColor: '#e8e8e8'
+  },
+  customDropdownChild2: {
+    flex:9
+  },
+  lableStyle:{
+    color: '#404040',
+    paddingTop: 13
   }
 });
 
