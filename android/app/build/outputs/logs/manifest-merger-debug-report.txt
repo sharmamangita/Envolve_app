@@ -33,7 +33,6 @@ MERGED from [:react-native-community_async-storage] E:\office\z\Envolve_app\node
 MERGED from [:react-native-community_masked-view] E:\office\z\Envolve_app\node_modules\@react-native-community\masked-view\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-community_picker] E:\office\z\Envolve_app\node_modules\@react-native-community\picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-community_slider] E:\office\z\Envolve_app\node_modules\@react-native-community\slider\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-9:12
-MERGED from [:react-native-fs] E:\office\z\Envolve_app\node_modules\react-native-fs\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-13:12
 MERGED from [:react-native-gesture-handler] E:\office\z\Envolve_app\node_modules\react-native-gesture-handler\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-11:12
 MERGED from [:react-native-get-location] E:\office\z\Envolve_app\node_modules\react-native-get-location\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-11:12
 MERGED from [:react-native-image-picker] E:\office\z\Envolve_app\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-23:12
@@ -41,7 +40,6 @@ MERGED from [:react-native-permissions] E:\office\z\Envolve_app\node_modules\rea
 MERGED from [:react-native-reanimated] E:\office\z\Envolve_app\node_modules\react-native-reanimated\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-11:12
 MERGED from [:react-native-safe-area-context] E:\office\z\Envolve_app\node_modules\react-native-safe-area-context\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-screens] E:\office\z\Envolve_app\node_modules\react-native-screens\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-11:12
-MERGED from [:react-native-sili-video-compression] E:\office\z\Envolve_app\node_modules\react-native-sili-video-compression\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-15:12
 MERGED from [:react-native-svg] E:\office\z\Envolve_app\node_modules\react-native-svg\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-video] E:\office\z\Envolve_app\node_modules\react-native-video\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-11:12
 MERGED from [:rn-fetch-blob] E:\office\z\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-47:12
@@ -73,7 +71,6 @@ MERGED from [com.facebook.fresco:imagepipeline-base:2.2.0] C:\Users\vishu\.gradl
 MERGED from [com.facebook.fresco:soloader:2.2.0] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\2d8a2de08490c707ec20f799e763da86\soloader-2.2.0\AndroidManifest.xml:2:1-9:12
 MERGED from [com.facebook.soloader:soloader:0.9.0] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\5cf5a750ab8fb7c4b66b5d174c792687\soloader-0.9.0\AndroidManifest.xml:2:1-13:12
 MERGED from [com.google.android.material:material:1.1.0] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\6232594a71a653df7d1cbb43b1fd04c1\material-1.1.0\AndroidManifest.xml:17:1-24:12
-MERGED from [com.github.pgmacdesign:silicompressor:3.0.6] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\f5892e177805c1edec2c66b9498dffdf\jetified-silicompressor-3.0.6\AndroidManifest.xml:2:1-29:12
 MERGED from [androidx.appcompat:appcompat:1.1.0] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\158a52e635dba5286f861fa1bdd245ee\appcompat-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.multidex:multidex:2.0.0] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\e65cad7eebc76a8bc588443acfcd109d\multidex-2.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [com.google.android.gms:play-services-measurement:18.0.1] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\1cd515d48cd00b2971fbb9f89b99274a\play-services-measurement-18.0.1\AndroidManifest.xml:17:1-46:12
@@ -164,8 +161,6 @@ MERGED from [com.google.firebase:firebase-iid:21.0.1] C:\Users\vishu\.gradle\cac
 MERGED from [com.google.firebase:firebase-iid:21.0.1] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\50c21b819763fd0905a7fd9c0f87f256\firebase-iid-21.0.1\AndroidManifest.xml:23:5-67
 MERGED from [com.google.firebase:firebase-config:20.0.2] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\f1e49611d4a8748d0cafc49a016a51dd\firebase-config-20.0.2\AndroidManifest.xml:26:5-67
 MERGED from [com.google.firebase:firebase-config:20.0.2] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\f1e49611d4a8748d0cafc49a016a51dd\firebase-config-20.0.2\AndroidManifest.xml:26:5-67
-MERGED from [:react-native-sili-video-compression] E:\office\z\Envolve_app\node_modules\react-native-sili-video-compression\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:11:5-67
-MERGED from [:react-native-sili-video-compression] E:\office\z\Envolve_app\node_modules\react-native-sili-video-compression\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:11:5-67
 MERGED from [:rn-fetch-blob] E:\office\z\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:15:5-67
 MERGED from [:rn-fetch-blob] E:\office\z\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:15:5-67
 MERGED from [com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\467c3fa382da5915e95b73f24bf6cb29\jetified-transport-backend-cct-2.3.3\AndroidManifest.xml:26:5-67
@@ -190,22 +185,12 @@ ADDED from E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:6:5-
 		ADDED from E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:6:22-62
 uses-permission#android.permission.READ_EXTERNAL_STORAGE
 ADDED from E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:7:5-79
-MERGED from [:react-native-sili-video-compression] E:\office\z\Envolve_app\node_modules\react-native-sili-video-compression\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:5-80
-MERGED from [:react-native-sili-video-compression] E:\office\z\Envolve_app\node_modules\react-native-sili-video-compression\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:5-80
-MERGED from [com.github.pgmacdesign:silicompressor:3.0.6] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\f5892e177805c1edec2c66b9498dffdf\jetified-silicompressor-3.0.6\AndroidManifest.xml:11:5-80
-MERGED from [com.github.pgmacdesign:silicompressor:3.0.6] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\f5892e177805c1edec2c66b9498dffdf\jetified-silicompressor-3.0.6\AndroidManifest.xml:11:5-80
 	android:name
 		ADDED from E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:7:22-77
 uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
 ADDED from E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:8:5-81
-MERGED from [:react-native-fs] E:\office\z\Envolve_app\node_modules\react-native-fs\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:11:5-81
-MERGED from [:react-native-fs] E:\office\z\Envolve_app\node_modules\react-native-fs\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:11:5-81
-MERGED from [:react-native-sili-video-compression] E:\office\z\Envolve_app\node_modules\react-native-sili-video-compression\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:5-81
-MERGED from [:react-native-sili-video-compression] E:\office\z\Envolve_app\node_modules\react-native-sili-video-compression\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:5-81
 MERGED from [:rn-fetch-blob] E:\office\z\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:33:5-81
 MERGED from [:rn-fetch-blob] E:\office\z\Envolve_app\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:33:5-81
-MERGED from [com.github.pgmacdesign:silicompressor:3.0.6] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\f5892e177805c1edec2c66b9498dffdf\jetified-silicompressor-3.0.6\AndroidManifest.xml:12:5-81
-MERGED from [com.github.pgmacdesign:silicompressor:3.0.6] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\f5892e177805c1edec2c66b9498dffdf\jetified-silicompressor-3.0.6\AndroidManifest.xml:12:5-81
 	android:name
 		ADDED from E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:8:22-78
 uses-permission#android.permission.ACCESS_FINE_LOCATION
@@ -272,8 +257,6 @@ MERGED from [com.facebook.soloader:soloader:0.9.0] C:\Users\vishu\.gradle\caches
 MERGED from [com.facebook.soloader:soloader:0.9.0] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\5cf5a750ab8fb7c4b66b5d174c792687\soloader-0.9.0\AndroidManifest.xml:11:5-20
 MERGED from [com.google.android.material:material:1.1.0] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\6232594a71a653df7d1cbb43b1fd04c1\material-1.1.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.1.0] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\6232594a71a653df7d1cbb43b1fd04c1\material-1.1.0\AndroidManifest.xml:22:5-20
-MERGED from [com.github.pgmacdesign:silicompressor:3.0.6] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\f5892e177805c1edec2c66b9498dffdf\jetified-silicompressor-3.0.6\AndroidManifest.xml:14:5-27:19
-MERGED from [com.github.pgmacdesign:silicompressor:3.0.6] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\f5892e177805c1edec2c66b9498dffdf\jetified-silicompressor-3.0.6\AndroidManifest.xml:14:5-27:19
 MERGED from [com.google.android.gms:play-services-measurement:18.0.1] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\1cd515d48cd00b2971fbb9f89b99274a\play-services-measurement-18.0.1\AndroidManifest.xml:28:5-44:19
 MERGED from [com.google.android.gms:play-services-measurement:18.0.1] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\1cd515d48cd00b2971fbb9f89b99274a\play-services-measurement-18.0.1\AndroidManifest.xml:28:5-44:19
 MERGED from [com.google.android.gms:play-services-measurement-sdk:18.0.1] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\2bb3516eb3e8b148391314ce5b6a4ce7\play-services-measurement-sdk-18.0.1\AndroidManifest.xml:22:5-23:19
@@ -305,8 +288,6 @@ MERGED from [com.android.installreferrer:installreferrer:1.1.2] C:\Users\vishu\.
 		ADDED from E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:22:7-50
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.3.1] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\a02e804feb4e1a9133bf9573f13f9389\core-1.3.1\AndroidManifest.xml:24:18-86
-	android:supportsRtl
-		ADDED from [com.github.pgmacdesign:silicompressor:3.0.6] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\f5892e177805c1edec2c66b9498dffdf\jetified-silicompressor-3.0.6\AndroidManifest.xml:17:9-35
 	android:label
 		ADDED from E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:17:7-39
 		ADDED from E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:17:7-39
@@ -323,7 +304,6 @@ MERGED from [com.android.installreferrer:installreferrer:1.1.2] C:\Users\vishu\.
 	android:allowBackup
 		ADDED from E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:20:7-34
 		ADDED from E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:20:7-34
-		REJECTED from [com.github.pgmacdesign:silicompressor:3.0.6] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\f5892e177805c1edec2c66b9498dffdf\jetified-silicompressor-3.0.6\AndroidManifest.xml:15:9-35
 	android:theme
 		ADDED from E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:21:7-38
 		ADDED from E:\office\z\Envolve_app\android\app\src\main\AndroidManifest.xml:21:7-38
@@ -471,8 +451,6 @@ MERGED from [:react-native-community_picker] E:\office\z\Envolve_app\node_module
 MERGED from [:react-native-community_picker] E:\office\z\Envolve_app\node_modules\@react-native-community\picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-community_slider] E:\office\z\Envolve_app\node_modules\@react-native-community\slider\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-community_slider] E:\office\z\Envolve_app\node_modules\@react-native-community\slider\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-7:41
-MERGED from [:react-native-fs] E:\office\z\Envolve_app\node_modules\react-native-fs\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-fs] E:\office\z\Envolve_app\node_modules\react-native-fs\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-gesture-handler] E:\office\z\Envolve_app\node_modules\react-native-gesture-handler\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-gesture-handler] E:\office\z\Envolve_app\node_modules\react-native-gesture-handler\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-get-location] E:\office\z\Envolve_app\node_modules\react-native-get-location\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-7:41
@@ -487,8 +465,6 @@ MERGED from [:react-native-safe-area-context] E:\office\z\Envolve_app\node_modul
 MERGED from [:react-native-safe-area-context] E:\office\z\Envolve_app\node_modules\react-native-safe-area-context\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-screens] E:\office\z\Envolve_app\node_modules\react-native-screens\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-screens] E:\office\z\Envolve_app\node_modules\react-native-screens\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-sili-video-compression] E:\office\z\Envolve_app\node_modules\react-native-sili-video-compression\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-sili-video-compression] E:\office\z\Envolve_app\node_modules\react-native-sili-video-compression\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-svg] E:\office\z\Envolve_app\node_modules\react-native-svg\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-svg] E:\office\z\Envolve_app\node_modules\react-native-svg\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-video] E:\office\z\Envolve_app\node_modules\react-native-video\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
@@ -551,8 +527,6 @@ MERGED from [com.facebook.soloader:soloader:0.9.0] C:\Users\vishu\.gradle\caches
 MERGED from [com.facebook.soloader:soloader:0.9.0] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\5cf5a750ab8fb7c4b66b5d174c792687\soloader-0.9.0\AndroidManifest.xml:7:5-9:41
 MERGED from [com.google.android.material:material:1.1.0] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\6232594a71a653df7d1cbb43b1fd04c1\material-1.1.0\AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.material:material:1.1.0] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\6232594a71a653df7d1cbb43b1fd04c1\material-1.1.0\AndroidManifest.xml:20:5-44
-MERGED from [com.github.pgmacdesign:silicompressor:3.0.6] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\f5892e177805c1edec2c66b9498dffdf\jetified-silicompressor-3.0.6\AndroidManifest.xml:7:5-9:41
-MERGED from [com.github.pgmacdesign:silicompressor:3.0.6] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\f5892e177805c1edec2c66b9498dffdf\jetified-silicompressor-3.0.6\AndroidManifest.xml:7:5-9:41
 MERGED from [androidx.appcompat:appcompat:1.1.0] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\158a52e635dba5286f861fa1bdd245ee\appcompat-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.appcompat:appcompat:1.1.0] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\158a52e635dba5286f861fa1bdd245ee\appcompat-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.multidex:multidex:2.0.0] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\e65cad7eebc76a8bc588443acfcd109d\multidex-2.0.0\AndroidManifest.xml:20:5-43
@@ -1043,16 +1017,6 @@ ADDED from [com.google.firebase:firebase-common:19.5.0] C:\Users\vishu\.gradle\c
 		ADDED from [com.google.firebase:firebase-common:19.5.0] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\64b6c16b200bb947e81c359bf8741eb3\jetified-firebase-common-19.5.0\AndroidManifest.xml:45:17-82
 	android:name
 		ADDED from [com.google.firebase:firebase-common:19.5.0] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\64b6c16b200bb947e81c359bf8741eb3\jetified-firebase-common-19.5.0\AndroidManifest.xml:44:17-121
-provider#com.iceteck.silicompressorr.provider.GenericFileProvider
-ADDED from [com.github.pgmacdesign:silicompressor:3.0.6] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\f5892e177805c1edec2c66b9498dffdf\jetified-silicompressor-3.0.6\AndroidManifest.xml:18:9-26:20
-	android:grantUriPermissions
-		ADDED from [com.github.pgmacdesign:silicompressor:3.0.6] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\f5892e177805c1edec2c66b9498dffdf\jetified-silicompressor-3.0.6\AndroidManifest.xml:22:13-47
-	android:authorities
-		ADDED from [com.github.pgmacdesign:silicompressor:3.0.6] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\f5892e177805c1edec2c66b9498dffdf\jetified-silicompressor-3.0.6\AndroidManifest.xml:20:13-83
-	android:exported
-		ADDED from [com.github.pgmacdesign:silicompressor:3.0.6] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\f5892e177805c1edec2c66b9498dffdf\jetified-silicompressor-3.0.6\AndroidManifest.xml:21:13-37
-	android:name
-		ADDED from [com.github.pgmacdesign:silicompressor:3.0.6] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\f5892e177805c1edec2c66b9498dffdf\jetified-silicompressor-3.0.6\AndroidManifest.xml:19:13-84
 uses-permission#com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE
 ADDED from [com.google.android.gms:play-services-measurement:18.0.1] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\1cd515d48cd00b2971fbb9f89b99274a\play-services-measurement-18.0.1\AndroidManifest.xml:26:5-110
 MERGED from [com.google.android.gms:play-services-measurement-impl:18.0.1] C:\Users\vishu\.gradle\caches\transforms-2\files-2.1\9a7d652dce632e1bd213dbc1d513768e\play-services-measurement-impl-18.0.1\AndroidManifest.xml:26:5-110

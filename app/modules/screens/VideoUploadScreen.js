@@ -28,7 +28,7 @@ import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 import RNFetchBlob from "rn-fetch-blob";
 import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
 import AwesomeAlert from "react-native-awesome-alerts";
-import CompressModule from 'react-native-sili-video-compression';
+// import CompressModule from 'react-native-sili-video-compression';
 import { size } from "lodash";
 // import VideoCompress from 'react-native-video-compressor'
 
@@ -224,7 +224,7 @@ class VideoUploadScreen extends Component {
       // this.subscription = EVENT_NAME.addListener(
       //   CompressModule.VIDEO_COMPRESS_PROGRESS_EMITTER,
       //   (value)=> console.log(value));
-      CompressModule.compressVideoWithQuality(v, 0.5, 0.5, this.errorCall, this.successCall);
+      // CompressModule.compressVideoWithQuality(v, 0.5, 0.5, this.errorCall, this.successCall);
       // CompressModule.compressVideo(v,CompressModule.LOW, this.errorCall, this.successCall);
       // this.subscription.remove();
     } else {

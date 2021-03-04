@@ -27,8 +27,6 @@ import io.invertase.firebase.messaging.ReactNativeFirebaseMessagingPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 // react-native-firebase
 import io.invertase.firebase.RNFirebasePackage;
-// react-native-fs
-import com.rnfs.RNFSPackage;
 // react-native-gesture-handler
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 // react-native-get-location
@@ -45,8 +43,6 @@ import com.swmansion.reanimated.ReanimatedPackage;
 import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
 // react-native-screens
 import com.swmansion.rnscreens.RNScreensPackage;
-// react-native-sili-video-compression
-import com.reactlibrary.RNVideoCompressionPackage;
 // react-native-svg
 import com.horcrux.svg.SvgPackage;
 // react-native-vector-icons
@@ -108,7 +104,6 @@ public class PackageList {
       new ReactNativeFirebaseMessagingPackage(),
       new RNDeviceInfo(),
       new RNFirebasePackage(),
-      new RNFSPackage(),
       new RNGestureHandlerPackage(),
       new ReactNativeGetLocationPackage(),
       new ImagePickerPackage(),
@@ -117,7 +112,6 @@ public class PackageList {
       new ReanimatedPackage(),
       new SafeAreaContextPackage(),
       new RNScreensPackage(),
-      new RNVideoCompressionPackage(),
       new SvgPackage(),
       new VectorIconsPackage(),
       new ReactVideoPackage(),

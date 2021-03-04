@@ -100,7 +100,21 @@ class SendNotification extends Component {
         this.setState({ school_id: school });
       }, (err) =>{
         console.log("error",err)
-      })
+      });
+    
+      await fetch(`${API_URL}/list-school-teachers/${this.state.school_id}`, {
+        method: "GET",
+        })
+       .then(response => response.json())
+       .then(response => {
+         console.log("==== teacher list ====>>",response)
+
+         if(response.length){
+           response.unshift({mobile_num: 'all',teacher_name: 'all'});
+          this.setState({ trainer_list: response });
+         }        
+       }).catch((err) => alert(err))
+
   }
 
   goBack = () => {
