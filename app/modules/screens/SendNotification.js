@@ -46,42 +46,15 @@ class SendNotification extends Component {
       principal_id: '',
       school_id: '',
       selectedUserType: [],
-      parents_list:[
-        {
-          id: 'all',
-          name: 'all'
-        },
-      ],
-      trainer_list:[
-        {
-          mobile_num: 'all',
-          teacher_name: 'all'
-        },
-      ],
-      classes:[
-        {
-          label: 'all',
-          value: 'all'
-        },
-        {
-          label: 'class-I',
-          value: '1'
-        }
-      ],
-      section:[
-        {
-          label: 'all',
-          value: 'all'
-        },
-        {
-          label: '1A',
-          value: '1A'
-        }
-      ],
+      parents_list:[],
+      trainer_list:[],
+      classes:[],
+      section:[],
       selectedTrainer: [],
       selectedClass:'',
       selectedSection:'',
-      selectedParents:[]
+      selectedParents:[],
+      final_list: []
     };
     
   }
@@ -112,8 +85,25 @@ class SendNotification extends Component {
          if(response.length){
            response.unshift({mobile_num: 'all',teacher_name: 'all'});
           this.setState({ trainer_list: response });
+         } else {
+           this.setState({ trainer_list: []});
          }        
-       }).catch((err) => alert(err))
+      }).catch((err) => alert(err))
+    
+      await fetch(`${API_URL}/get-school-classes/${this.state.school_id}`, {
+        method: "GET",
+        })
+       .then(response => response.json())
+       .then(response => {
+         let b =[{label: 'all', value: 'all' }];
+         console.log("==== Class list ====>>",response)
+        if(response.length){
+          response.map((data) => b.push({ "label": data.class, "value": data.class }));
+          this.setState({ classes: b });
+        } else {
+          this.setState({ classes: [], section: [], parents_list: []})
+        }        
+      }).catch((err) => alert(err))
 
   }
 
@@ -125,14 +115,16 @@ class SendNotification extends Component {
   };
 
   onSelectedItemsChange = selectedUserType => {
-    this.setState({ selectedUserType });
+    this.setState({ selectedUserType, selectedParents: [], selectedSection: '', parents_list: [], selectedClass: '',selectedTrainer: [] });
   };
 
   onSelectedParents = selectedParents =>{
+    console.log(selectedParents)
     this.setState({selectedParents})
   }
   onSelectedTrainer = selectedTrainer =>{
-    this.setState({selectedTrainer})
+    this.setState({selectedTrainer});
+    console.log(selectedTrainer);
   }
 
   checkAndSubmit = async () => {
@@ -167,32 +159,60 @@ class SendNotification extends Component {
       this.hitApi();
   }
 
+  createlist = async () => {
+    let phone_number = []
+    let a =this.state.selectedParents.filter( findall => findall == "all") 
+    let b =this.state.selectedTrainer.filter( findall => findall == "all") 
+    console.log(a);
+      if(a.length){
+        this.state.parents_list.map((data) => data.mobile_num != "all"?phone_number.push(data.mobile_num):null);
+        console.log("P number added here ====>>",phone_number)
+      } else {
+        console.log("P selected one by one ====>>",this.state.selectedParents);
+        phone_number = phone_number.concat(this.state.selectedParents);
+      }
+
+      if(b.length){
+        this.state.trainer_list.map((data) => data.mobile_num != "all"?phone_number.push(data.mobile_num):null);
+        console.log("T number added here ====>>>", phone_number);
+      } else {
+        console.log("T selected one by one ====>>", this.state.selectedTrainer)
+        phone_number = phone_number.concat(this.state.selectedTrainer);
+      }
+
+    console.log("======== all number ==========",phone_number);
+    await this.setState({final_list: phone_number}) 
+    return; 
+  }
+
    hitApi = async() => {
-      this.setState({loading: true})
+      // this.setState({loading: true})
+      await this.createlist();
     if(this.state.headline && this.state.message && this.state.selectedUserType.length){
+
 			var data = {
 				principal_id:this.state.principal_id,
 				title:this.state.headline,
 				message:this.state.message,
 				school_id:this.state.school_id,
 				receiver_type:this.state.selectedUserType,
-        trainer_list: this.state.selectedTrainer,
-        parents_list: this.state.selectedParents
+        receiver_num:this.state.final_list
 			}
-			await fetch(`${API_URL}/principal-send-notifications/`, {
-						method: "POST",
-						headers: {
-            "Accept": "application/json",
-						"Content-Type": "application/json"
-          },
-           body: JSON.stringify(data)
-         })
-           .then(response => response.json())
-           .then(response => {
-             this.setState({ headline: '', message: '', selectedUserType: []});
-             alert("Notification Sent Successfully");
-             this.getlistpriviuspage();        
-					 });
+      console.log(data);
+			// await fetch(`${API_URL}/principal-send-notifications/`, {
+			// 			method: "POST",
+			// 			headers: {
+      //       "Accept": "application/json",
+			// 			"Content-Type": "application/json"
+      //     },
+      //      body: JSON.stringify(data)
+      //    })
+      //      .then(response => response.json())
+      //      .then(response => {
+      //        this.setState({ headline: '', message: '', selectedUserType: []});
+      //        alert("Notification Sent Successfully");
+      //        this.getlistpriviuspage();        
+			// 		 });
     } else {
       alert("all fields are required")
     }
@@ -211,6 +231,41 @@ class SendNotification extends Component {
       this.props.navigation.dispatch(navigateAction);
 
   }).catch((err) => alert(err))
+  }
+
+  getClassSections = async () => {
+    await fetch(`${API_URL}/get-class-sections/${this.state.school_id}/${this.state.selectedClass}`, {
+      method: "GET",
+      })
+     .then(response => response.json())
+     .then(response => {
+       let b =[{label: 'all', value: 'all' }];
+       console.log("==== Class section list ====>>",response)
+      if(response.length){
+        response.map((data) => b.push({ "label": data.section, "value": data.section }));
+        this.setState({ section: b, selectedSection: '' });
+      } else {
+        this.setState({ section: [], parents_list: []})
+      }        
+    }).catch((err) => alert(err))
+  }
+
+  getParentsList = async () => {
+    await this.state.selectedClass == 'all'? this.setState({ selectedSection: 'all'}): null;
+    console.log(`${API_URL}/get-parents-via-class-section/${this.state.school_id}/${this.state.selectedClass}/${this.state.selectedSection}`)
+    await fetch(`${API_URL}/get-parents-via-class-section/${this.state.school_id}/${this.state.selectedClass}/${this.state.selectedSection}`, {
+      method: "GET",
+      })
+     .then(response => response.json())
+     .then(response => {
+       console.log("==== parents list ====>>",response)
+      if(response.length){
+        response.unshift({mobile_num: 'all',student_name: 'all'});
+        this.setState({ parents_list: response });
+      } else {
+        this.setState({parents_list: []})
+      }        
+    }).catch((err) => alert(err))
   }
 
   render() {
@@ -353,7 +408,10 @@ class SendNotification extends Component {
                           justifyContent: "flex-start",
                         }}
                         dropDownStyle={{ backgroundColor: "#fafafa" }}
-                        onChangeItem={(item) => this.setState({ selectedClass: item.value})}
+                        onChangeItem={ async (item) => {
+                          await this.setState({ selectedClass: item.value, selectedParents: [], selectedSection: [], parents_list: []})
+                          await item.value == "all"? this.getParentsList():this.getClassSections();
+                        }}
                         placeholder=""
                       />
                     </View>
@@ -361,10 +419,11 @@ class SendNotification extends Component {
 
                   <View style={styleData.customDropdown}>
                     <View  style={styleData.customDropdownChild1}>
-                      <Text style={styleData.lableStyle}>Select section:</Text>
+                      <Text style={ this.state.selectedClass == "all"?{...styleData.lableStyle, color: "#E6E6E6"}:styleData.lableStyle}>Select section:</Text>
                     </View>
                     <View style={styleData.customDropdownChild2}>
                     <DropDownPicker
+                      disabled={ this.state.selectedClass == 'all'? true:false}
                       items={this.state.section}
                       defaultValue=""
                       containerStyle={{ height: 50, borderRadius: 0 }}
@@ -373,7 +432,10 @@ class SendNotification extends Component {
                         justifyContent: "flex-start",
                       }}
                       dropDownStyle={{ backgroundColor: "#fafafa" }}
-                      onChangeItem={(item) => this.setState({ selectedSection: item.value})}
+                      onChangeItem={ async (item) => {
+                        await this.setState({ selectedSection: item.value, selectedParents: []});
+                        this.getParentsList();
+                      }}
                       placeholder=""
                     />
                     </View>
@@ -383,7 +445,7 @@ class SendNotification extends Component {
                     <MultiSelect
                       // hideTags
                       items={this.state.parents_list}
-                      uniqueKey="id"
+                      uniqueKey="mobile_num"
                       ref={(component) => { this.multiSelect = component }}
                       onSelectedItemsChange={this.onSelectedParents}
                       selectedItems={this.state.selectedParents}
@@ -396,7 +458,7 @@ class SendNotification extends Component {
                       selectedItemTextColor="#1CAFF6"
                       selectedItemIconColor="#1CAFF6"
                       itemTextColor="#000"
-                      displayKey="name"
+                      displayKey="student_name"
                       searchInputStyle={{ color: '#CCC' }}
                       submitButtonColor="#CCC"
                       submitButtonText="Selected"
