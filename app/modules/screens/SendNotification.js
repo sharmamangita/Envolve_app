@@ -199,20 +199,20 @@ class SendNotification extends Component {
         receiver_num:this.state.final_list
 			}
       console.log(data);
-			// await fetch(`${API_URL}/principal-send-notifications/`, {
-			// 			method: "POST",
-			// 			headers: {
-      //       "Accept": "application/json",
-			// 			"Content-Type": "application/json"
-      //     },
-      //      body: JSON.stringify(data)
-      //    })
-      //      .then(response => response.json())
-      //      .then(response => {
-      //        this.setState({ headline: '', message: '', selectedUserType: []});
-      //        alert("Notification Sent Successfully");
-      //        this.getlistpriviuspage();        
-			// 		 });
+			await fetch(`${API_URL}/principal-send-notifications/`, {
+						method: "POST",
+						headers: {
+            "Accept": "application/json",
+						"Content-Type": "application/json"
+          },
+           body: JSON.stringify(data)
+         })
+           .then(response => response.json())
+           .then(response => {
+             this.setState({ headline: '', message: '', selectedUserType: []});
+             alert("Notification Sent Successfully");
+             this.getlistpriviuspage();        
+					 });
     } else {
       alert("all fields are required")
     }
