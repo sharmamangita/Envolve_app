@@ -186,7 +186,7 @@ class SendNotification extends Component {
   }
 
    hitApi = async() => {
-      // this.setState({loading: true})
+      this.setState({loading: true})
       await this.createlist();
     if(this.state.headline && this.state.message && this.state.selectedUserType.length){
 
