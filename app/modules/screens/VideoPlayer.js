@@ -109,12 +109,6 @@ class VideoPlayer extends Component {
           onLoad={this.onLoad}
           onLoadStart={this.onLoadStart}
           onProgress={this.onProgress}
-          bufferConfig={{
-            minBufferMs: 15000,
-            maxBufferMs: 50000,
-            bufferForPlaybackMs: 2500,
-            bufferForPlaybackAfterRebufferMs: 5000
-          }}
           onBuffer={this.onBuffer}
           paused={this.state.paused}
           ref={(videoPlayer) => (this.videoPlayer = videoPlayer)}

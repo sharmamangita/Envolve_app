@@ -28,6 +28,7 @@ class ActivitiesClassesScreen extends Component {
       classNames: [],
       activityName: null,
       activityId: null,
+      schoolId: null,
       emptyMsg: null,
       progress: 0,
       indeterminate: true,
@@ -65,6 +66,7 @@ class ActivitiesClassesScreen extends Component {
                 activityName: activityName,
                 activityId: activityId,
                 classNames: that.classNames,
+                schoolId: params.schoolId,
                 loading: false,
               });
               console.log("list-class-activites ===>>>", activityName, ", ", activityId, ", ", that.classNames)
@@ -115,6 +117,7 @@ capitalize = (s) => {
         activityName: activityName,
         activityClass: activityClass,
         schoolName: params.schoolName,
+        schoolId: this.state.schoolId
       },
     });
     this.props.navigation.dispatch(navigateAction);

@@ -202,7 +202,7 @@ class ActivitiesScreen extends Component {
           if(this.state.secondtime){
             openSettings();
           }else {
-            alert("App need to access Loacation, Camera, and External Storage Write Permission");
+            alert("App need to access Location, Camera, and External Storage Write Permission");
           }
           this.setState({secondtime: true});
         }
@@ -245,7 +245,7 @@ class ActivitiesScreen extends Component {
         .catch(error => {
           const { code, message } = error;
           console.warn(code, message);
-          alert("Not able to fetch device loacation make sure GPS is ON");
+          alert("Not able to fetch device location make sure GPS is ON");
           this.setState({ loading: false});
           gotlocation = false;
         })

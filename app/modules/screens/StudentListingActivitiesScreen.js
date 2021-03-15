@@ -33,7 +33,7 @@ class StudentListingActivitiesScreen extends Component {
     if (params.activityId != undefined && params.activityName && params.activityClass) {
       console.log("in didMount activityClass ======>>>", params.activityClass);
       console.log("in didMount activityId ======>>>", params.activityId);
-      fetch(`${API_URL}/student-attendance-by-activity/${params.activityClass}/${params.activityId}`)
+      fetch(`${API_URL}/student-attendance-by-activity/${params.schoolId}/${params.activityClass}/${params.activityId}`)
         .then((res) => res.json())
         .then((responsed) => {
           if (responsed != undefined && responsed.length) {
