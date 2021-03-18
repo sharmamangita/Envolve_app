@@ -36,12 +36,12 @@ class StudentListingActivitiesScreen extends Component {
       fetch(`${API_URL}/student-attendance-by-activity/${params.schoolId}/${params.activityClass}/${params.activityId}`)
         .then((res) => res.json())
         .then((responsed) => {
+          console.log("=========================");
+          console.log(responsed);
+          console.log("==========================");
           if (responsed != undefined && responsed.length) {
             let teacherName = null;
             let teacherId = null
-            console.log("=========================");
-            console.log(responsed);
-            console.log("==========================");
             responsed.forEach(function (item, index) {
               teacherName = item.teacher_name;
               teacherId = item.teacher_id;

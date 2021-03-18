@@ -15,8 +15,9 @@ import {
   Dimensions,
   PermissionsAndroid,
   NativeEventEmitter,
-  NativeModules
+  NativeModules,
 } from "react-native";
+import { ListItem, CheckBox, Body } from 'native-base';
 import AsyncStorage from "@react-native-community/async-storage";
 import DropDownPicker from "react-native-dropdown-picker";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -28,9 +29,8 @@ import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 import RNFetchBlob from "rn-fetch-blob";
 import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
 import AwesomeAlert from "react-native-awesome-alerts";
-// import CompressModule from 'react-native-sili-video-compression';
 import { size } from "lodash";
-// import VideoCompress from 'react-native-video-compressor'
+import { auth } from "react-native-firebase";
 
 class VideoUploadScreen extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -61,7 +61,8 @@ class VideoUploadScreen extends Component {
       alertTitle:'',
       userRoll: '',
       videoC: '',
-      secondtime: false
+      secondtime: false,
+      selected: false
     };
   }
 
@@ -143,7 +144,7 @@ class VideoUploadScreen extends Component {
     //           this.props.navigation.dispatch(navigateAction);
     //         }
     //       });
-          // console.log(" ======>>>",this.state.school)
+    // console.log(" ======>>>",this.state.school)
 
   }
 
@@ -344,7 +345,7 @@ class VideoUploadScreen extends Component {
       maxHeight: 550,
       quality: 1,
       videoQuality: 'low',
-      durationLimit: 300, //Video max duration in seconds
+      durationLimit: 240, //Video max duration in seconds
       saveToPhotos: true,
     };
     let isCameraPermitted = await this.requestCameraPermission();
@@ -386,26 +387,35 @@ class VideoUploadScreen extends Component {
       this.setState({secondtime: true});
     }
     
-    // launchImageLibrary(
-    //   {
-    //     mediaType: "video",
-    //     includeBase64: false,
-    //     maxHeight: 200,
-    //     maxWidth: 200,
+  }
+  
+  
+  selectVideoFromGallery = () => {
+    launchImageLibrary(
+     {
+        mediaType: "video",
+        includeBase64: false,
+        maxHeight: 200,
+        maxWidth: 200,
         
-    //   },
-    //   async (videoResponse) => {
-    //     if (videoResponse.fileName && videoResponse.uri) {
-    //       that.setState({
-    //         videoFileName: videoResponse.fileName,
-    //         videoUri: videoResponse.uri,
-    //         videoC: videoResponse
-    //       });
-    //     } else {
-    //       Alert.alert("Error", "This file is not supported");
-    //     }
-    //   }
-    // );
+      },
+      async (videoResponse) => {
+        console.log(videoResponse)
+        if(videoResponse.fileSize > 100000000){
+          Alert.alert("Over Size", "video file limit is 100MB")
+        } else {
+          if (videoResponse.fileName && videoResponse.uri) {
+            this.setState({
+              videoFileName: videoResponse.fileName,
+              videoUri: videoResponse.uri,
+              videoC: videoResponse
+            });
+          } else {
+            Alert.alert("Error", "This file is not supported");
+          }
+        }
+      }
+    );
   }
   render() {
     const { videoFileName, videoUri, loading,showAlert,alertMsg,alertTitle } = this.state;
@@ -503,7 +513,6 @@ class VideoUploadScreen extends Component {
               <View
                 style={{
                   flexDirection: "row",
-                  marginBottom: 30,
                   width: window.width,
                   alignItems: "center",
                   justifyContent: "center",
@@ -518,13 +527,36 @@ class VideoUploadScreen extends Component {
                     value={videoFileName}
                   />
                 </View>
-                <View style={{ flex: 1.5, backgroundColor: "#fff" }}>
+                <View style={{ backgroundColor: "#fff" }}>
+                  { this.state.selected? 
                   <Button
-                    title="Record"
-                    onPress={this.selectPhotoTapped.bind(this)}
+                  title="Gallery"
+                  onPress={this.selectVideoFromGallery.bind(this)}
+                  />                 
+                  : 
+                  <Button
+                  title="Record"
+                  onPress={this.selectPhotoTapped.bind(this)}
                   />
+                  }
                 </View>
               </View>
+              <View style={{marginBottom: 20}}>
+              { this.state.selected?
+                <Text style={{ fontSize: 10, color: "gray", alignSelf:"flex-end"}}>Video file size limit is 100MB</Text>:null
+              }
+              </View>
+              <TouchableOpacity style={styles.checkboxContainer} 
+               onPress={() => this.setState({selected: !this.state.selected, videoUri:'', videoFileName:''})}
+              >
+                <CheckBox
+                  checked={this.state.selected}
+                  onPress={() => this.setState({selected: !this.state.selected, videoUri:'', videoFileName:''})}
+                  style={styles.checkbox}
+                />
+                  <Text style={styles.checkboxLabel}>Choose video file from gallery!</Text>
+              </TouchableOpacity>
+
               {this.state.isProgressBar ? (
                 <View style={{ marginBottom: 30 }}>
                   <Progress.Bar
@@ -628,6 +660,19 @@ const styles = StyleSheet.create({
     margin: 15,
     marginBottom: 10,
     borderRadius: 10,
+  },
+  checkboxContainer: {
+    flexDirection: "row",
+    marginBottom: 20,
+  },
+  checkbox: {
+    alignSelf: "center",
+    paddingLeft: 0,
+    paddingRight: 0,
+    marginRight: 10
+  },
+  checkboxLabel: {
+    margin: 8,
   },
 });
 export default VideoUploadScreen;

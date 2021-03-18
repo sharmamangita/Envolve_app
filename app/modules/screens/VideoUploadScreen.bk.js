@@ -335,7 +335,7 @@ class VideoUploadScreen extends Component {
                       activity_id: item.value,
                     })
                   }
-                  placeholder="Select an activitie"
+                  placeholder="Select an activities"
                 />
               </View>
 
