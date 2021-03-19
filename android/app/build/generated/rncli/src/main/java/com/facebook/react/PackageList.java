@@ -27,6 +27,8 @@ import io.invertase.firebase.messaging.ReactNativeFirebaseMessagingPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 // react-native-firebase
 import io.invertase.firebase.RNFirebasePackage;
+// react-native-geolocation-service
+import com.agontuk.RNFusedLocation.RNFusedLocationPackage;
 // react-native-gesture-handler
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 // react-native-get-location
@@ -104,6 +106,7 @@ public class PackageList {
       new ReactNativeFirebaseMessagingPackage(),
       new RNDeviceInfo(),
       new RNFirebasePackage(),
+      new RNFusedLocationPackage(),
       new RNGestureHandlerPackage(),
       new ReactNativeGetLocationPackage(),
       new ImagePickerPackage(),

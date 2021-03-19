@@ -7,6 +7,7 @@ import { NavigationActions } from 'react-navigation';
 import { API_URL } from '../constants/config';
 import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
 import GetLocation from 'react-native-get-location';
+import Geolocation from 'react-native-geolocation-service'
 import { openSettings } from 'react-native-permissions'
 
 import {
@@ -36,7 +37,8 @@ class ActivitiesScreen extends Component {
             filePath: '',
             location: '',
             secondtime:false,
-            trainerAttendance: true
+            trainerAttendance: true,
+            gotlocation: false
         }
         this.checkTeacherAttendance();
     }
@@ -210,7 +212,6 @@ class ActivitiesScreen extends Component {
 
       createFormData = (photo, body) => {
         const data = new FormData();
-      
         data.append("photo", {
           name: photo.fileName,
           type: photo.type,
@@ -219,6 +220,7 @@ class ActivitiesScreen extends Component {
         });
       
         Object.keys(body).forEach(key => {
+
           data.append(key, body[key]);
         });
         data.append("school_id", this.props.navigation.state.params.schoolData.school_id);
@@ -234,43 +236,47 @@ class ActivitiesScreen extends Component {
       sendTrainerAttendance = async () =>{
         let gotlocation = false;
         this.setState({ loading: true});
-        await GetLocation.getCurrentPosition({
-          enableHighAccuracy: true,
-          timeout: 15000,
-        })
-        .then(location => {
-          this.setState({location});
-          gotlocation = true;
-        })
-        .catch(error => {
-          const { code, message } = error;
-          console.warn(code, message);
-          alert("Not able to fetch device location make sure GPS is ON");
-          this.setState({ loading: false});
-          gotlocation = false;
-        })
-
-        if(gotlocation){
-          await fetch(`${API_URL}/mark-trainer-attendance/`, {
-						method: "POST",
-						headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-           body: this.createFormData(this.state.filePath, this.state.location)
-         })
-           .then(response => response.json())
-           .then(response => {
-             console.log("Attendance has been Submitted", response);
-             this.setState({ loading: false});
-             alert("Attendance has been Submitted");
-             this.setState({ photo: null, trainerAttendance: true });
+        console.log("=========== sendTrainerAttendance is called ==============")
+        await Geolocation.getCurrentPosition(
+          (position) => {
+            console.log(position.coords);
+            // this.setState({location: position.coords, gotlocation: true});
+            fetch(`${API_URL}/mark-trainer-attendance/`, {
+              method: "POST",
+              headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+             body: this.createFormData(this.state.filePath, position.coords)
            })
-           .catch(error => {
-             console.log("Attendance submission", error);
-             this.setState({ loading: false, trainerAttendance: false});
-             alert("Attendance submission error!");
-           });
-        }
+             .then(response => response.json())
+             .then(response => {
+               console.log("Attendance has been Submitted", response);
+               this.setState({ loading: false});
+               alert("Attendance has been Submitted");
+               this.setState({ photo: null, trainerAttendance: true });
+             })
+             .catch(error => {
+               console.log("Attendance submission", error);
+               this.setState({ loading: false, trainerAttendance: false});
+               alert("Attendance submission error!");
+             });
+          },
+          (error) => {
+            // See error code charts below.
+            console.log(error.code, error.message);
+            Alert.alert(
+              `Error code: ${error.code}`,
+              `${error.message}`,
+              [
+                  { text: "OK", onPress: () => console.log("OK Pressed") }
+              ],
+              { cancelable: false }
+          );
+            this.setState({ loading: false, gotlocation: false});
+          },
+          { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+        );
+          console.log("============================ end ===========================");
         return null;
       }
 
