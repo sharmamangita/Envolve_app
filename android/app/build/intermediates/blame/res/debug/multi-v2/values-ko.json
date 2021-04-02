@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "E:\\office\\z\\Envolve_app\\android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-ko\\values-ko.xml",
+            "outputFile": "E:\\office\\z\\withsolved\\Envolve_app\\android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-ko\\values-ko.xml",
             "map": [
                 {
                     "source": "C:\\Users\\Dastan\\.gradle\\caches\\transforms-2\\files-2.1\\158a52e635dba5286f861fa1bdd245ee\\appcompat-1.1.0\\res\\values-ko\\values-ko.xml",

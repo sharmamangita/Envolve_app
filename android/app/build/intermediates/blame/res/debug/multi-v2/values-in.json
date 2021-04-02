@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "E:\\office\\z\\Envolve_app\\android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-in\\values-in.xml",
+            "outputFile": "E:\\office\\z\\withsolved\\Envolve_app\\android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-in\\values-in.xml",
             "map": [
                 {
                     "source": "C:\\Users\\Dastan\\.gradle\\caches\\transforms-2\\files-2.1\\bf2f18323e8ad04f8ab621f180746a8e\\play-services-base-17.1.0\\res\\values-in\\values.xml",

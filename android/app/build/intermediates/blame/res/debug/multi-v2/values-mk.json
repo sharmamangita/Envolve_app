@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "E:\\office\\z\\Envolve_app\\android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-mk\\values-mk.xml",
+            "outputFile": "E:\\office\\z\\withsolved\\Envolve_app\\android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-mk\\values-mk.xml",
             "map": [
                 {
                     "source": "C:\\Users\\Dastan\\.gradle\\caches\\transforms-2\\files-2.1\\2f528ec5758618a3d4a51f16ed1ed5b6\\jetified-play-services-basement-17.2.1\\res\\values-mk\\values.xml",
