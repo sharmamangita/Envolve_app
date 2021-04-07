@@ -14,7 +14,8 @@ import { NavigationActions } from 'react-navigation';
 import t from 'tcomb-form-native';
 import { API_URL } from '../constants/config';
 import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
-import firebase from 'react-native-firebase';
+// import firebase from 'react-native-firebase';
+import messaging from '@react-native-firebase/messaging';
 import { getUniqueId, getManufacturer } from 'react-native-device-info'
 const GenerateForm = t.form.Form;
 
@@ -25,15 +26,18 @@ class LoginScreen extends Component {
         this.state={
             loading:false,
             isButtonDisable:false,
-            firebaseToken: '',
-            deviceId: ''
+            firebaseToken: 'efsfsdfsf',
+            deviceId: 'sdfsdfsfss'
         }
         this.getfireToken()
     }
 
     getfireToken = async() => {
         console.log("============================fire===================================")
-        const firebaseToken = await firebase.messaging().getToken();
+        // Register the device with FCM
+        await messaging().registerDeviceForRemoteMessages();
+    
+        const firebaseToken = await messaging().getToken();
         const deviceId = getUniqueId();
         this.setState({firebaseToken, deviceId})
         console.log(firebaseToken)

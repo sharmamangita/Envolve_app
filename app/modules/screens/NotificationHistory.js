@@ -26,9 +26,6 @@ import {
 import MultiSelect from 'react-native-multiple-select';
 import AsyncStorage from '@react-native-community/async-storage';
 
-// import {  } from '';
-import { auth } from "react-native-firebase";
-
 class NotificationHistory extends Component {
   static navigationOptions = ({ navigation }) => {
     return {

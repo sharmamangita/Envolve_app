@@ -9,8 +9,6 @@ import {Container, Header, Content, Textarea, Form, Input, Label, Item, Button, 
 import MultiSelect from 'react-native-multiple-select';
 import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationActions } from 'react-navigation';
-// import {  } from '';
-import { auth } from "react-native-firebase";
 
 class SendNotification extends Component {
   static navigationOptions = ({ navigation }) => {

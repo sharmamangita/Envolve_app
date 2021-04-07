@@ -30,7 +30,6 @@ import RNFetchBlob from "rn-fetch-blob";
 import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
 import AwesomeAlert from "react-native-awesome-alerts";
 import { size } from "lodash";
-import { auth } from "react-native-firebase";
 
 class VideoUploadScreen extends Component {
   static navigationOptions = ({ navigation }) => {
