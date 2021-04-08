@@ -1,4 +1,4 @@
-package com.envolve;
+package com.Envolve.android;
 
 import com.facebook.react.ReactActivity;
 

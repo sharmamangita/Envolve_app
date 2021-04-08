@@ -1,4 +1,4 @@
-package com.envolve;
+package com.Envolve.android;
 
 import android.app.Application;
 import android.content.Context;
