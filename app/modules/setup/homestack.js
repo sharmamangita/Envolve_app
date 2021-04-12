@@ -21,7 +21,8 @@ import Header from '../shared/header';
 import TrainerAttendanceChart from '../screens/TrainerAttendanceChart';
 import SendNotification from '../screens/SendNotification';
 import NotificationHistory from '../screens/NotificationHistory';
-
+import Messages from '../screens/Messages';
+import HomeWorkAndComplaint from '../screens/HomeWorkAndComplaint';
 const HomeStack = createStackNavigator({
     Start: {
         screen: HomeScreen,
@@ -218,7 +219,26 @@ const HomeStack = createStackNavigator({
                 header: null,
             }
         }
-    }
+    },
+    Message: {
+        screen: Messages,
+        navigationOptions: ({ navigation }) => {
+            return {
+                headerTitle: () => <Header navigation={navigation} />,
+                headerLeft: null
+            }
+        }
+    },
+    HomeWorkAndComplaint: {
+        screen: HomeWorkAndComplaint,
+        navigationOptions: ({ navigation }) => {
+            return {
+                headerTitle: () => <></>,
+                headerLeft: null,
+                header: null,
+            }
+        }
+    },
 
 }, { initialRouteName: "Start" });
 export default HomeStack;

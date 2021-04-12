@@ -98,6 +98,21 @@ class ActivitiesScreen extends Component {
         this.props.navigation.dispatch(navigateAction);
     }
 
+    screenMessage = () => {
+      const { state, navigate } = this.props.navigation;
+      var teacher_id = JSON.stringify(state.params.navparams.rolval.teacher_id);
+      var school = state.params.schoolData;
+      var teacher = teacher_id.replace(/^"|"$/g, '');
+      const navigateAction = NavigationActions.navigate({
+          routeName: 'Message',
+          params: {
+            teacher_id:teacher,
+            schoolId:school
+          }
+      });
+      this.props.navigation.dispatch(navigateAction);
+  }
+
     // ==============================================================================
 
     requestCameraPermission = async () => {
@@ -317,6 +332,7 @@ class ActivitiesScreen extends Component {
         }
 
         return (
+          <View>
             <ScrollView style={styleData.screenContainer}>
             <View style={this.state.loading?{opacity:0.1}:{opacity:1}}>
                 <View style={styleData.container}>
@@ -355,6 +371,10 @@ class ActivitiesScreen extends Component {
                   ) : null} 
 
             </ScrollView>
+            {!this.state.trainerAttendance && state.params.navparams.rolval.role == "trainer"?<View style={{ position: 'absolute', left: 0, right: 0, bottom: 0 }}>
+                <Button title="Send homework" onPress={() => this.screenMessage()} color="#23ABE2" marginTop="1000" />
+            </View>:null}
+          </View>
         )
     }
 }
