@@ -27,7 +27,7 @@ class HomeWorkAndComplaint extends Component {
       emptyusertype: false,
       headline: '',
       message: '',
-      principal_id: '',
+      teacher_id: '',
       school_id: '',
       selectedUserType: [],
       parents_list:[],
@@ -45,41 +45,16 @@ class HomeWorkAndComplaint extends Component {
       ],
       selectedType: ''
     };
-    
+      
   }
 
   async  componentDidMount() {
-    await AsyncStorage.getItem("@userData").then(
-      (user) =>{
-        console.log(user)
-        this.setState({ principal_id: user });
-      }, (err) =>{
-        console.log("error",err)
-      })
-    await AsyncStorage.getItem("@schoolId").then(
-      (school) =>{
-        console.log(school)
-        this.setState({ school_id: school });
-      }, (err) =>{
-        console.log("error",err)
-      });
+    // console.log("==================>",this.props.navigation.state.params.school_Id)
+    //     console.log("================>",this.props.navigation.state.params.teacher_id)
+    await this.setState({ teacher_id: this.props.navigation.state.params.teacher_id });
+    await this.setState({ school_id: this.props.navigation.state.params.school_Id });
     
-      await fetch(`${API_URL}/list-school-teachers/${this.state.school_id}`, {
-        method: "GET",
-        })
-       .then(response => response.json())
-       .then(response => {
-         console.log("==== teacher list ====>>",response)
-
-         if(response.length){
-           response.unshift({mobile_num: 'all',teacher_name: 'all'});
-          this.setState({ trainer_list: response });
-         } else {
-           this.setState({ trainer_list: []});
-         }        
-      }).catch((err) => alert(err))
-    
-      await fetch(`${API_URL}/get-school-classes/${this.state.school_id}`, {
+      await fetch(`${API_URL}/get-teacher-classes/${this.state.school_id}/${this.state.teacher_id}`, {
         method: "GET",
         })
        .then(response => response.json())
@@ -97,10 +72,8 @@ class HomeWorkAndComplaint extends Component {
   }
 
   goBack = () => {
-    const navigateAction = NavigationActions.navigate({
-      routeName: "Messages",
-    });
-    this.props.navigation.dispatch(navigateAction);
+    console.log("back")
+    this.props.navigation.goBack(null)
   };
 
   onSelectedItemsChange = selectedUserType => {
@@ -122,21 +95,10 @@ class HomeWorkAndComplaint extends Component {
       this.setState({ emptymsg: true});
       return
     }
-    if(!this.state.selectedUserType.length) {
-      this.setState({ emptyusertype: true});
-      alert("Please select user type");
-      return
-    }
-    if(this.state.selectedUserType.indexOf("trainer") >= 0 && !this.state.selectedTrainer.length){
-      alert("Please select trainer");
-      return
-    }
+
     if(this.state.selectedUserType.indexOf("parents") >= 0 && !this.state.selectedParents.length){
       alert("Please select parents");
       return
-    }
-    if(this.state.selectedUserType.indexOf("trainer") < 0){
-      this.setState({ selectedTrainer: []});
     }
     if(this.state.selectedUserType.indexOf("parents") < 0){
       this.setState({ selectedParents: []});
@@ -146,8 +108,7 @@ class HomeWorkAndComplaint extends Component {
 
   createlist = async () => {
     let phone_number = []
-    let a =this.state.selectedParents.filter( findall => findall == "all") 
-    let b =this.state.selectedTrainer.filter( findall => findall == "all") 
+    let a =this.state.selectedParents.filter( findall => findall == "all")
     console.log(a);
       if(a.length){
         this.state.parents_list.map((data) => data.mobile_num != "all"?phone_number.push(data.mobile_num):null);
@@ -155,14 +116,6 @@ class HomeWorkAndComplaint extends Component {
       } else {
         console.log("P selected one by one ====>>",this.state.selectedParents);
         phone_number = phone_number.concat(this.state.selectedParents);
-      }
-
-      if(b.length){
-        this.state.trainer_list.map((data) => data.mobile_num != "all"?phone_number.push(data.mobile_num):null);
-        console.log("T number added here ====>>>", phone_number);
-      } else {
-        console.log("T selected one by one ====>>", this.state.selectedTrainer)
-        phone_number = phone_number.concat(this.state.selectedTrainer);
       }
 
     console.log("======== all number ==========",phone_number);
@@ -176,7 +129,7 @@ class HomeWorkAndComplaint extends Component {
     if(this.state.headline && this.state.message && this.state.selectedUserType.length){
 
 			var data = {
-				principal_id:this.state.principal_id,
+				teacher_id:this.state.teacher_id,
 				title:this.state.headline,
 				message:this.state.message,
 				school_id:this.state.school_id,
@@ -199,12 +152,13 @@ class HomeWorkAndComplaint extends Component {
              this.getlistpriviuspage();        
 					 });
     } else {
+      this.setState({loading: false})
       alert("all fields are required")
     }
   }
 
   getClassSections = async () => {
-    await fetch(`${API_URL}/get-class-sections/${this.state.school_id}/${this.state.selectedClass}`, {
+    await fetch(`${API_URL}/get-class-sections-for-teacher/${this.state.school_id}/${this.state.teacher_id}/${this.state.selectedClass}`, {
       method: "GET",
       })
      .then(response => response.json())
@@ -350,29 +304,6 @@ class HomeWorkAndComplaint extends Component {
                     />
                   </View>
                 </View>
-
-                {/* <View style={styleData.customDropdown}>
-
-                  <View style={styleData.customDropdownChild2}>
-                  <DropDownPicker
-                    items={this.state.messageType}
-                    defaultValue=""
-                    containerStyle={{ height: 50, borderRadius: 0 }}
-                    style={{ ...styleData.customDropdownDivider, paddingBottom: 10, }}
-                    itemStyle={{
-                      justifyContent: "flex-start",
-                    }}
-                    dropDownStyle={{ backgroundColor: "#fafafa" }}
-                    onChangeItem={ async (item) => {
-                      await this.setState({ selectedType: item.value});
-                    }}
-                    placeholderStyle={{color:'black'}}
-                    placeholder="Message Type"
-                  />
-                  </View>
-                </View> */}
-
-            {/* ============================================================== */}
             <Form>
               
                   

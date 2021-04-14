@@ -19,6 +19,8 @@ class Messages extends Component {
     }
 
     componentDidMount() {
+        console.log("=========>",this.props.navigation.state.params.schoolId.school_id)
+        console.log("=========>",this.props.navigation.state.params.teacher_id)
     }
 
     inbox = () => {
@@ -32,6 +34,10 @@ class Messages extends Component {
     OpenHWAC = () => {
         const navigateAction = NavigationActions.navigate({
             routeName: "HomeWorkAndComplaint",
+            params: {
+                teacher_id:this.props.navigation.state.params.teacher_id,
+                school_Id:this.props.navigation.state.params.schoolId.school_id
+              }
           });
           this.props.navigation.dispatch(navigateAction);
     }
