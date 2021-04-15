@@ -126,31 +126,30 @@ class HomeWorkAndComplaint extends Component {
    hitApi = async() => {
       this.setState({loading: true})
       await this.createlist();
-    if(this.state.headline && this.state.message && this.state.selectedUserType.length){
+    if(this.state.headline && this.state.message && this.state.final_list.length){
 
 			var data = {
 				teacher_id:this.state.teacher_id,
 				title:this.state.headline,
 				message:this.state.message,
 				school_id:this.state.school_id,
-				receiver_type:this.state.selectedUserType,
         receiver_num:this.state.final_list
 			}
       console.log(data);
-			await fetch(`${API_URL}/principal-send-notifications/`, {
-						method: "POST",
-						headers: {
-            "Accept": "application/json",
-						"Content-Type": "application/json"
-          },
-           body: JSON.stringify(data)
-         })
-           .then(response => response.json())
-           .then(response => {
-             this.setState({ headline: '', message: '', selectedUserType: []});
-             alert("Notification Sent Successfully");
-             this.getlistpriviuspage();        
-					 });
+			// await fetch(`${API_URL}/teacher-send-notifications/`, {
+			// 			method: "POST",
+			// 			headers: {
+      //       "Accept": "application/json",
+			// 			"Content-Type": "application/json"
+      //     },
+      //      body: JSON.stringify(data)
+      //    })
+      //      .then(response => response.json())
+      //      .then(response => {
+      //        this.setState({ headline: '', message: '', selectedUserType: []});
+      //        alert("Sent Successfully");
+      //        this.getlistpriviuspage();        
+			// 		 });
     } else {
       this.setState({loading: false})
       alert("all fields are required")
@@ -306,7 +305,6 @@ class HomeWorkAndComplaint extends Component {
                 </View>
             <Form>
               
-                  
                     <Input 
                       onChangeText={ headline => this.setState({ headline, emptyheader: false })}
                       autoCorrect={false}
@@ -376,7 +374,7 @@ const styleData = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: "#fff",
     paddingLeft: 10,
-    marginTop: 15,
+    // marginTop: 15,
     height:40,
     borderBottomWidth:2,
     borderColor:'#ddd',
