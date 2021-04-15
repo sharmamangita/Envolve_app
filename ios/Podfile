@@ -8,6 +8,8 @@ target 'Envolve' do
 
   use_react_native!(:path => config["reactNativePath"])
 
+  pod 'react-native-document-picker', :path => '../node_modules/react-native-document-picker'
+
   target 'EnvolveTests' do
     inherit! :complete
     # Pods for testing

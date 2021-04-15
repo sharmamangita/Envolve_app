@@ -1,14 +1,12 @@
 import React, { Component } from "react";
-import { ScrollView, View, Text, StyleSheet,TouchableOpacity, SectionList, Image } from "react-native";
+import { ScrollView, View, Text, StyleSheet,TouchableOpacity, Image, Platform, Permission } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { API_URL } from "../constants/config";
-import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
+import { Bubbles } from "react-native-loader";
 import DropDownPicker from 'react-native-dropdown-picker';
-import { sample } from "lodash";
-import {Container, Header, Content, Textarea, Form, Input, Label, Item, Button, Icon as Icons} from 'native-base';
+import {Textarea, Form, Input, Button, Icon as Icons} from 'native-base';
 import MultiSelect from 'react-native-multiple-select';
-import AsyncStorage from '@react-native-community/async-storage';
-import { NavigationActions } from 'react-navigation';
+import DocumentPicker from 'react-native-document-picker';
 
 class HomeWorkAndComplaint extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -43,7 +41,8 @@ class HomeWorkAndComplaint extends Component {
         { "label": "Home Work", "value": 'homework' },
         { "label": "Complaint", "value": 'complaint' }
       ],
-      selectedType: ''
+      selectedType: '',
+      singleFile:''
     };
       
   }
@@ -128,28 +127,35 @@ class HomeWorkAndComplaint extends Component {
       await this.createlist();
     if(this.state.headline && this.state.message && this.state.final_list.length){
 
-			var data = {
-				teacher_id:this.state.teacher_id,
-				title:this.state.headline,
-				message:this.state.message,
-				school_id:this.state.school_id,
-        receiver_num:this.state.final_list
-			}
+			var data = new FormData()
+      data.append("teacher_id",this.state.teacher_id)
+      data.append("title",this.state.headline)
+      data.append("message",this.state.message)
+      data.append("school_id",this.state.school_id)
+      data.append("receiver_num",this.state.final_list)
+      if(this.state.singleFile){
+        data.append("file", this.state.singleFile);
+      }
+
       console.log(data);
-			// await fetch(`${API_URL}/teacher-send-notifications/`, {
-			// 			method: "POST",
-			// 			headers: {
-      //       "Accept": "application/json",
-			// 			"Content-Type": "application/json"
-      //     },
-      //      body: JSON.stringify(data)
-      //    })
-      //      .then(response => response.json())
-      //      .then(response => {
-      //        this.setState({ headline: '', message: '', selectedUserType: []});
-      //        alert("Sent Successfully");
-      //        this.getlistpriviuspage();        
-			// 		 });
+			await fetch(`${API_URL}/teacher-send-notifications/`, {
+						method: "POST",
+						headers: {
+						"Content-Type": "multipart/form-data"
+          },
+           body: data
+         })
+           .then(response => response.json())
+           .then(response => {
+             this.setState({ headline: '', message: '', selectedUserType: []});
+             alert("Sent Successfully");
+             this.getlistpriviuspage();        
+					 })
+           .catch(error => {
+            console.log("form submission", error);
+            this.setState({ loading: false});
+            alert("form submission error!");
+          });
     } else {
       this.setState({loading: false})
       alert("all fields are required")
@@ -190,6 +196,63 @@ class HomeWorkAndComplaint extends Component {
       }        
     }).catch((err) => alert(err))
   }
+
+  // ====================== permission ============================
+
+  requestExternalReadPermission = async () => {
+    if (Platform.OS === 'android') {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+          {
+            title: 'External Storage Read Permission',
+            message: 'App needs read permission',
+          },
+        );
+        // If WRITE_EXTERNAL_STORAGE Permission is granted
+        return granted === PermissionsAndroid.RESULTS.GRANTED;
+      } catch (err) {
+        console.warn(err);
+        alert('Read permission err', err);
+      }
+      return false;
+    } else return true;
+  };
+
+
+  chooseDocFromPhone = async () => {
+    console.log("ues")
+
+    console.log(this.state.singleFile)
+    // Opening Document Picker to select one file
+    try {
+      const res = await DocumentPicker.pick({
+        // Provide which type of file you want user to pick
+        type: [DocumentPicker.types.pdf,
+          DocumentPicker.types.doc,
+          DocumentPicker.types.docx,
+          DocumentPicker.types.ppt,
+          DocumentPicker.types.pptx],
+      });
+      // Printing the log realted to the file
+      console.log('res : ' + JSON.stringify(res));
+      // Setting the state to show single file attributes
+      this.setState({ singleFile: res });
+    } catch (err) {
+      this.setState({ singleFile: '' });
+      // Handling any exception (If any)
+      if (DocumentPicker.isCancel(err)) {
+        // If user canceled the document selection
+        alert('user canceled the document selection');
+      } else {
+        // For Unknown Error
+        alert('Unknown Error: ' + JSON.stringify(err));
+        throw err;
+      }
+    }
+  }
+
+  // ====================== permission ============================
 
   render() {
     return (
@@ -326,6 +389,11 @@ class HomeWorkAndComplaint extends Component {
                       style={this.state.emptymsg?{ borderColor: "red", width: "95%", alignSelf: "center"}:{width: "95%", alignSelf: "center"}}
                       />
                 </Form>
+                <TouchableOpacity style={{flex:1, flexDirection:'row', marginStart: 10, marginTop: 5}} onPress={()=> this.chooseDocFromPhone()}>
+                  <Icon name="paperclip" size={20} style={{ marginRight:5}}/>
+                  <Text style={{ textDecorationLine: 'underline'}}>Attach File</Text>
+                </TouchableOpacity>
+                
               {/* ======================================================================= */}
 
               {/* ======================================================================= */}
