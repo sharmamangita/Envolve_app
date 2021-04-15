@@ -371,7 +371,7 @@ class ActivitiesScreen extends Component {
                   ) : null} 
 
             </ScrollView>
-            {!this.state.trainerAttendance && state.params.navparams.rolval.role == "trainer"?<View style={{ position: 'absolute', left: 0, right: 0, bottom: 0 }}>
+            {state.params.navparams.rolval.role == "trainer"?<View style={{ position: 'absolute', left: 0, right: 0, bottom: 0 }}>
                 <Button title="Send homework" onPress={() => this.screenMessage()} color="#23ABE2" marginTop="1000" />
             </View>:null}
           </View>

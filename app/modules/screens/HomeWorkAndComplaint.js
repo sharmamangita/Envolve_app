@@ -122,39 +122,49 @@ class HomeWorkAndComplaint extends Component {
     return; 
   }
 
+  createFormData = () => {
+    var data = new FormData()
+    data.append("teacher_id",this.state.teacher_id)
+    data.append("title",this.state.headline)
+    data.append("message",this.state.message)
+    data.append("school_id",this.state.school_id)
+
+
+    
+    data.append("receiver_num",this.state.final_list.toString())
+
+    if(this.state.singleFile){
+      data.append("file", this.state.singleFile);
+    }
+    console.log("============================= form data ==========================");
+    console.log(data);
+    console.log("============================= form data ==========================");
+
+    return data;
+    };
+
    hitApi = async() => {
       this.setState({loading: true})
       await this.createlist();
+      this.createFormData();
     if(this.state.headline && this.state.message && this.state.final_list.length){
-
-			var data = new FormData()
-      data.append("teacher_id",this.state.teacher_id)
-      data.append("title",this.state.headline)
-      data.append("message",this.state.message)
-      data.append("school_id",this.state.school_id)
-      data.append("receiver_num",this.state.final_list)
-      if(this.state.singleFile){
-        data.append("file", this.state.singleFile);
-      }
-
-      console.log(data);
 			await fetch(`${API_URL}/teacher-send-notifications/`, {
-						method: "POST",
-						headers: {
-						"Content-Type": "multipart/form-data"
+            method: "POST",
+            headers: {
+            'Content-Type': 'multipart/form-data',
           },
-           body: data
+           body: this.createFormData()
          })
            .then(response => response.json())
            .then(response => {
-             this.setState({ headline: '', message: '', selectedUserType: []});
-             alert("Sent Successfully");
-             this.getlistpriviuspage();        
+             console.log(response)
+             this.setState({ loading: false, headline: '', message: '', selectedUserType: []});
+             alert("Sent Successfully");       
 					 })
            .catch(error => {
             console.log("form submission", error);
             this.setState({ loading: false});
-            alert("form submission error!");
+            alert(error);
           });
     } else {
       this.setState({loading: false})
