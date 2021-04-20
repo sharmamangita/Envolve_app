@@ -87,6 +87,17 @@ class Parents extends Component {
         }).catch((err) => alert(err))
     }
     
+    openSchoolDiary = (x) => {
+        console.log(x)
+        const navigateAction = NavigationActions.navigate({
+            routeName: 'SchoolDiary',
+            params: {
+                student: x
+            }
+        });
+        this.props.navigation.dispatch(navigateAction);
+    }
+
     // experiment
     listbody = () => {
         if(this.state.schools != ''){
@@ -99,7 +110,7 @@ class Parents extends Component {
                 title={name[0].student_name}
                 left={props => <List.Icon {...props} icon="folder" />}>
                     {this.listdata(x)}
-                    
+                    <List.Item title={'Homework or complaint'} onPress={()=> this.openSchoolDiary(name[0])} />
                 </List.Accordion>)
             });
             return arr;

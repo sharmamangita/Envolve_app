@@ -58,7 +58,7 @@ class HomeWorkAndComplaint extends Component {
         })
        .then(response => response.json())
        .then(response => {
-         let b =[{label: 'all', value: 'all' }];
+         let b =[];
          console.log("==== Class list ====>>",response)
         if(response.length){
           response.map((data) => b.push({ "label": data.class, "value": data.class }));
@@ -178,7 +178,7 @@ class HomeWorkAndComplaint extends Component {
       })
      .then(response => response.json())
      .then(response => {
-       let b =[{label: 'all', value: 'all' }];
+       let b =[];
        console.log("==== Class section list ====>>",response)
       if(response.length){
         response.map((data) => b.push({ "label": data.section, "value": data.section }));
@@ -452,7 +452,7 @@ const styleData = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: "#fff",
     paddingLeft: 10,
-    // marginTop: 15,
+    marginTop: 15,
     height:40,
     borderBottomWidth:2,
     borderColor:'#ddd',

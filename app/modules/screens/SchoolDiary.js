@@ -8,7 +8,7 @@ import {
     TouchableOpacity, 
     Platform,
     PermissionsAndroid,
-    Alert
+    Alert,
 } from 'react-native';
 import { Button, Spinner, Card, CardItem, Body, Left, Right, Textarea } from 'native-base';
 import { NavigationActions } from 'react-navigation';
@@ -18,50 +18,45 @@ import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
 import RNFetchBlob from 'rn-fetch-blob';
 import { isEmpty } from 'lodash';
 import { openSettings } from 'react-native-permissions';
+import AsyncStorage from "@react-native-community/async-storage";
 import Modal from "react-native-modal";
 
-class Messages extends Component {
+class SchoolDiary extends Component {
     constructor(props) {
         super(props);
         this.state = {
             loading: false,
             miniLoading: false,
             inbox: true,
-            teacher_id: this.props.navigation.state.params.teacher_id,
-            school_id: this.props.navigation.state.params.schoolId.school_id,
+            teacher_id: this.props.navigation.state.params.student.teacher_id,
+            school_id: this.props.navigation.state.params.student.school_id,
             sentDate: [],
             inboxDate: [],
             sentBoxData: '',
             inboxData: '',
+            parent_id: '',
             secondtime:false,
             isModalVisible: false,
             message_id: '',
             message: ''
         }
-
     }
 
-    componentDidMount() {
-        console.log("=========>",this.props.navigation.state.params.schoolId.school_id)
-        console.log("=========>",this.props.navigation.state.params.teacher_id)
-        this.inbox();
-        this.sent();
-    }
-
-    OpenHWAC = () => {
-        const navigateAction = NavigationActions.navigate({
-            routeName: "HomeWorkAndComplaint",
-            params: {
-                teacher_id:this.props.navigation.state.params.teacher_id,
-                school_Id:this.props.navigation.state.params.schoolId.school_id
-              }
-          });
-          this.props.navigation.dispatch(navigateAction);
+    async componentDidMount() {
+        await AsyncStorage.getItem("@userData").then(
+            (parent) =>{
+              console.log(parent);
+              this.setState({ parent_id: parent });
+            }, (err) =>{
+              console.log("error",err)
+        });
+        console.log("parent id ====>>",this.state.parent_id)
+      this.inbox();
     }
 
     inbox = () => {
-        this.setState({ inbox: true, miniLoading: true });
-        fetch(`${API_URL}/get-teacher-inbox-messages/${this.state.teacher_id}`, {
+        this.setState({ miniLoading: true });
+        fetch(`${API_URL}/get-parents-inbox-messages/${this.state.parent_id}`, {
             method: "GET",
             })
            .then(response => response.json())
@@ -78,27 +73,6 @@ class Messages extends Component {
           }).catch((err) => {
                 this.setState({miniLoading: false});
                 alert(err)
-            })
-    }
-
-    sent = () => {
-        this.setState({ inbox: false, miniLoading: true });
-        fetch(`${API_URL}/get-teacher-sent-messages/${this.state.teacher_id}`, {
-            method: "GET",
-            })
-           .then(response => response.json())
-           .then(response => {
-            console.log("==== sentBox ====>>",response)
-            console.log("==== sentBox ====>>", isEmpty(response))
-            if(!isEmpty(response)){
-                const d = this.getMsgDate(response)
-                this.setState({ sentBoxData: response, sentDate: d, miniLoading: false});
-            }else {
-                this.setState({miniLoading: false});
-            }
-          }).catch((err) => {
-            this.setState({miniLoading: false});  
-            alert(err)
             })
     }
 
@@ -119,62 +93,7 @@ class Messages extends Component {
         return presentableDate
     }
     
-    sentDateWise = (data) => {
-        console.log("sent Date wise ===========", data);
-        const SentBoxData = this.state.sentBoxData
-        const dataDayWise = SentBoxData.filter((values, index)=>{ if(values.date.slice(0, 10) === data.date){ return values } });
-        return (
-            <View style={{ width:"100%", alignItems:'center', marginBottom: 20}}>
-                <Text>--------------- {data.d} ---------------</Text>
-                <View style={{width:'100%', marginTop: 5, borderRadius: 5, borderColor: '#afafaf', borderWidth: 1, padding: 1}}>
-                    {
-                        dataDayWise.map((data, index) => { return this.sentTimeWise(data, index) })
-                    }
-                </View>
-            </View>
-        )
-    }
-    sentTimeWise = (data, index) => {
-        console.log(data.date)
-        console.log(index)
-        // var time = this.formatAMPM(data.date)
-        // console.log("=============let's see ===========",index)
-
-        return (
-            <View>
-                { index !== 0?
-                    <View style={{ borderTopWidth: 1, width: '96%', alignSelf: 'center', borderColor: '#afafaf' }}></View>:null
-                }
-                <View>
-                    <CardItem>
-                        <Body>
-                            <Text style={{ textDecorationLine: 'underline', color: '#1CAFF6'}}>{data.title}</Text>
-                            <Text style={{ fontStyle: 'italic', color: '#1CAFF6'}}>{data.student_name}, 10:00am</Text>
-                        </Body>
-                    </CardItem>
-                    <CardItem style={{ paddingTop: 0, paddingBottom:0}}>
-                        <Body>
-                            <Text>
-                                {data.message}
-                            </Text>
-                        </Body>
-                    </CardItem>
-                    <CardItem footer>
-                        <Left></Left>
-                        <Right>
-                            { data.file?
-                            <TouchableOpacity onPress={()=> this.downloadLink(data.file) }>
-                                <Text style={{ textDecorationLine: 'underline'}}><Icon name="paperclip"/>attached file </Text>
-                            </TouchableOpacity>
-                            :null
-                            }
-                        </Right>
-                    </CardItem>
-                </View>
-            </View>
-        )
-    }
-
+   
     inboxDateWise = (data) => {
         console.log("sent Date wise ===========", data);
         const inboxData = this.state.inboxData
@@ -191,8 +110,73 @@ class Messages extends Component {
         )
     }
 
+    formatAMPM = (d) => {
+        const dd = d;
+        const date = new Date(dd);
+        console.log("date........",date)
+        console.log("date........",dd)
+        var hours = date.getHours()
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0'+minutes : minutes;
+        var strTime = hours + ':' + minutes + ' ' + ampm;
+        return strTime;
+    }
+
     openModal = (id) => {
         this.setState({isModalVisible: !this.state.isModalVisible, message_id: id})
+    }
+
+    inboxTimeWise = (data, index) => {
+        console.log(data.date)
+        console.log(index)
+        // var time = this.formatAMPM(data.date)
+        console.log("=============let's see ===========",index)
+
+        return (
+            <View>
+                {}
+                { index !== 0?
+                    <View style={{ borderTopWidth: 1, width: '96%', alignSelf: 'center', borderColor: '#afafaf' }}></View>:null
+                }
+                <View>
+                    <CardItem>
+                        <Left>
+                            <View>
+                                <Text style={{ textDecorationLine: 'underline', color: '#1CAFF6'}}>{data.title}</Text>
+                                <Text style={{ fontStyle: 'italic', color: '#1CAFF6'}}>Class {this.props.navigation.state.params.student.class}-{this.props.navigation.state.params.student.section}, 10:00am</Text>
+                            </View>
+                        </Left>
+                        <Right>
+                            <TouchableOpacity style={{flex:1, flexDirection: 'row'}} onPress={()=> this.openModal(data.id)} >
+                            <Icon name="reply" color={'#1CAFF6'} size={18} />
+                            <Text style={{ fontStyle: 'italic', color: '#1CAFF6'}}> Reply</Text>
+                            </TouchableOpacity>
+                        </Right>
+                    </CardItem>
+                    <CardItem style={{ paddingTop: 0, paddingBottom:0}}>
+                        <Body>
+                            <Text>
+                                {data.message}
+                            </Text>
+                        </Body>
+                    </CardItem>
+                    <CardItem>
+                        <Left></Left>
+                        <Right>
+                            { data.file?
+                            <TouchableOpacity onPress={()=> this.downloadLink(data.file) }>
+                                <Text style={{ textDecorationLine: 'underline'}}><Icon name="paperclip"/>attached file </Text>
+                            </TouchableOpacity>
+                            :null
+                            }
+                        </Right>
+                    </CardItem>
+                </View>
+            </View>
+        )
     }
 
     sendmessage = async () => {
@@ -202,8 +186,9 @@ class Messages extends Component {
 			var data = {
 				message_id:this.state.message_id,
 				reply:this.state.message,
-				reply_from: 'teacher'
+				reply_from: 'parent'
 			}
+            console.log(data);
             if(this.state.message_id && this.state.message)
             {
                 await fetch(`${API_URL}/add-message-reply/`, {
@@ -224,65 +209,6 @@ class Messages extends Component {
                 alert("all fields are required")
             }
     }
-    
-    inboxTimeWise = (data, index) => {
-        console.log(data.date)
-        console.log(index)
-        // var time = this.formatAMPM(data.date)
-        // console.log("=============let's see ===========",index)
-
-        return (
-            <View>
-                { index !== 0?
-                    <View style={{ borderTopWidth: 1, width: '96%', alignSelf: 'center', borderColor: '#afafaf' }}></View>:null
-                }
-                            <TouchableOpacity onPress={()=> this.openModal(data.message_id)}>
-                                <CardItem>
-                                    <Left>
-                                        <Text style={{ textDecorationLine: 'underline'}}>{data.reply_from}</Text>
-                                    </Left>
-                                    <Right>
-                                        <Text style={{ fontStyle: 'italic'}}>{data.student_name}, 10:00am</Text>
-                                    </Right>
-                                </CardItem>
-                                <CardItem style={{ paddingTop: 0, paddingBottom:0}}>
-                                    <Body>
-                                        <Text>
-                                            {data.reply}
-                                        </Text>
-                                    </Body>
-                                </CardItem>
-                                <CardItem footer>
-                                    <Left></Left>
-                                    <Right>
-                                    { data.file?
-                                        <TouchableOpacity onPress={()=> this.downloadLink(data.file) }>
-                                            <Text style={{ textDecorationLine: 'underline'}}><Icon name="paperclip"/>attached file </Text>
-                                        </TouchableOpacity>
-                                        :null
-                                    }
-                                    </Right>
-                                </CardItem>
-                            </TouchableOpacity>
-
-            </View>
-        )
-    }
-
-    formatAMPM = (d) => {
-        const dd = d;
-        const date = new Date(dd);
-        console.log("date........",date)
-        console.log("date........",dd)
-        var hours = date.getHours()
-        var minutes = date.getMinutes();
-        var ampm = hours >= 12 ? 'pm' : 'am';
-        hours = hours % 12;
-        hours = hours ? hours : 12; // the hour '0' should be '12'
-        minutes = minutes < 10 ? '0'+minutes : minutes;
-        var strTime = hours + ':' + minutes + ' ' + ampm;
-        return strTime;
-    }
 
     requestExternalWritePermission = async () => {
         if (Platform.OS === 'android') {
@@ -302,7 +228,7 @@ class Messages extends Component {
           }
           return false;
         } else return true;
-      };
+    };
 
     downloadLink = async (URL) =>{
         const pdf_url = `https://api.envolve.in/upload/trainer-sent/${URL}`;
@@ -360,26 +286,10 @@ class Messages extends Component {
                     
                     <View style={{flexDirection:'row', marginTop: 20}}>
                         <View style={{flex: 9, alignSelf:'flex-start'}}>
-                            <Text style={{fontSize: 18, fontWeight:'bold'}}>Messages</Text>
-                        <Text style={{fontSize: 14,}}>{this.props.navigation.state.params.schoolId.school_name}</Text>
+                            <Text style={{fontSize: 18, fontWeight:'bold'}}>School Dairy</Text>
+                        <Text style={{fontSize: 14,}}>{this.props.navigation.state.params.student.school_name}</Text>
+                        <Text style={{fontSize: 14,}}>{this.props.navigation.state.params.student.student_name}: {this.props.navigation.state.params.student.class} - {this.props.navigation.state.params.student.section}</Text>
                         </View>
-                        <View style={{alignSelf:'flex-end'}}>
-                            <Button style={styleData.addButton} onPress={()=> this.OpenHWAC()}>
-                                <Icon name='plus' size={20} color="#fff" />
-                            </Button>
-                        </View>
-                    </View>
-                    <View style={{flexDirection:'row'}}>
-                    <Button style={this.state.inbox?styleData.messagesBoxActive:styleData.messagesBoxInActive}
-                        onPress={() => this.inbox()}
-                    >
-                        <Text style={this.state.inbox?{color:'#1CAFF6'}:{color:'#000'}}>Inbox</Text>
-                    </Button>
-                    <Button style={!this.state.inbox?styleData.messagesBoxActive:styleData.messagesBoxInActive}
-                        onPress={() =>this.sent()}
-                    >
-                        <Text  style={!this.state.inbox?{color:'#1CAFF6'}:{color:'#000'}}>Sent</Text>
-                    </Button>
                     </View>
 
                 </View>
@@ -397,14 +307,8 @@ class Messages extends Component {
                         <Spinner color="#1CAFF6" style={{ marginTop: '50%'}} />
                     </View>
                   ) : (
-
-                    this.state.inbox ?
                     this.state.inboxDate.map((date) => {
-                        return this.inboxDateWise(date)
-                    })
-                    :
-                    this.state.sentDate.map((date) => {
-                        return this.sentDateWise(date);
+                        return this.inboxDateWise(date);
                     })
                   )}                  
                 </ScrollView>
@@ -423,9 +327,9 @@ class Messages extends Component {
                     >
                       <Bubbles size={20} color="#1CAFF6" />
                     </View>
-                  ) : null}
-{/* start model from here */}
-<Modal isVisible={this.state.isModalVisible}>
+                  ) : null} 
+
+                <Modal isVisible={this.state.isModalVisible}>
                     <ScrollView>
                     <View style={{ flex: 1, backgroundColor:"white", borderRadius: 10, marginVertical: "20%"}}>
                         <View style={{flexDirection: 'row', borderBottomColor: 'gray', borderBottomWidth: 1, padding: 10}}>
@@ -461,7 +365,7 @@ class Messages extends Component {
                     </View>
                     </ScrollView>
                 </Modal>
-{/* end model from here */}
+
             </View>
         );
     }
@@ -477,7 +381,7 @@ const styleData = StyleSheet.create({
         backgroundColor:'#fff' 
     },
     section1:{
-        height: 120,
+        height: 100,
         width: '100%',
     },
     section2:{
@@ -526,4 +430,4 @@ const styleData = StyleSheet.create({
     },
 })
 
-export default Messages;
+export default SchoolDiary;

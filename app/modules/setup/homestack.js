@@ -23,6 +23,7 @@ import SendNotification from '../screens/SendNotification';
 import NotificationHistory from '../screens/NotificationHistory';
 import Messages from '../screens/Messages';
 import HomeWorkAndComplaint from '../screens/HomeWorkAndComplaint';
+import SchoolDiary from '../screens/SchoolDiary';
 const HomeStack = createStackNavigator({
     Start: {
         screen: HomeScreen,
@@ -236,6 +237,15 @@ const HomeStack = createStackNavigator({
                 headerTitle: () => <></>,
                 headerLeft: null,
                 header: null,
+            }
+        }
+    },
+    SchoolDiary: {
+        screen: SchoolDiary,
+        navigationOptions: ({ navigation }) => {
+            return {
+                headerTitle: () => <Header navigation={navigation} />,
+                headerLeft: null
             }
         }
     },
