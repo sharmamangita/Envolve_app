@@ -8,7 +8,7 @@ import {
     TouchableOpacity, 
     Platform,
     PermissionsAndroid,
-    Alert,
+    Alert
 } from 'react-native';
 import { Button, Spinner, Card, CardItem, Body, Left, Right, Textarea } from 'native-base';
 import { NavigationActions } from 'react-navigation';
@@ -20,8 +20,9 @@ import { isEmpty } from 'lodash';
 import { openSettings } from 'react-native-permissions';
 import AsyncStorage from "@react-native-community/async-storage";
 import Modal from "react-native-modal";
+import DocumentPicker from 'react-native-document-picker';
 
-class SchoolDiary extends Component {
+class Messages extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -30,11 +31,11 @@ class SchoolDiary extends Component {
             inbox: true,
             teacher_id: this.props.navigation.state.params.student.teacher_id,
             school_id: this.props.navigation.state.params.student.school_id,
+            student_id: this.props.navigation.state.params.student.student_id,
             sentDate: [],
             inboxDate: [],
             sentBoxData: '',
             inboxData: '',
-            parent_id: '',
             secondtime:false,
             isModalVisible: false,
             message_id: '',
@@ -51,12 +52,27 @@ class SchoolDiary extends Component {
               console.log("error",err)
         });
         console.log("parent id ====>>",this.state.parent_id)
-      this.inbox();
+
+            console.log(this.props.navigation.state.params.student)
+
+        this.inbox();
+        this.sent();
+    }
+
+    OpenHWAC = () => {
+        const navigateAction = NavigationActions.navigate({
+            routeName: "HomeWorkAndComplaint",
+            params: {
+                teacher_id:this.props.navigation.state.params.teacher_id,
+                school_Id:this.props.navigation.state.params.schoolId.school_id
+              }
+          });
+          this.props.navigation.dispatch(navigateAction);
     }
 
     inbox = () => {
-        this.setState({ miniLoading: true });
-        fetch(`${API_URL}/get-parents-inbox-messages/${this.state.parent_id}`, {
+        this.setState({ inbox: true, miniLoading: true });
+        fetch(`${API_URL}/get-parents-inbox-messages/${this.state.student_id}`, {
             method: "GET",
             })
            .then(response => response.json())
@@ -73,6 +89,27 @@ class SchoolDiary extends Component {
           }).catch((err) => {
                 this.setState({miniLoading: false});
                 alert(err)
+        })
+    }
+
+    sent = () => {
+        this.setState({ inbox: false, miniLoading: true });
+        fetch(`${API_URL}/get-teacher-sent-messages/${this.state.teacher_id}/${this.state.school_id}`, {
+            method: "GET",
+            })
+           .then(response => response.json())
+           .then(response => {
+            console.log("==== sentBox ====>>", response)
+            console.log("==== sentBox ====>>", isEmpty(response))
+            if(!isEmpty(response)){
+                const d = this.getMsgDate(response)
+                this.setState({ sentBoxData: response, sentDate: d, miniLoading: false});
+            }else {
+                this.setState({miniLoading: false});
+            }
+          }).catch((err) => {
+            this.setState({miniLoading: false});  
+            alert(err)
             })
     }
 
@@ -93,7 +130,62 @@ class SchoolDiary extends Component {
         return presentableDate
     }
     
-   
+    sentDateWise = (data) => {
+        console.log("sent Date wise ===========", data);
+        const SentBoxData = this.state.sentBoxData
+        const dataDayWise = SentBoxData.filter((values, index)=>{ if(values.date.slice(0, 10) === data.date){ return values } });
+        return (
+            <View style={{ width:"100%", alignItems:'center', marginBottom: 20}}>
+                <Text>--------------- {data.d} ---------------</Text>
+                <View style={{width:'100%', marginTop: 5, borderRadius: 5, borderColor: '#afafaf', borderWidth: 1, padding: 1}}>
+                    {
+                        dataDayWise.map((data, index) => { return this.sentTimeWise(data, index) })
+                    }
+                </View>
+            </View>
+        )
+    }
+
+    sentTimeWise = (data, index) => {
+        console.log(data.date)
+        console.log(index)
+        // console.log("=============let's see ===========",index)
+
+        return (
+            <View>
+                { index !== 0?
+                    <View style={{ borderTopWidth: 1, width: '96%', alignSelf: 'center', borderColor: '#afafaf' }}></View>:null
+                }
+                <View>
+                    <CardItem>
+                        <Body>
+                            <Text style={{ textDecorationLine: 'underline', color: '#1CAFF6'}}>{data.title}</Text>
+                            <Text style={{ fontStyle: 'italic', color: '#1CAFF6'}}>{data.student_name}, {this.formatAMPM(data.date)}</Text>
+                        </Body>
+                    </CardItem>
+                    <CardItem style={{ paddingTop: 0, paddingBottom:0}}>
+                        <Body>
+                            <Text>
+                                {data.message}
+                            </Text>
+                        </Body>
+                    </CardItem>
+                    <CardItem footer>
+                        <Left></Left>
+                        <Right>
+                            { data.file?
+                            <TouchableOpacity onPress={()=> this.downloadLink(data.file) }>
+                                <Text style={{ textDecorationLine: 'underline'}}><Icon name="paperclip"/>attached file </Text>
+                            </TouchableOpacity>
+                            :null
+                            }
+                        </Right>
+                    </CardItem>
+                </View>
+            </View>
+        )
+    }
+
     inboxDateWise = (data) => {
         console.log("sent Date wise ===========", data);
         const inboxData = this.state.inboxData
@@ -110,30 +202,116 @@ class SchoolDiary extends Component {
         )
     }
 
-    formatAMPM = (d) => {
-        const dd = d;
-        const date = new Date(dd);
-        console.log("date........",date)
-        console.log("date........",dd)
-        var hours = date.getHours()
-        var minutes = date.getMinutes();
-        var ampm = hours >= 12 ? 'pm' : 'am';
-        hours = hours % 12;
-        hours = hours ? hours : 12; // the hour '0' should be '12'
-        minutes = minutes < 10 ? '0'+minutes : minutes;
-        var strTime = hours + ':' + minutes + ' ' + ampm;
-        return strTime;
-    }
-
     openModal = (id) => {
         this.setState({isModalVisible: !this.state.isModalVisible, message_id: id})
     }
 
+  // ====================== permission ============================
+
+  requestExternalReadPermission = async () => {
+    if (Platform.OS === 'android') {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+          {
+            title: 'External Storage Read Permission',
+            message: 'App needs read permission',
+          },
+        );
+        // If WRITE_EXTERNAL_STORAGE Permission is granted
+        return granted === PermissionsAndroid.RESULTS.GRANTED;
+      } catch (err) {
+        console.warn(err);
+        alert('Read permission err', err);
+      }
+      return false;
+    } else return true;
+  };
+
+
+  chooseDocFromPhone = async () => {
+    console.log("ues")
+
+    console.log(this.state.singleFile)
+    // Opening Document Picker to select one file
+    try {
+      const res = await DocumentPicker.pick({
+        // Provide which type of file you want user to pick
+        type: [DocumentPicker.types.pdf,
+          DocumentPicker.types.doc,
+          DocumentPicker.types.docx,
+          DocumentPicker.types.ppt,
+          DocumentPicker.types.pptx,
+          DocumentPicker.types.images
+        ],
+      });
+      // Printing the log realted to the file
+      console.log('res : ' + JSON.stringify(res));
+      // Setting the state to show single file attributes
+      this.setState({ singleFile: res });
+    } catch (err) {
+      this.setState({ singleFile: '' });
+      // Handling any exception (If any)
+      if (DocumentPicker.isCancel(err)) {
+        // If user canceled the document selection
+        alert('user canceled the document selection');
+      } else {
+        // For Unknown Error
+        alert('Unknown Error: ' + JSON.stringify(err));
+        throw err;
+      }
+    }
+  }
+
+  // ====================== permission ============================
+
+    createFormDataForReply = () => {
+        var data = new FormData()
+        data.append("message_id",this.state.message_id)
+        data.append("reply",this.state.message)
+        data.append("reply_from", 'parent')
+        if(this.state.singleFile){
+          data.append("file", this.state.singleFile);
+        }
+        console.log("============================= form data ==========================");
+        console.log(data);
+        console.log("============================= form data ==========================");
+    
+        return data;
+    };
+
+    sendmessage = async () => {
+        console.log(this.state.message_id);
+        console.log(this.state.message);
+        this.setState({ isModalVisible: false});
+			// var data = {
+			// 	message_id:this.state.message_id,
+			// 	reply:this.state.message,
+			// 	reply_from: 'teacher'
+			// }
+            if(this.state.message_id && this.state.message)
+            {
+                await fetch(`${API_URL}/add-message-reply/`, {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                body: this.createFormDataForReply()
+                })
+                .then(response => response.json())
+                .then(response => {
+                    this.setState({ message_id: '', message: '', isModalVisible: false});
+                    alert("Message Sent Successfully");       
+				});
+            } else {
+                alert("all fields are required")
+        }
+    }
+    
     inboxTimeWise = (data, index) => {
-        console.log(data.date)
-        console.log(index)
-        // var time = this.formatAMPM(data.date)
-        console.log("=============let's see ===========",index)
+        // console.log(data.date)
+        // console.log(index)
+        // console.log("=============let's see ===========",data)
 
         return (
             <View>
@@ -179,35 +357,14 @@ class SchoolDiary extends Component {
         )
     }
 
-    sendmessage = async () => {
-        console.log(this.state.message_id);
-        console.log(this.state.message);
-        this.setState({ isModalVisible: false});
-			var data = {
-				message_id:this.state.message_id,
-				reply:this.state.message,
-				reply_from: 'parent'
-			}
-            console.log(data);
-            if(this.state.message_id && this.state.message)
-            {
-                await fetch(`${API_URL}/add-message-reply/`, {
-                    method: "POST",
-                    headers: {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(data)
-                })
-                .then(response => response.json())
-                .then(response => {
-                    this.setState({ message_id: '', message: '', isModalVisible: false});
-                    alert("Message Sent Successfully");
-                    this.getlistpriviuspage();        
-				});
-            } else {
-                alert("all fields are required")
-            }
+    formatAMPM = (d) => {
+        var hours = d.slice(11, 13);
+        var minutes = d.slice(14, 16);
+        var ampm = hours >= 12 ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        var strTime = hours + ':' + minutes + ' ' + ampm;
+        return strTime;
     }
 
     requestExternalWritePermission = async () => {
@@ -228,7 +385,7 @@ class SchoolDiary extends Component {
           }
           return false;
         } else return true;
-    };
+      };
 
     downloadLink = async (URL) =>{
         const pdf_url = `https://api.envolve.in/upload/trainer-sent/${URL}`;
@@ -291,6 +448,18 @@ class SchoolDiary extends Component {
                         <Text style={{fontSize: 14,}}>{this.props.navigation.state.params.student.student_name}: {this.props.navigation.state.params.student.class} - {this.props.navigation.state.params.student.section}</Text>
                         </View>
                     </View>
+                    <View style={{flexDirection:'row'}}>
+                    <Button style={this.state.inbox?styleData.messagesBoxActive:styleData.messagesBoxInActive}
+                        onPress={() => this.inbox()}
+                    >
+                        <Text style={this.state.inbox?{color:'#1CAFF6'}:{color:'#000'}}>Inbox</Text>
+                    </Button>
+                    <Button style={!this.state.inbox?styleData.messagesBoxActive:styleData.messagesBoxInActive}
+                        onPress={() =>this.sent()}
+                    >
+                        <Text  style={!this.state.inbox?{color:'#1CAFF6'}:{color:'#000'}}>Sent</Text>
+                    </Button>
+                    </View>
 
                 </View>
 
@@ -307,8 +476,14 @@ class SchoolDiary extends Component {
                         <Spinner color="#1CAFF6" style={{ marginTop: '50%'}} />
                     </View>
                   ) : (
+
+                    this.state.inbox ?
                     this.state.inboxDate.map((date) => {
-                        return this.inboxDateWise(date);
+                        return this.inboxDateWise(date)
+                    })
+                    :
+                    this.state.sentDate.map((date) => {
+                        return this.sentDateWise(date);
                     })
                   )}                  
                 </ScrollView>
@@ -327,8 +502,8 @@ class SchoolDiary extends Component {
                     >
                       <Bubbles size={20} color="#1CAFF6" />
                     </View>
-                  ) : null} 
-
+                  ) : null}
+                {/* start model from here */}
                 <Modal isVisible={this.state.isModalVisible}>
                     <ScrollView>
                     <View style={{ flex: 1, backgroundColor:"white", borderRadius: 10, marginVertical: "20%"}}>
@@ -337,35 +512,35 @@ class SchoolDiary extends Component {
                         <TouchableOpacity onPress={() => this.openModal('')} style={{ width: 20, alignContent: 'center'}}><Icon name="close" size={20} color="#1CAFF6" /></TouchableOpacity>
                         </View>
                         <View style={{paddingTop: 10}}>
-                        <CardItem>
-                            <Body>
-                                <View style={{width:'100%'}}>
-                                    <Textarea
-                                    bordered
-                                    rowSpan={5}
-                                    placeholder="Enter Message"
-                                    onChangeText={(value) => this.setState({message: value})}
-                                    value={this.state.message}
-                                    />
-                                </View>
-                                
-                                <View style={{flexDirection: 'row'}}>
-                                    <TouchableOpacity onPress={()=> console.log("hello") } style={{flex:10, alignItems: 'flex-start', marginTop:10}}>
-                                        <Text style={{ textDecorationLine: 'underline'}}><Icon name="paperclip"/>attach File </Text>
-                                    </TouchableOpacity>
-                                
-                                    <TouchableOpacity style={{flexDirection: 'row', alignItems: 'flex-end', marginTop:10}} onPress={()=> this.sendmessage()}>
-                                        <Icon name="send" color={'#1CAFF6'} size={18} />
-                                        <Text style={{ color: '#1CAFF6'}}> Send</Text>
-                                    </TouchableOpacity>
-                                </View>
-                            </Body>
-                        </CardItem>
+                            <CardItem>
+                                <Body>
+                                    <View style={{width:'100%'}}>
+                                        <Textarea
+                                        bordered
+                                        rowSpan={5}
+                                        placeholder="Enter Message"
+                                        onChangeText={(value) => this.setState({message: value})}
+                                        value={this.state.message}
+                                        />
+                                    </View>
+                                    
+                                    <View style={{flexDirection: 'row'}}>
+                                        <TouchableOpacity onPress={()=> this.chooseDocFromPhone() } style={{flex:10, alignItems: 'flex-start', marginTop:10}}>
+                                            <Text style={{ textDecorationLine: 'underline'}}><Icon name="paperclip"/>attach File </Text>
+                                        </TouchableOpacity>
+                                    
+                                        <TouchableOpacity style={{flexDirection: 'row', alignItems: 'flex-end', marginTop:10}} onPress={()=> this.sendmessage()}>
+                                            <Icon name="send" color={'#1CAFF6'} size={18} />
+                                            <Text style={{ color: '#1CAFF6'}}> Send</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                </Body>
+                            </CardItem>
                         </View>
                     </View>
                     </ScrollView>
                 </Modal>
-
+            {/* end model from here */}
             </View>
         );
     }
@@ -381,7 +556,7 @@ const styleData = StyleSheet.create({
         backgroundColor:'#fff' 
     },
     section1:{
-        height: 100,
+        height: 130,
         width: '100%',
     },
     section2:{
@@ -430,4 +605,4 @@ const styleData = StyleSheet.create({
     },
 })
 
-export default SchoolDiary;
+export default Messages;

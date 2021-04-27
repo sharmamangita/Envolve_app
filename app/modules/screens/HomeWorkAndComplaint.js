@@ -79,9 +79,20 @@ class HomeWorkAndComplaint extends Component {
     this.setState({ selectedUserType, selectedParents: [], selectedSection: '', parents_list: [], selectedClass: '',selectedTrainer: [] });
   };
 
-  onSelectedParents = selectedParents =>{
-    console.log(selectedParents)
-    this.setState({selectedParents})
+  onSelectedParents = async selectedParents =>{
+    let student_id, student =[]
+    await selectedParents.map((data) => data == "all"? student_id = 'all' : null) 
+    await this.state.parents_list.map((data) =>{
+      if(student_id == "all"){
+        data.student_id != "all"? student.push(data.student_id):null
+      } else {
+        student = selectedParents
+      }
+    });
+    // console.log("check all or not here ====>>",student_id)
+    // console.log("P number added here ====>>",student_id)
+    this.setState({selectedParents : student})
+    console.log("is this program sending all ??",this.state.selectedParents);
   }
 
   checkAndSubmit = async () => {
@@ -110,7 +121,7 @@ class HomeWorkAndComplaint extends Component {
     let a =this.state.selectedParents.filter( findall => findall == "all")
     console.log(a);
       if(a.length){
-        this.state.parents_list.map((data) => data.mobile_num != "all"?phone_number.push(data.mobile_num):null);
+        this.state.parents_list.map((data) => data.student_id != "all"?phone_number.push(data.student_id):null);
         console.log("P number added here ====>>",phone_number)
       } else {
         console.log("P selected one by one ====>>",this.state.selectedParents);
@@ -146,7 +157,7 @@ class HomeWorkAndComplaint extends Component {
    hitApi = async() => {
       this.setState({loading: true})
       await this.createlist();
-      this.createFormData();
+      // this.createFormData();
     if(this.state.headline && this.state.message && this.state.final_list.length){
 			await fetch(`${API_URL}/teacher-send-notifications/`, {
             method: "POST",
@@ -191,15 +202,15 @@ class HomeWorkAndComplaint extends Component {
 
   getParentsList = async () => {
     await this.state.selectedClass == 'all'? this.setState({ selectedSection: 'all'}): null;
-    console.log(`${API_URL}/get-parents-via-class-section/${this.state.school_id}/${this.state.selectedClass}/${this.state.selectedSection}`)
-    await fetch(`${API_URL}/get-parents-via-class-section/${this.state.school_id}/${this.state.selectedClass}/${this.state.selectedSection}`, {
+    console.log(`${API_URL}/get-students-via-class-section/${this.state.school_id}/${this.state.teacher_id}/${this.state.selectedClass}/${this.state.selectedSection}`)
+    await fetch(`${API_URL}/get-students-via-class-section/${this.state.school_id}/${this.state.teacher_id}/${this.state.selectedClass}/${this.state.selectedSection}`, {
       method: "GET",
       })
      .then(response => response.json())
      .then(response => {
        console.log("==== parents list ====>>",response)
       if(response.length){
-        response.unshift({mobile_num: 'all',student_name: 'all'});
+        response.unshift({student_id: 'all',student_name: 'all'});
         this.setState({ parents_list: response });
       } else {
         this.setState({parents_list: []})
@@ -242,7 +253,9 @@ class HomeWorkAndComplaint extends Component {
           DocumentPicker.types.doc,
           DocumentPicker.types.docx,
           DocumentPicker.types.ppt,
-          DocumentPicker.types.pptx],
+          DocumentPicker.types.pptx,
+          DocumentPicker.types.images
+        ],
       });
       // Printing the log realted to the file
       console.log('res : ' + JSON.stringify(res));
@@ -354,7 +367,7 @@ class HomeWorkAndComplaint extends Component {
                     <MultiSelect
                       // hideTags
                       items={this.state.parents_list}
-                      uniqueKey="mobile_num"
+                      uniqueKey="student_id"
                       // styleMainWrapper={{paddingLeft: 10, borderBottomColor: 'red', borderWidth:1}}
                       // styleDropdownMenu={{borderColor: 'red'}}
                       ref={(component) => { this.multiSelect = component }}

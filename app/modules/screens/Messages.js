@@ -19,6 +19,7 @@ import RNFetchBlob from 'rn-fetch-blob';
 import { isEmpty } from 'lodash';
 import { openSettings } from 'react-native-permissions';
 import Modal from "react-native-modal";
+import DocumentPicker from 'react-native-document-picker';
 
 class Messages extends Component {
     constructor(props) {
@@ -61,7 +62,7 @@ class Messages extends Component {
 
     inbox = () => {
         this.setState({ inbox: true, miniLoading: true });
-        fetch(`${API_URL}/get-teacher-inbox-messages/${this.state.teacher_id}`, {
+        fetch(`${API_URL}/get-teacher-inbox-messages/${this.state.teacher_id}/${this.state.school_id}`, {
             method: "GET",
             })
            .then(response => response.json())
@@ -83,7 +84,7 @@ class Messages extends Component {
 
     sent = () => {
         this.setState({ inbox: false, miniLoading: true });
-        fetch(`${API_URL}/get-teacher-sent-messages/${this.state.teacher_id}`, {
+        fetch(`${API_URL}/get-teacher-sent-messages/${this.state.teacher_id}/${this.state.school_id}`, {
             method: "GET",
             })
            .then(response => response.json())
@@ -137,7 +138,6 @@ class Messages extends Component {
     sentTimeWise = (data, index) => {
         console.log(data.date)
         console.log(index)
-        // var time = this.formatAMPM(data.date)
         // console.log("=============let's see ===========",index)
 
         return (
@@ -149,7 +149,7 @@ class Messages extends Component {
                     <CardItem>
                         <Body>
                             <Text style={{ textDecorationLine: 'underline', color: '#1CAFF6'}}>{data.title}</Text>
-                            <Text style={{ fontStyle: 'italic', color: '#1CAFF6'}}>{data.student_name}, 10:00am</Text>
+                            <Text style={{ fontStyle: 'italic', color: '#1CAFF6'}}>{data.student_name}, {this.formatAMPM(data.date)}</Text>
                         </Body>
                     </CardItem>
                     <CardItem style={{ paddingTop: 0, paddingBottom:0}}>
@@ -195,24 +195,97 @@ class Messages extends Component {
         this.setState({isModalVisible: !this.state.isModalVisible, message_id: id})
     }
 
+  // ====================== permission ============================
+
+  requestExternalReadPermission = async () => {
+    if (Platform.OS === 'android') {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+          {
+            title: 'External Storage Read Permission',
+            message: 'App needs read permission',
+          },
+        );
+        // If WRITE_EXTERNAL_STORAGE Permission is granted
+        return granted === PermissionsAndroid.RESULTS.GRANTED;
+      } catch (err) {
+        console.warn(err);
+        alert('Read permission err', err);
+      }
+      return false;
+    } else return true;
+  };
+
+
+  chooseDocFromPhone = async () => {
+    console.log("ues")
+
+    console.log(this.state.singleFile)
+    // Opening Document Picker to select one file
+    try {
+      const res = await DocumentPicker.pick({
+        // Provide which type of file you want user to pick
+        type: [DocumentPicker.types.pdf,
+          DocumentPicker.types.doc,
+          DocumentPicker.types.docx,
+          DocumentPicker.types.ppt,
+          DocumentPicker.types.pptx,
+          DocumentPicker.types.images
+        ],
+      });
+      // Printing the log realted to the file
+      console.log('res : ' + JSON.stringify(res));
+      // Setting the state to show single file attributes
+      this.setState({ singleFile: res });
+    } catch (err) {
+      this.setState({ singleFile: '' });
+      // Handling any exception (If any)
+      if (DocumentPicker.isCancel(err)) {
+        // If user canceled the document selection
+        alert('user canceled the document selection');
+      } else {
+        // For Unknown Error
+        alert('Unknown Error: ' + JSON.stringify(err));
+        throw err;
+      }
+    }
+  }
+
+  // ====================== permission ============================
+
+    createFormDataForReply = () => {
+        var data = new FormData()
+        data.append("message_id",this.state.message_id)
+        data.append("reply",this.state.message)
+        data.append("reply_from",'teacher')
+        if(this.state.singleFile){
+          data.append("file", this.state.singleFile);
+        }
+        console.log("============================= form data ==========================");
+        console.log(data);
+        console.log("============================= form data ==========================");
+    
+        return data;
+    };
+    
     sendmessage = async () => {
         console.log(this.state.message_id);
         console.log(this.state.message);
         this.setState({ isModalVisible: false});
-			var data = {
-				message_id:this.state.message_id,
-				reply:this.state.message,
-				reply_from: 'teacher'
-			}
+			// var data = {
+			// 	message_id:this.state.message_id,
+			// 	reply:this.state.message,
+			// 	reply_from: 'teacher'
+			// }
             if(this.state.message_id && this.state.message)
             {
                 await fetch(`${API_URL}/add-message-reply/`, {
                     method: "POST",
                     headers: {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(data)
+                        'Content-Type': 'multipart/form-data',
+                    },
+                body: this.createFormDataForReply()
                 })
                 .then(response => response.json())
                 .then(response => {
@@ -228,7 +301,6 @@ class Messages extends Component {
     inboxTimeWise = (data, index) => {
         console.log(data.date)
         console.log(index)
-        // var time = this.formatAMPM(data.date)
         // console.log("=============let's see ===========",index)
 
         return (
@@ -242,7 +314,7 @@ class Messages extends Component {
                                         <Text style={{ textDecorationLine: 'underline'}}>{data.reply_from}</Text>
                                     </Left>
                                     <Right>
-                                        <Text style={{ fontStyle: 'italic'}}>{data.student_name}, 10:00am</Text>
+                                        <Text style={{ fontStyle: 'italic'}}>{data.student_name}, {this.formatAMPM(data.date)}</Text>
                                     </Right>
                                 </CardItem>
                                 <CardItem style={{ paddingTop: 0, paddingBottom:0}}>
@@ -270,16 +342,11 @@ class Messages extends Component {
     }
 
     formatAMPM = (d) => {
-        const dd = d;
-        const date = new Date(dd);
-        console.log("date........",date)
-        console.log("date........",dd)
-        var hours = date.getHours()
-        var minutes = date.getMinutes();
+        var hours = d.slice(11, 13);
+        var minutes = d.slice(14, 16);
         var ampm = hours >= 12 ? 'pm' : 'am';
         hours = hours % 12;
         hours = hours ? hours : 12; // the hour '0' should be '12'
-        minutes = minutes < 10 ? '0'+minutes : minutes;
         var strTime = hours + ':' + minutes + ' ' + ampm;
         return strTime;
     }
@@ -446,7 +513,7 @@ class Messages extends Component {
                                 </View>
                                 
                                 <View style={{flexDirection: 'row'}}>
-                                    <TouchableOpacity onPress={()=> console.log("hello") } style={{flex:10, alignItems: 'flex-start', marginTop:10}}>
+                                    <TouchableOpacity onPress={()=> this.chooseDocFromPhone() } style={{flex:10, alignItems: 'flex-start', marginTop:10}}>
                                         <Text style={{ textDecorationLine: 'underline'}}><Icon name="paperclip"/>attach File </Text>
                                     </TouchableOpacity>
                                 
