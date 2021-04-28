@@ -13,6 +13,7 @@ export default class App extends Component{
     }
 
     componentDidMount() {
+      console.log("lets check is working or not")
         PushNotification.configure({
             // (optional) Called when Token is generated (iOS and Android)
             onRegister: function (token) {

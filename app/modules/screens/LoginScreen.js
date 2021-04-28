@@ -33,8 +33,9 @@ class LoginScreen extends Component {
     }
 
     getfireToken = async() => {
-        console.log("============================fire===================================")
+        console.log("============================fire 11===================================")
         // Register the device with FCM
+        
         await messaging().registerDeviceForRemoteMessages();
     
         const firebaseToken = await messaging().getToken();
@@ -42,7 +43,7 @@ class LoginScreen extends Component {
         this.setState({firebaseToken, deviceId})
         console.log(firebaseToken)
         console.log("device token ===>>",getUniqueId())
-        console.log("============================fire===================================")
+        console.log("============================fire 22===================================")
         return firebaseToken;
     }
 
