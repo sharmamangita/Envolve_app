@@ -17,6 +17,7 @@ import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
 // import firebase from 'react-native-firebase';
 import messaging from '@react-native-firebase/messaging';
 import { getUniqueId, getManufacturer } from 'react-native-device-info'
+import { Platform } from 'react-native';
 const GenerateForm = t.form.Form;
 
 class LoginScreen extends Component {
@@ -26,8 +27,8 @@ class LoginScreen extends Component {
         this.state={
             loading:false,
             isButtonDisable:false,
-            firebaseToken: 'efsfsdfsf',
-            deviceId: 'sdfsdfsfss'
+            firebaseToken: 'e',
+            deviceId: 's'
         }
         this.getfireToken()
     }
@@ -35,11 +36,13 @@ class LoginScreen extends Component {
     getfireToken = async() => {
         console.log("============================fire 11===================================")
         // Register the device with FCM
-        
-        await messaging().registerDeviceForRemoteMessages();
-    
-        const firebaseToken = await messaging().getToken();
-        const deviceId = getUniqueId();
+        let firebaseToken;
+        if(Platform.OS != 'ios'){
+            firebaseToken = await messaging().getToken();    
+        } else {
+            firebaseToken = "vishalsdfas"
+        }
+        const deviceId = await getUniqueId();
         this.setState({firebaseToken, deviceId})
         console.log(firebaseToken)
         console.log("device token ===>>",getUniqueId())
@@ -47,13 +50,11 @@ class LoginScreen extends Component {
         return firebaseToken;
     }
 
-    login(device_id, token) {
+    login = (device_id, token) => {
         console.log("==========>>>>>>>>>>>>>>>>>>>===========>>>>>>>>>>",device_id)
+        console.log("==========>>>>>>>>>>>>>>>>>>>===========>>>>>>>>>>",token)
         const formValues = this._form.getValue();
-        this.setState({
-            loading:true,
-            isButtonDisable:true
-        })
+        this.setState({ loading:true, isButtonDisable:true });
         if(formValues && formValues['phone_number']!=undefined  && formValues['password']!=undefined){
         fetch(`${API_URL}/save-user/${formValues['phone_number']}/${formValues['password']}/${device_id}`, {
 	        method: 'GET',
@@ -78,7 +79,7 @@ class LoginScreen extends Component {
                     console.log("===========================login response==============================");
                     this.setState({loading:false,isButtonDisable:false});
                     if (responsed.role == 'trainer') {
-                       AsyncStorage.setItem('@userData', userdata.users_id);
+                        AsyncStorage.setItem('@userData', userdata.users_id);
                         AsyncStorage.setItem('@userRoll', userdata.role);
                         AsyncStorage.setItem('@teacher_id', userdata.teacher_id);
                         const navigateAction = NavigationActions.navigate({
@@ -137,9 +138,9 @@ class LoginScreen extends Component {
 	            this.showAlertMessage(response.message);
 	        }
 	    });
-    } else {
-        this.setState({loading:false,isButtonDisable:false});
-    }
+        } else {
+            this.setState({loading:false,isButtonDisable:false});
+        }
     }
 
 
@@ -187,7 +188,11 @@ class LoginScreen extends Component {
                         />
                     </View> 
                     <View style={styles.box1}>
-                        <TouchableOpacity disabled={this.state.isButtonDisable} style={styles.loginButton} onPress={() => this.login(this.state.deviceId, this.state.firebaseToken)} >
+                        <TouchableOpacity 
+                        disabled={this.state.isButtonDisable}
+                        style={styles.loginButton}
+                        onPress={() => this.login(this.state.deviceId, this.state.firebaseToken)}
+                        >
                             <Text style={styles.loginText} > Login </Text>
                         </TouchableOpacity>
                     </View>
