@@ -39,7 +39,9 @@ class Messages extends Component {
             secondtime:false,
             isModalVisible: false,
             message_id: '',
-            message: ''
+            message: '',
+            sendingmsg: false,
+            singleFile:''
         }
     }
 
@@ -94,7 +96,7 @@ class Messages extends Component {
 
     sent = () => {
         this.setState({ inbox: false, miniLoading: true });
-        fetch(`${API_URL}/get-teacher-sent-messages/${this.state.teacher_id}/${this.state.school_id}`, {
+        fetch(`${API_URL}/get-parents-sent-messages/${this.state.student_id}`, {
             method: "GET",
             })
            .then(response => response.json())
@@ -148,8 +150,8 @@ class Messages extends Component {
 
     sentTimeWise = (data, index) => {
         console.log(data.date)
-        console.log(index)
-        // console.log("=============let's see ===========",index)
+        // console.log(index)
+        console.log("=============let's see ===========",data)
 
         return (
             <View>
@@ -160,13 +162,13 @@ class Messages extends Component {
                     <CardItem>
                         <Body>
                             <Text style={{ textDecorationLine: 'underline', color: '#1CAFF6'}}>{data.title}</Text>
-                            <Text style={{ fontStyle: 'italic', color: '#1CAFF6'}}>{data.student_name}, {this.formatAMPM(data.date)}</Text>
+                            <Text style={{ fontStyle: 'italic', color: '#1CAFF6'}}>{data.reply_from}, {this.formatAMPM(data.date)}</Text>
                         </Body>
                     </CardItem>
                     <CardItem style={{ paddingTop: 0, paddingBottom:0}}>
                         <Body>
                             <Text>
-                                {data.message}
+                                {data.reply}
                             </Text>
                         </Body>
                     </CardItem>
@@ -283,7 +285,7 @@ class Messages extends Component {
     sendmessage = async () => {
         console.log(this.state.message_id);
         console.log(this.state.message);
-        this.setState({ isModalVisible: false});
+        this.setState({ sendingmsg: true });
 			// var data = {
 			// 	message_id:this.state.message_id,
 			// 	reply:this.state.message,
@@ -300,10 +302,11 @@ class Messages extends Component {
                 })
                 .then(response => response.json())
                 .then(response => {
-                    this.setState({ message_id: '', message: '', isModalVisible: false});
+                    this.setState({ message_id: '', message: '', isModalVisible: false, sendingmsg: false});
                     alert("Message Sent Successfully");       
 				});
             } else {
+                this.setState({sendingmsg: false})
                 alert("all fields are required")
         }
     }
@@ -311,7 +314,7 @@ class Messages extends Component {
     inboxTimeWise = (data, index) => {
         // console.log(data.date)
         // console.log(index)
-        // console.log("=============let's see ===========",data)
+        console.log("=============let's see ===========",data)
 
         return (
             <View>
@@ -503,8 +506,8 @@ class Messages extends Component {
                       <Bubbles size={20} color="#1CAFF6" />
                     </View>
                   ) : null}
-                {/* start model from here */}
-                <Modal isVisible={this.state.isModalVisible}>
+{/* start model from here */}
+<Modal isVisible={this.state.isModalVisible}>
                     <ScrollView>
                     <View style={{ flex: 1, backgroundColor:"white", borderRadius: 10, marginVertical: "20%"}}>
                         <View style={{flexDirection: 'row', borderBottomColor: 'gray', borderBottomWidth: 1, padding: 10}}>
@@ -512,11 +515,15 @@ class Messages extends Component {
                         <TouchableOpacity onPress={() => this.openModal('')} style={{ width: 20, alignContent: 'center'}}><Icon name="close" size={20} color="#1CAFF6" /></TouchableOpacity>
                         </View>
                         <View style={{paddingTop: 10}}>
-                            <CardItem>
+                        <CardItem>
+                            {
+                            
+                                !this.state.sendingmsg?
                                 <Body>
                                     <View style={{width:'100%'}}>
                                         <Textarea
                                         bordered
+                                        disabled={this.state.sendingmsg}
                                         rowSpan={5}
                                         placeholder="Enter Message"
                                         onChangeText={(value) => this.setState({message: value})}
@@ -525,22 +532,36 @@ class Messages extends Component {
                                     </View>
                                     
                                     <View style={{flexDirection: 'row'}}>
-                                        <TouchableOpacity onPress={()=> this.chooseDocFromPhone() } style={{flex:10, alignItems: 'flex-start', marginTop:10}}>
+                                        <TouchableOpacity disabled={this.state.sendingmsg} onPress={()=> this.chooseDocFromPhone() } style={{flex:10, alignItems: 'flex-start', marginTop:10}}>
                                             <Text style={{ textDecorationLine: 'underline'}}><Icon name="paperclip"/>attach File </Text>
                                         </TouchableOpacity>
                                     
-                                        <TouchableOpacity style={{flexDirection: 'row', alignItems: 'flex-end', marginTop:10}} onPress={()=> this.sendmessage()}>
+                                        <TouchableOpacity disabled={this.state.sendingmsg} style={{flexDirection: 'row', alignItems: 'flex-end', marginTop:10}} onPress={()=> this.sendmessage()}>
                                             <Icon name="send" color={'#1CAFF6'} size={18} />
                                             <Text style={{ color: '#1CAFF6'}}> Send</Text>
                                         </TouchableOpacity>
                                     </View>
+                                </Body> :
+                                <Body>
+                                    <View
+                                    style={{
+                                        alignContent:'center',
+                                        justifyContent: "center",
+                                        width:"100%",
+                                        height: "100%"
+                                    }}
+                                    >
+                                        <Spinner color="#1CAFF6" style={{ marginHorizontal: 'auto'}} />
+                                        {this.state.singleFile.length? <Text style={{ alignSelf:'center' }}>File uploading...</Text>:<Text style={{ alignSelf:'center' }}>Sending Message</Text>}
+                                    </View>
                                 </Body>
-                            </CardItem>
+                            }
+                        </CardItem>
                         </View>
                     </View>
                     </ScrollView>
                 </Modal>
-            {/* end model from here */}
+{/* end model from here */}
             </View>
         );
     }

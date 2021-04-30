@@ -37,7 +37,9 @@ class Messages extends Component {
             secondtime:false,
             isModalVisible: false,
             message_id: '',
-            message: ''
+            message: '',
+            sendingmsg: false,
+            singleFile:''
         }
 
     }
@@ -272,7 +274,7 @@ class Messages extends Component {
     sendmessage = async () => {
         console.log(this.state.message_id);
         console.log(this.state.message);
-        this.setState({ isModalVisible: false});
+        this.setState({ sendingmsg: true });
 			// var data = {
 			// 	message_id:this.state.message_id,
 			// 	reply:this.state.message,
@@ -289,11 +291,12 @@ class Messages extends Component {
                 })
                 .then(response => response.json())
                 .then(response => {
-                    this.setState({ message_id: '', message: '', isModalVisible: false});
+                    this.setState({ message_id: '', message: '', isModalVisible: false, sendingmsg: false});
                     alert("Message Sent Successfully");
                     this.getlistpriviuspage();        
 				});
             } else {
+                this.setState({sendingmsg: false})
                 alert("all fields are required")
             }
     }
@@ -501,28 +504,46 @@ class Messages extends Component {
                         </View>
                         <View style={{paddingTop: 10}}>
                         <CardItem>
-                            <Body>
-                                <View style={{width:'100%'}}>
-                                    <Textarea
-                                    bordered
-                                    rowSpan={5}
-                                    placeholder="Enter Message"
-                                    onChangeText={(value) => this.setState({message: value})}
-                                    value={this.state.message}
-                                    />
-                                </View>
-                                
-                                <View style={{flexDirection: 'row'}}>
-                                    <TouchableOpacity onPress={()=> this.chooseDocFromPhone() } style={{flex:10, alignItems: 'flex-start', marginTop:10}}>
-                                        <Text style={{ textDecorationLine: 'underline'}}><Icon name="paperclip"/>attach File </Text>
-                                    </TouchableOpacity>
-                                
-                                    <TouchableOpacity style={{flexDirection: 'row', alignItems: 'flex-end', marginTop:10}} onPress={()=> this.sendmessage()}>
-                                        <Icon name="send" color={'#1CAFF6'} size={18} />
-                                        <Text style={{ color: '#1CAFF6'}}> Send</Text>
-                                    </TouchableOpacity>
-                                </View>
-                            </Body>
+                            {
+                            
+                                !this.state.sendingmsg?
+                                <Body>
+                                    <View style={{width:'100%'}}>
+                                        <Textarea
+                                        bordered
+                                        disabled={this.state.sendingmsg}
+                                        rowSpan={5}
+                                        placeholder="Enter Message"
+                                        onChangeText={(value) => this.setState({message: value})}
+                                        value={this.state.message}
+                                        />
+                                    </View>
+                                    
+                                    <View style={{flexDirection: 'row'}}>
+                                        <TouchableOpacity disabled={this.state.sendingmsg} onPress={()=> this.chooseDocFromPhone() } style={{flex:10, alignItems: 'flex-start', marginTop:10}}>
+                                            <Text style={{ textDecorationLine: 'underline'}}><Icon name="paperclip"/>attach File </Text>
+                                        </TouchableOpacity>
+                                    
+                                        <TouchableOpacity disabled={this.state.sendingmsg} style={{flexDirection: 'row', alignItems: 'flex-end', marginTop:10}} onPress={()=> this.sendmessage()}>
+                                            <Icon name="send" color={'#1CAFF6'} size={18} />
+                                            <Text style={{ color: '#1CAFF6'}}> Send</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                </Body> :
+                                <Body>
+                                    <View
+                                    style={{
+                                        alignContent:'center',
+                                        justifyContent: "center",
+                                        width:"100%",
+                                        height: "100%"
+                                    }}
+                                    >
+                                        <Spinner color="#1CAFF6" style={{ marginHorizontal: 'auto'}} />
+                                        {this.state.singleFile.length? <Text style={{ alignSelf:'center' }}>File uploading...</Text>:<Text style={{ alignSelf:'center' }}>Sending Message</Text>}
+                                    </View>
+                                </Body>
+                            }
                         </CardItem>
                         </View>
                     </View>
