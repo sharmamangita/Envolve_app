@@ -3,7 +3,7 @@ import { createAppContainer } from 'react-navigation';
 
 import React, { useEffect, useState } from 'react';
 //import {createStackNavigator,createDrawerNavigator, createMaterialTopTabNavigator, createAppContainer} from 'react-navigation';
-import { View, StyleSheet, Image, Text, TouchableOpacity, Alert } from 'react-native';
+import { View, StyleSheet, Image, Text, TouchableOpacity, Alert, Platform } from 'react-native';
 
 import { TouchableItem } from 'react-native-tab-view';
 import HomeStack from './homestack';
@@ -253,6 +253,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   profileContainer: {
+    marginTop: (Platform.OS === 'ios')?46:0,
     marginBottom: 8,
     marginLeft: 20
 

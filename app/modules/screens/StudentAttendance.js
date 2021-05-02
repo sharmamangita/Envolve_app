@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, Image, TouchableOpacity, View, Text, StyleSheet } from 'react-native';
+import { ScrollView, Image, TouchableOpacity, View, Text, StyleSheet, Platform } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import moment from "moment";
 import { NavigationActions } from 'react-navigation';
@@ -127,7 +127,7 @@ class StudentAttendance extends Component {
 
 
         return (
-            <View style={{ flex: 1, height: '100%', width: '100%', backgroundColor: '#fff' }}>
+            <View style={{ flex: 1, height: '100%', width: '100%', backgroundColor: '#fff', paddingTop:(Platform.OS === 'ios')?46:0 }}>
                 <ScrollView>
                     <View style={styleData.outercontainer}>
                         <Icon name="chevron-left" onPress={() => this.goBack()} style={{ fontSize: 22, color: '#23ABE2', marginTop: 8 }} />

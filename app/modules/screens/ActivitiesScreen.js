@@ -6,9 +6,9 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { NavigationActions } from 'react-navigation';
 import { API_URL } from '../constants/config';
 import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
-import GetLocation from 'react-native-get-location';
-import Geolocation from 'react-native-geolocation-service'
-import { openSettings } from 'react-native-permissions'
+import { Button as Buttons } from 'native-base';
+import Geolocation from 'react-native-geolocation-service';
+import { openSettings } from 'react-native-permissions';
 
 import {
     launchCamera,
@@ -372,7 +372,10 @@ class ActivitiesScreen extends Component {
 
             </ScrollView>
             {state.params.navparams.rolval.role == "trainer"?<View style={{ position: 'absolute', left: 0, right: 0, bottom: 0 }}>
-                <Button title="Send Message" onPress={() => this.screenMessage()} color="#23ABE2" marginTop="1000" />
+                {/* <Button title="Send Message" onPress={() => this.screenMessage()} color="#23ABE2" marginTop="1000" /> */}
+                <Buttons onPress={()=> this.screenMessage()} style={styleData.sendMessageButton}>
+                  <Text style={styleData.sendMessageButtonText}>Send Message</Text>
+                </Buttons>
             </View>:null}
           </View>
         )
@@ -380,7 +383,21 @@ class ActivitiesScreen extends Component {
 }
 
 const styleData = StyleSheet.create({
+    sendMessageButton:{
+      borderRadius:0,
+      color:"#fff",
+      width:"100%",
+      backgroundColor:"#23ABE2",
+      justifyContent:'center',
+      height:55
+    },
+    sendMessageButtonText:{
+      color:"#fff",
+      alignSelf:"center",
+      // justifyContent:'center'
+    },
     screenContainer: {
+        paddingTop:(Platform.OS === 'ios')?46:0,
         height: '100%',
         width: '100%',
         backgroundColor: '#fff',

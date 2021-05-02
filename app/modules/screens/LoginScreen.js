@@ -117,7 +117,7 @@ class LoginScreen extends Component {
 
                     else if(responsed.role == "parent"){
                         AsyncStorage.setItem('@userData', userdata.users_id);
-                        AsyncStorage.setItem('@userDataForNotification', userdata);
+                        // AsyncStorage.setItem('@userDataForNotification', userdata);
                         AsyncStorage.setItem('@userRoll', responsed.role);
                         const navigateAction = NavigationActions.navigate({
                             routeName: 'Parents',

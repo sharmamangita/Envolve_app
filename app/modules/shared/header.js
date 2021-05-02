@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
         height: "100%",
         flexDirection: "row",
         alignItems: "center",
-        //backgroundColor: "#1C75BB"        
+        // backgroundColor: "#1C75BB"        
     },
     headerText: {
         fontWeight: "bold",
