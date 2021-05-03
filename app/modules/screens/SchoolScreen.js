@@ -7,7 +7,7 @@ import { API_URL } from '../constants/config';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
 import TrainerAttendance from './TrainerAttendance';
-
+import { Button as Buttons } from 'native-base';
 class SchoolScreen extends Component {
     constructor(props) {
         super(props);
@@ -101,13 +101,20 @@ class SchoolScreen extends Component {
             teacher_name = <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Hey user!</Text>
         }
         if (admin_role == 'admin') {
-            viewbtton = <Button
-                title="Trainer Attendance"
+            viewbtton = <Buttons
                 onPress={() =>
                     this.props.navigation.navigate('TrainerAttendance')
                 }
-                color="#23ABE2"
-            />
+                style={{
+                    borderRadius:0,
+                    color:"#23ABE2",
+                    width:"100%",
+                    justifyContent:'center',
+                    height:55
+                }}
+                >
+                <Text style={{color:"#fff", fontWeight:'bold'}}>Trainer Attendance</Text>
+            </Buttons>
         }
         var arr = [];
         if (this.state.schools != '') {

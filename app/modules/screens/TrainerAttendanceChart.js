@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ScrollView, View, Text, StyleSheet,TouchableOpacity, SectionList } from "react-native";
+import { ScrollView, View, Text, StyleSheet,TouchableOpacity, Platform } from "react-native";
 import { ListItem } from "react-native-elements";
 import TouchableScale from "react-native-touchable-scale";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -121,7 +121,7 @@ getTrainerAttendance = async () => {
     
     let XYData = sampleData.filter(xa => xa.x.slice(0,7) == this.state.chartMonthwise);
     let XY = XYData.map(d => ({ "x":Number(d.x.slice(8, 10)), "y": d.y}))
-    console.log("========XY========>>>>>>",XY)
+    console.log("========XY========>>>>>>",XY);
     console.log("========XYData=====>>>", XYData);
     
     // console.log(sampleData)
@@ -279,6 +279,7 @@ getTrainerAttendance = async () => {
 
 const styleData = StyleSheet.create({
   screenContainer: {
+    paddingTop:(Platform.OS === 'ios')?46:0,
     height: "100%",
     width: "100%",
     backgroundColor: "#fff",

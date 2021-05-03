@@ -331,6 +331,7 @@ class Students extends Component {
 
 const styleData = StyleSheet.create({
     screenContainer: {
+        marginTop:(Platform.OS === 'ios')?40:0,
         height: '100%',
         width: '100%',
         backgroundColor: '#fff',

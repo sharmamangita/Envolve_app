@@ -108,9 +108,12 @@ class Parents extends Component {
                 let name  = this.state.schools.filter(name => name.student_id == x );
                 arr.push(<List.Accordion
                 title={name[0].student_name}
-                left={props => <List.Icon {...props} icon="folder" />}>
+                left={props => <List.Icon {...props} color="#1CAFF6" icon="archive" />}>
                     {this.listdata(x)}
-                    <List.Item title={'View Messages'} onPress={()=> this.openSchoolDiary(name[0])} />
+                    <List.Item
+                        left={props => <List.Icon {...props} color="#1CAFF6" icon="android-messages" />}
+                        title={'View Messages'}
+                        onPress={()=> this.openSchoolDiary(name[0])} />
                 </List.Accordion>)
             });
             return arr;
@@ -120,7 +123,8 @@ class Parents extends Component {
             let list = []
             for (let studentObject of this.state.schools) {
                 if(id == studentObject.student_id){
-                    list.push(<List.Item 
+                    list.push(<List.Item
+                        left={props => <List.Icon {...props} color="#1CAFF6" icon="bookmark" />}
                         title={`${studentObject.school_name} | ${studentObject.activity_name}`} 
                         onPress={() => this.getStudents(studentObject) }
                         />)

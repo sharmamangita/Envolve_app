@@ -342,7 +342,7 @@ class SendNotification extends Component {
                   selectedItems={this.state.selectedUserType}
                   selectText="Send to: "
                   onChangeInput={ (text)=> console.log(text)}
-                  altFontFamily="ProximaNova-Light"
+                  // altFontFamily="ProximaNova-Light"
                   tagRemoveIconColor="red"
                   tagBorderColor="#1CAFF6"
                   tagTextColor="#1CAFF6"
@@ -371,7 +371,7 @@ class SendNotification extends Component {
                   selectedItems={this.state.selectedTrainer}
                   selectText="Select Trainer: "
                   onChangeInput={ (text)=> console.log(text)}
-                  altFontFamily="ProximaNova-Light"
+                  // altFontFamily="ProximaNova-Light"
                   tagRemoveIconColor="red"
                   tagBorderColor="#1CAFF6"
                   tagTextColor="#1CAFF6"
@@ -401,9 +401,9 @@ class SendNotification extends Component {
                         items={this.state.classes}
                         defaultValue=""
                         containerStyle={{ height: 50 }}
-                        style={{ ...styleData.customDropdownDivider, paddingBottom: 10, }}
+                        style={{ ...styleData.customDropdownDivider, paddingBottom: 10 }}
                         itemStyle={{
-                          justifyContent: "flex-start",
+                          justifyContent: "flex-start"
                         }}
                         dropDownStyle={{ backgroundColor: "#fafafa" }}
                         onChangeItem={ async (item) => {
@@ -449,7 +449,7 @@ class SendNotification extends Component {
                       selectedItems={this.state.selectedParents}
                       selectText="Select Parents: "
                       onChangeInput={ (text)=> console.log(text)}
-                      altFontFamily="ProximaNova-Light"
+                      // altFontFamily="ProximaNova-Light"
                       tagRemoveIconColor="red"
                       tagBorderColor="#1CAFF6"
                       tagTextColor="#1CAFF6"
@@ -503,6 +503,7 @@ class SendNotification extends Component {
 
 const styleData = StyleSheet.create({
   screenContainer: {
+    paddingTop:(Platform.OS === 'ios')?46:0,
     height: "100%",
     width: "100%",
     backgroundColor: "#fff",

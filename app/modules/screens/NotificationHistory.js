@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ScrollView, View, Text, StyleSheet,TouchableOpacity, SectionList, Image, Dimensions, FlatList} from "react-native";
+import { ScrollView, View, Text, StyleSheet,TouchableOpacity, SectionList, Image, Platform, FlatList} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { API_URL } from "../constants/config";
 import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
@@ -222,6 +222,7 @@ class NotificationHistory extends Component {
 
 const styleData = StyleSheet.create({
   screenContainer: {
+    paddingTop:(Platform.OS === 'ios')?46:0,
     height: "100%",
     width: "100%",
     backgroundColor: "#fff",

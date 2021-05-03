@@ -212,7 +212,7 @@ const renderMenu = (navigation) => {
           onPress={() => LogOut()}>
           <>
             <View style={styles.signInIcon}>
-              <Icon name={"west"} size={25} color="#fff" />
+              <Icon name={"arrow-back-outline"}  type='ionicon' size={25} color="#fff" />
             </View>
             <Text style={styles.signIn} >
               {data}

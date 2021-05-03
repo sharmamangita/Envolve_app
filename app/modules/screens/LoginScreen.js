@@ -92,7 +92,7 @@ class LoginScreen extends Component {
                     } else if (responsed.role == 'admin') {
                         AsyncStorage.setItem('@userData', userdata.users_id);
                         AsyncStorage.setItem('@userRoll', responsed.role);
-                        AsyncStorage.setItem('@teacher_id', 0);
+                        AsyncStorage.setItem('@teacher_id', "0");
                         const navigateAction = NavigationActions.navigate({
                             routeName: 'SchoolScreen',
                             params: {
