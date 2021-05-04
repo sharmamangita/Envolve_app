@@ -51,12 +51,20 @@ class Messages extends Component {
         this.sent();
     }
 
+    updateAfterMessageSent = (v) =>{
+        if(v){
+            this.setState({inbox: true});
+            this.sent();
+        }
+    }
+
     OpenHWAC = () => {
         const navigateAction = NavigationActions.navigate({
             routeName: "HomeWorkAndComplaint",
             params: {
                 teacher_id:this.props.navigation.state.params.teacher_id,
-                school_Id:this.props.navigation.state.params.schoolId.school_id
+                school_Id:this.props.navigation.state.params.schoolId.school_id,
+                updateSent: this.updateAfterMessageSent.bind(this)
               }
           });
           this.props.navigation.dispatch(navigateAction);
@@ -292,8 +300,10 @@ class Messages extends Component {
                 .then(response => response.json())
                 .then(response => {
                     this.setState({ message_id: '', message: '', isModalVisible: false, sendingmsg: false});
-                    alert("Message Sent Successfully");
-                    this.getlistpriviuspage();        
+                    alert(response.message);
+                    if(response.status){
+                        this.inbox();
+                    }   
 				});
             } else {
                 this.setState({sendingmsg: false})

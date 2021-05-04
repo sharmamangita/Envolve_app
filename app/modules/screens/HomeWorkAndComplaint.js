@@ -170,7 +170,11 @@ class HomeWorkAndComplaint extends Component {
            .then(response => {
              console.log(response)
              this.setState({ loading: false, headline: '', message: '', selectedUserType: []});
-             alert("Sent Successfully");       
+             alert(response.message);   
+             if(response.status){
+              this.props.navigation.state.params.updateSent(true)
+              this.goBack()
+             }     
 					 })
            .catch(error => {
             console.log("form submission", error);

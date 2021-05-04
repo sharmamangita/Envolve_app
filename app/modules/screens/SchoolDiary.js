@@ -303,7 +303,7 @@ class Messages extends Component {
                 .then(response => response.json())
                 .then(response => {
                     this.setState({ message_id: '', message: '', isModalVisible: false, sendingmsg: false});
-                    alert("Message Sent Successfully");       
+                    alert(response.message);       
 				});
             } else {
                 this.setState({sendingmsg: false})
@@ -327,7 +327,7 @@ class Messages extends Component {
                         <Left>
                             <View>
                                 <Text style={{ textDecorationLine: 'underline', color: '#1CAFF6'}}>{data.title}</Text>
-                                <Text style={{ fontStyle: 'italic', color: '#1CAFF6'}}>Class {this.props.navigation.state.params.student.class}-{this.props.navigation.state.params.student.section}, 10:00am</Text>
+                                <Text style={{ fontStyle: 'italic', color: '#1CAFF6'}}>Teacher: {data.teacher_name}, {this.formatAMPM(data.date)}</Text>
                             </View>
                         </Left>
                         <Right>
