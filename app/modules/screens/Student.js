@@ -13,6 +13,7 @@ import CheckBox from 'react-native-check-box'
 //import Environment from '../../../Components/Environment/index';
 //import VideoPlayer from '../../screens/VideoPlayer/index';
 import { API_URL } from '../constants/config';
+import { Button as Buttons } from 'native-base';
 
 class Students extends Component {
 
@@ -314,12 +315,25 @@ class Students extends Component {
                         <View style={[styleData.box, styleData.box2]}><Text style={styleData.tableTextData}>Section</Text></View>
                         <View style={[styleData.box, styleData.box2]}><Text style={styleData.tableTextData}>Attendance</Text><CheckBox style={{ flex: 1, padding: 10 }} onClick={() => { this.select_all() }} checkedCheckBoxColor="green" isChecked={this.state.checked} /></View>
                     </View>
-                    <View style={{ marginBottom: 25 }}>
+                    <View style={{ marginBottom: 55 }}>
                         {arr}
                     </View>
                 </ScrollView>
                 <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0 }}>
-                    <Button title="Send Attendance" onPress={() => this.send_attendance()} color="#23ABE2" marginTop="1000" />
+                    
+                    <Buttons
+                        onPress={() => this.send_attendance()}
+                        style={{
+                            borderRadius:0,
+                            color:"#23ABE2",
+                            width:"100%",
+                            justifyContent:'center',
+                            height:55
+                        }}  
+                    >
+                        <Text style={{color:"#fff", fontWeight:'bold'}}>Send Attendance</Text>
+                    </Buttons>
+
                 </View>
             </View>
 

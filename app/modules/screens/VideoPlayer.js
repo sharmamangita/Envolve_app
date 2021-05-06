@@ -6,7 +6,7 @@ import {
   Text,
   View,
   Image,
-  Dimensions,
+  Dimensions
 } from "react-native";
 
 import Video from "react-native-video";
@@ -151,6 +151,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   logo:{
+    paddingTop:(Platform.OS === 'ios')?46:0,
     position: 'absolute',
     top:0,
     flex: 1,

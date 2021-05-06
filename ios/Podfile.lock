@@ -78,8 +78,6 @@ PODS:
   - nanopb/encode (2.30908.0)
   - Permission-AppTrackingTransparency (3.0.0):
     - RNPermissions
-  - Permission-BluetoothPeripheral (3.0.0):
-    - RNPermissions
   - Permission-Calendars (3.0.0):
     - RNPermissions
   - Permission-Camera (3.0.0):
@@ -400,7 +398,6 @@ DEPENDENCIES:
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - Permission-AppTrackingTransparency (from `../node_modules/react-native-permissions/ios/AppTrackingTransparency`)
-  - Permission-BluetoothPeripheral (from `../node_modules/react-native-permissions/ios/BluetoothPeripheral`)
   - Permission-Calendars (from `../node_modules/react-native-permissions/ios/Calendars`)
   - Permission-Camera (from `../node_modules/react-native-permissions/ios/Camera`)
   - Permission-Contacts (from `../node_modules/react-native-permissions/ios/Contacts`)
@@ -491,8 +488,6 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
   Permission-AppTrackingTransparency:
     :path: "../node_modules/react-native-permissions/ios/AppTrackingTransparency"
-  Permission-BluetoothPeripheral:
-    :path: "../node_modules/react-native-permissions/ios/BluetoothPeripheral"
   Permission-Calendars:
     :path: "../node_modules/react-native-permissions/ios/Calendars"
   Permission-Camera:
@@ -631,7 +626,6 @@ SPEC CHECKSUMS:
   GoogleUtilities: e1d9ed4e544fc32a93e00e721400cbc3f377200d
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   Permission-AppTrackingTransparency: 15da2933d9d04f5106fa19407eb452fa1b4e8059
-  Permission-BluetoothPeripheral: 0111f6d0b7c3e9013c6b93ab6fa6446875facf03
   Permission-Calendars: aafa227e5dee83c7346fc2ca488d45ca1d63a148
   Permission-Camera: 119b01de97a5b3edb637999e38476b68143b9d17
   Permission-Contacts: b04d927dd11f31bb7131384c05ee416d154343f5
@@ -694,6 +688,6 @@ SPEC CHECKSUMS:
   RNVectorIcons: bc69e6a278b14842063605de32bec61f0b251a59
   Yoga: 7d13633d129fd179e01b8953d38d47be90db185a
 
-PODFILE CHECKSUM: 07eb4743c23cb5f1afbc821f54b0ec7ff925b739
+PODFILE CHECKSUM: b69533d4e709e1851b61e871d58e62bb1e9f46c1
 
 COCOAPODS: 1.10.1
