@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ScrollView, View, Text, StyleSheet,TouchableOpacity, Image, Platform, Permission } from "react-native";
+import { ScrollView, View, Text, StyleSheet,TouchableOpacity, Image, Platform, PermissionsAndroid } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { API_URL } from "../constants/config";
 import { Bubbles } from "react-native-loader";
@@ -7,6 +7,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import {Textarea, Form, Input, Button, Icon as Icons} from 'native-base';
 import MultiSelect from 'react-native-multiple-select';
 import DocumentPicker from 'react-native-document-picker';
+import { openSettings } from 'react-native-permissions';
 
 class HomeWorkAndComplaint extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -250,33 +251,43 @@ class HomeWorkAndComplaint extends Component {
 
     console.log(this.state.singleFile)
     // Opening Document Picker to select one file
-    try {
-      const res = await DocumentPicker.pick({
-        // Provide which type of file you want user to pick
-        type: [DocumentPicker.types.pdf,
-          DocumentPicker.types.doc,
-          DocumentPicker.types.docx,
-          DocumentPicker.types.ppt,
-          DocumentPicker.types.pptx,
-          DocumentPicker.types.images
-        ],
-      });
-      // Printing the log realted to the file
-      console.log('res : ' + JSON.stringify(res));
-      // Setting the state to show single file attributes
-      this.setState({ singleFile: res });
-    } catch (err) {
-      this.setState({ singleFile: '' });
-      // Handling any exception (If any)
-      if (DocumentPicker.isCancel(err)) {
-        // If user canceled the document selection
-        alert('user canceled the document selection');
-      } else {
-        // For Unknown Error
-        alert('Unknown Error: ' + JSON.stringify(err));
-        throw err;
+    let isStoragePermitted = await this.requestExternalReadPermission();
+    if(isStoragePermitted){
+      try {
+        const res = await DocumentPicker.pick({
+          // Provide which type of file you want user to pick
+          type: [DocumentPicker.types.pdf,
+            DocumentPicker.types.doc,
+            DocumentPicker.types.docx,
+            DocumentPicker.types.ppt,
+            DocumentPicker.types.pptx,
+            DocumentPicker.types.images
+          ],
+        });
+        // Printing the log realted to the file
+        console.log('res : ' + JSON.stringify(res));
+        // Setting the state to show single file attributes
+        this.setState({ singleFile: res });
+      } catch (err) {
+        this.setState({ singleFile: '' });
+        // Handling any exception (If any)
+        if (DocumentPicker.isCancel(err)) {
+          // If user canceled the document selection
+          alert('user canceled the document selection');
+        } else {
+          // For Unknown Error
+          alert('Unknown Error: ' + JSON.stringify(err));
+          throw err;
+        }
       }
-    }
+    } else {
+      if(this.state.secondtime){
+        openSettings();
+      }else {
+        alert("App need to access External Storage Write Permission");
+      }
+      this.setState({secondtime: true});
+  }
   }
 
   // ====================== permission ============================
@@ -418,7 +429,12 @@ class HomeWorkAndComplaint extends Component {
                 </Form>
                 <TouchableOpacity style={{flex:1, flexDirection:'row', marginStart: 10, marginTop: 5}} onPress={()=> this.chooseDocFromPhone()}>
                   <Icon name="paperclip" size={20} style={{ marginRight:5}}/>
-                  <Text style={{ textDecorationLine: 'underline'}}>Attach File</Text>
+                    {
+                      this.state.singleFile?
+                      <Text style={{ textDecorationLine: 'underline'}}>{this.state.singleFile.name} attached</Text>
+                      :
+                      <Text style={{ textDecorationLine: 'underline'}}>Attach File</Text>  
+                    }
                 </TouchableOpacity>
                 
               {/* ======================================================================= */}

@@ -392,16 +392,16 @@ class Messages extends Component {
 
         if(isStoragePermitted){
             let Dir = RNFetchBlob.fs.dirs
-            const folderPath = '/storage/emulated/0/Envolve';
+            const folderPath = '/storage/emulated/0/Download';
             RNFetchBlob.fs.isDir(folderPath).then((isDir) =>{
-                if(!isDir) {
-                    console.log("file didn't exist")
-                    RNFetchBlob.fs.mkdir(folderPath).then(()=> {
-                        console.log("new file created");
-                    })
-                    .catch(error => console.log(error));
-                } else {
-                    let docDir = RNFetchBlob.fs.dirs.DocumentDir + '/Envolve/' + URL
+                // if(!isDir) {
+                //     console.log("file didn't exist")
+                //     RNFetchBlob.fs.mkdir(folderPath).then(()=> {
+                //         console.log("new file created");
+                //     })
+                //     .catch(error => console.log(error));
+                // }
+                    // let docDir = RNFetchBlob.fs.dirs.DocumentDir + '/Envolve/' + URL
                     const { dirs } = RNFetchBlob.fs;
                     RNFetchBlob.config({
                         fileCache: true,
@@ -420,7 +420,6 @@ class Messages extends Component {
                         Alert.alert("Downloaded Successfully.", URL+" File is downloaded");
                     })
                     .catch(error => console.log(error))
-                }
             })
         } else {
             if(this.state.secondtime){
@@ -531,7 +530,13 @@ class Messages extends Component {
                                     
                                     <View style={{flexDirection: 'row'}}>
                                         <TouchableOpacity disabled={this.state.sendingmsg} onPress={()=> this.chooseDocFromPhone() } style={{flex:10, alignItems: 'flex-start', marginTop:10}}>
-                                            <Text style={{ textDecorationLine: 'underline'}}><Icon name="paperclip"/>attach File </Text>
+                                            {/* <Text style={{ textDecorationLine: 'underline'}}><Icon name="paperclip"/>attach File </Text> */}
+                                            {
+                                                this.state.singleFile?
+                                                <Text style={{ textDecorationLine: 'underline'}}>{this.state.singleFile.name} attached</Text>
+                                                :
+                                                <Text style={{ textDecorationLine: 'underline'}}>Attach File</Text>  
+                                            }
                                         </TouchableOpacity>
                                     
                                         <TouchableOpacity disabled={this.state.sendingmsg} style={{flexDirection: 'row', alignItems: 'flex-end', marginTop:10}} onPress={()=> this.sendmessage()}>
@@ -550,7 +555,7 @@ class Messages extends Component {
                                     }}
                                     >
                                         <Spinner color="#1CAFF6" style={{ marginHorizontal: 'auto'}} />
-                                        {this.state.singleFile.length? <Text style={{ alignSelf:'center' }}>File uploading...</Text>:<Text style={{ alignSelf:'center' }}>Sending Message</Text>}
+                                        {this.state.singleFile? <Text style={{ alignSelf:'center' }}>File uploading...</Text>:<Text style={{ alignSelf:'center' }}>Sending Message</Text>}
                                     </View>
                                 </Body>
                             }
