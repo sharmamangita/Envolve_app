@@ -174,7 +174,7 @@ class Messages extends Component {
                         <Right>
                             { data.file?
                             <TouchableOpacity onPress={()=> this.downloadLink(data.file) }>
-                                <Text style={{ textDecorationLine: 'underline'}}><Icon name="paperclip"/>attached file </Text>
+                                <Text style={{ textDecorationLine: 'underline'}}><Icon name="paperclip"/>View attached file </Text>
                             </TouchableOpacity>
                             :null
                             }
@@ -342,7 +342,7 @@ class Messages extends Component {
                                     <Right>
                                     { data.file?
                                         <TouchableOpacity onPress={()=> this.downloadLink(data.file) }>
-                                            <Text style={{ textDecorationLine: 'underline'}}><Icon name="paperclip"/>attached file </Text>
+                                            <Text style={{ textDecorationLine: 'underline'}}><Icon name="paperclip"/>View attached file </Text>
                                         </TouchableOpacity>
                                         :null
                                     }

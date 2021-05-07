@@ -177,7 +177,7 @@ class Messages extends Component {
                         <Right>
                             { data.file?
                             <TouchableOpacity onPress={()=> this.downloadLink(data.file) }>
-                                <Text style={{ textDecorationLine: 'underline'}}><Icon name="paperclip"/>attached file </Text>
+                                <Text style={{ textDecorationLine: 'underline'}}><Icon name="paperclip"/>View attached file </Text>
                             </TouchableOpacity>
                             :null
                             }
@@ -349,12 +349,7 @@ class Messages extends Component {
                         <Right>
                             { data.file?
                             <TouchableOpacity onPress={()=> this.downloadLink(data.file) }>
-                                {
-                                    this.state.singleFile?
-                                    <Text style={{ textDecorationLine: 'underline'}}>{this.state.singleFile.name} attached</Text>
-                                    :
-                                    <Text style={{ textDecorationLine: 'underline'}}>Attach File</Text>  
-                                }
+                                <Text style={{ textDecorationLine: 'underline'}}>View attach file</Text>
                             </TouchableOpacity>
                             :null
                             }
@@ -538,7 +533,12 @@ class Messages extends Component {
                                     
                                     <View style={{flexDirection: 'row'}}>
                                         <TouchableOpacity disabled={this.state.sendingmsg} onPress={()=> this.chooseDocFromPhone() } style={{flex:10, alignItems: 'flex-start', marginTop:10}}>
-                                            <Text style={{ textDecorationLine: 'underline'}}><Icon name="paperclip"/>attach File </Text>
+                                            {
+                                                this.state.singleFile?
+                                                <Text style={{ textDecorationLine: 'underline'}}>{this.state.singleFile.name} attached</Text>
+                                                :
+                                                <Text style={{ textDecorationLine: 'underline'}}>Attach File</Text>  
+                                            }
                                         </TouchableOpacity>
                                     
                                         <TouchableOpacity disabled={this.state.sendingmsg} style={{flexDirection: 'row', alignItems: 'flex-end', marginTop:10}} onPress={()=> this.sendmessage()}>

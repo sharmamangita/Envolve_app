@@ -129,6 +129,25 @@ getTrainerAttendance = async () => {
     
   }
 
+  lastThreeMonths = () => {
+    let m = [
+      {
+        label: `${this.state.threeMonthsLable[0].month} - ${this.state.threeMonthsLable[0].year}`,
+        value: `${this.state.threeMonthsLable[0].year}-${this.state.threeMonthsLable[0].monthInNumber}`,
+        hidden: true
+      },
+      {
+        label: `${this.state.threeMonthsLable[1].month} - ${this.state.threeMonthsLable[1].year}`,
+        value: `${this.state.threeMonthsLable[1].year}-${this.state.threeMonthsLable[1].monthInNumber}`
+      },
+      {
+        label: `${this.state.threeMonthsLable[2].month} - ${this.state.threeMonthsLable[2].year}`,
+        value: `${this.state.threeMonthsLable[2].year}-${this.state.threeMonthsLable[2].monthInNumber}`
+      },
+    ];
+    return m
+  }
+
   render() {
     const markerSpacing = this.state.XYvalue.length > 20 ? 2 : this.state.XYvalue.length > 10 ? 1 : 0;
     return (
@@ -160,24 +179,10 @@ getTrainerAttendance = async () => {
                 justifyContent: "center",
               }}
             >
-          <View style={{ width: "100%"}}>
+          <View style={{ width: "100%",minHeight:100}}>
             
             <DropDownPicker
-              items={[
-                  {
-                    label: `${this.state.threeMonthsLable[0].month} - ${this.state.threeMonthsLable[0].year}`,
-                    value: `${this.state.threeMonthsLable[0].year}-${this.state.threeMonthsLable[0].monthInNumber}`,
-                    hidden: true
-                  },
-                  {
-                    label: `${this.state.threeMonthsLable[1].month} - ${this.state.threeMonthsLable[1].year}`,
-                    value: `${this.state.threeMonthsLable[1].year}-${this.state.threeMonthsLable[1].monthInNumber}`
-                  },
-                  {
-                    label: `${this.state.threeMonthsLable[2].month} - ${this.state.threeMonthsLable[2].year}`,
-                    value: `${this.state.threeMonthsLable[2].year}-${this.state.threeMonthsLable[2].monthInNumber}`
-                  },
-              ]}
+              items={ this.lastThreeMonths()}
               containerStyle={{height: 40}}
               style={{backgroundColor: '#fafafa'}}
               itemStyle={{

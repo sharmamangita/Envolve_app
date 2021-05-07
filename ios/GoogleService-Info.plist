@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>289757961167-spepp64clhfrhks3nedpjh7peseftuhv.apps.googleusercontent.com</string>
+	<string>289757961167-aijinreehue7grk5lgr75pgdedcp4n22.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.289757961167-spepp64clhfrhks3nedpjh7peseftuhv</string>
+	<string>com.googleusercontent.apps.289757961167-aijinreehue7grk5lgr75pgdedcp4n22</string>
 	<key>API_KEY</key>
 	<string>AIzaSyCBfQ_h6U9m9epEjiUto-V7vRrYe8tK2SM</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.Envolve.ios</string>
+	<string>com.SeventySixEastEnvolve</string>
 	<key>PROJECT_ID</key>
 	<string>evol-77c53</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:289757961167:ios:0de2836e9714e17c04d0ba</string>
+	<string>1:289757961167:ios:53c68de9f3f1241704d0ba</string>
 </dict>
 </plist>
