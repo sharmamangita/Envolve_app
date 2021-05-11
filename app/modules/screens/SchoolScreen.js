@@ -8,36 +8,71 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
 import TrainerAttendance from './TrainerAttendance';
 import { Button as Buttons } from 'native-base';
+import AsyncStorage from "@react-native-community/async-storage";
+
 class SchoolScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
             schools: [],
             value: '',
-            roleval: Object.assign({}, this.props.navigation.state.params),
+            roleval: '',
             navparams: '',
+            teacher_id: '',
+            mobile_num:'',
             loading: false,
         }
 
     }
 
-    componentDidMount() {
-        var navparams = this.props.navigation.state.params ? this.props.navigation.state.params : null;
-        if (navparams == null && this.props) {
-            var navparams = this.props;
-        }
+    async componentDidMount() {
         this.setState({
             loading: true
         })
-        var teacher_id = JSON.stringify(navparams.rolval.teacher_id)
-        var users_id = JSON.stringify(navparams.rolval.users_id)
+
+        await AsyncStorage.getItem("@teacher_id").then(
+            (teacher_id) =>{
+              this.setState({ teacher_id });
+            }, (err) =>{
+              console.log("error",err)
+        })
+
+        await AsyncStorage.getItem("@mobile_num").then(
+            (mobile_num) =>{
+              this.setState({ mobile_num });
+            }, (err) =>{
+              console.log("error",err)
+        })
+
+        // =============================== 
+        await fetch(`${API_URL}/get-user-data/${this.state.mobile_num}`).then((res) => res.json()).then((response) =>{
+            if(response.role) {
+                this.setState({roleval: response});
+            } else {
+                this.setState({
+                    loading: false
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                loading: false
+            });
+            alert(err);
+        })
+        console.log("========****************************************************************=======");
+console.log(this.state.roleval)
+        console.log("========****************************************************************=======");
+
+        // ===============================
+
+        var teacher_id = JSON.stringify(this.state.teacher_id)
+        var users_id = JSON.stringify(this.state.roleval.user_id)
         var teacher = teacher_id.replace(/^"|"$/g, '');
         var users = users_id.replace(/^"|"$/g, '');
-        fetch(`${API_URL}/list-schools/${teacher}/${users}`).then((res) => res.json()).then((response) => {
+        await fetch(`${API_URL}/list-schools/${teacher}/${users}`).then((res) => res.json()).then((response) => {
             if (response.length > 0) {
                 this.setState({ schools: response,loading:false });
             } else {
-                console.log('hello')
                 this.setState({
                     loading: false
                 });
@@ -51,15 +86,16 @@ class SchoolScreen extends Component {
     }
 
     getData = (val, schoolData) => {
-        var navparams = this.props.navigation.state.params ? this.props.navigation.state.params : null;
-        if (navparams == null && this.props) {
-            var navparams = this.props;
+        var navparams = {
+            teacher_id: this.state.teacher_id,
+            role: this.state.roleval.role
         }
+
         this.setState({
             loading: true
         });
-        var teacher_id = JSON.stringify(navparams.rolval.teacher_id)
-        var users_id = JSON.stringify(navparams.rolval.users_id)
+        var teacher_id = JSON.stringify(this.state.teacher_id)
+        var users_id = JSON.stringify(this.state.roleval.user_id)
         var teacher = teacher_id.replace(/^"|"$/g, '');
         var users = users_id.replace(/^"|"$/g, '');
         //let url = `${API_URL}/get-activities/${teacher}/${val}/${users}`;
@@ -81,18 +117,13 @@ class SchoolScreen extends Component {
 
     render() {
         var viewbtton = [];
-        console.log("==========================");
-        console.log(this.props.navigation.state.params)
-        console.log("==========================");
-        var navparams = this.props.navigation.state.params ? this.props.navigation.state.params : null;
-        if (navparams == null && this.props) {
-            var navparams = this.props;
-        }
-        var teacher_name = JSON.stringify(navparams.rolval.teacher_name);
+        var teacher_name = this.state.roleval.teacher_name
+        
+        console.log("===========================------------==========================")
 
-        //alert('teacher_nameteacher_name', teacher_name)
-        var role = JSON.stringify(navparams.rolval.role)
-        var admin_role = role.replace(/^"|"$/g, '');
+        console.log("===========================------------==========================")
+
+        var admin_role = this.state.roleval.role;
         if (teacher_name != "" && teacher_name != undefined) {
             var teachername = teacher_name.replace(/^"|"$/g, '');;
             teacher_name = <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Hey {teachername}</Text>

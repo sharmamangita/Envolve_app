@@ -7,8 +7,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { API_URL } from '../constants/config';
 import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
 import { List } from 'react-native-paper';
-import { Alert } from 'react-native';
-import { forEach } from 'lodash';
+import AsyncStorage from "@react-native-community/async-storage";
 
 class Parents extends Component {
     constructor(props) {
@@ -19,20 +18,23 @@ class Parents extends Component {
             roleval: Object.assign({}, this.props.navigation.state.params),
             navparams: '',
             noData: '',
+            mobile_num:'',
             expanded: false,
             loading: false,
         }
     }
-    componentDidMount() {
+    async componentDidMount() {
 
-        var navparams = this.props.navigation.state.params ? this.props.navigation.state.params : null;
-        if (navparams == null && this.props) {
-            var navparams = this.props;
-        }
+        await AsyncStorage.getItem("@mobile_num").then(
+            (mobile_num) =>{
+              this.setState({ mobile_num });
+            }, (err) =>{
+              console.log("error",err)
+        });
         this.setState({
             loading: true
         })
-        var mobile_num = JSON.stringify(navparams.rolval.mobile_num);
+        var mobile_num = JSON.stringify(this.state.mobile_num);
         var mobile_number = mobile_num.replace(/^"|"$/g, '');
         fetch(`${API_URL}/student-activities/${mobile_number}`).then((res) => res.json()).then((response) => {
 

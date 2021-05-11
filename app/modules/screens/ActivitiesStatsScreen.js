@@ -12,6 +12,8 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { NavigationActions } from "react-navigation";
 import { API_URL } from "../constants/config";
 import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
+import AsyncStorage from "@react-native-community/async-storage";
+
 class ActivitiesStatsScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -28,25 +30,31 @@ class ActivitiesStatsScreen extends Component {
       gotImage: 0,
       schoolName: null,
       navparams: [],
-      schoolId:null,
+      school_id:null,
       loading:true
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const { params } = this.props.navigation.state;
-    let that = this;
-    if (params.schoolData != undefined && params.schoolData) {
-      let schoolData = params.schoolData;
 
-      if (schoolData.school_id != undefined && schoolData.school_id) {
+    await AsyncStorage.getItem("@schoolId").then(
+      (school_id) =>{
+        this.setState({ school_id });
+      }, (err) =>{
+        console.log("error",err)
+    })
+
+    console.log(`${API_URL}/count-activities-totoalStudents/${this.state.school_id}`)
+
+    let that = this;
+      if (this.state.school_id != undefined && this.state.school_id) {
         fetch(
-          `${API_URL}/count-activities-totoalStudents/${schoolData.school_id}`
+          `${API_URL}/count-activities-totoalStudents/${this.state.school_id}`
         )
           .then((res) => res.json())
           .then((responsed) => {
             console.log("=============school===============");
-            console.log(schoolData.school_id);
             console.log(responsed);
             console.log("============================");
             if (responsed != undefined && responsed.length) {
@@ -68,7 +76,6 @@ class ActivitiesStatsScreen extends Component {
             }
           });
       }
-    }
   }
 
   goToClassActivities(activity_id = null,activity_name = null) {

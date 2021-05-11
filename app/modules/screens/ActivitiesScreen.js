@@ -48,11 +48,11 @@ class ActivitiesScreen extends Component {
         var activitity_id = activititid.replace(/^"|"$/g, '');
         let url = `${API_URL}/get-students/${school}/${teacher}/${activitity_id}`;
         this.setState({loading:true});
+        console.log(url);
         fetch(`${API_URL}/get-students/${school}/${teacher}/${activitity_id}`, {
             method: 'GET'
         }).then((res) => res.json()).then((response) => {
             this.setState({ value1: response,loading:false });
-            console.log("get-students =========>>>>>>>>>>>",response);
             console.log("url are ==========>>>> ", url)
             const navigateAction = NavigationActions.navigate({
                 routeName: 'Student',
@@ -69,8 +69,10 @@ class ActivitiesScreen extends Component {
         }).catch((err) => alert(err))
     }
     checkTeacherAttendance = () => {
+      console.log("==================== checking sent data ==================");
+      console.log(" ==== > ",this.props.navigation.state.params)
 
-      let teacher_id = this.props.navigation.state.params.navparams.rolval.teacher_id;
+      let teacher_id = this.props.navigation.state.params.navparams.teacher_id;
       let school_id = this.props.navigation.state.params.schoolData.school_id;
       let d = new Date()
       let date = `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
@@ -100,7 +102,7 @@ class ActivitiesScreen extends Component {
 
     screenMessage = () => {
       const { state, navigate } = this.props.navigation;
-      var teacher_id = JSON.stringify(state.params.navparams.rolval.teacher_id);
+      var teacher_id = JSON.stringify(state.params.navparams.teacher_id);
       var school = state.params.schoolData;
       var teacher = teacher_id.replace(/^"|"$/g, '');
       const navigateAction = NavigationActions.navigate({
@@ -239,7 +241,7 @@ class ActivitiesScreen extends Component {
           data.append(key, body[key]);
         });
         data.append("school_id", this.props.navigation.state.params.schoolData.school_id);
-        data.append("teacher_id", this.props.navigation.state.params.navparams.rolval.teacher_id);
+        data.append("teacher_id", this.props.navigation.state.params.navparams.teacher_id);
 
         console.log("============================= form data ==========================");
         console.log(data);
@@ -302,7 +304,7 @@ class ActivitiesScreen extends Component {
         const { state, navigate } = this.props.navigation;
         var arr = [];
         if (state.params.activities != '') {
-            var teacher_id = JSON.stringify(state.params.navparams.rolval.teacher_id);
+            var teacher_id = JSON.stringify(state.params.navparams.teacher_id);
             var school = state.params.schoolData.school_id;
             var teacher = teacher_id.replace(/^"|"$/g, '');
           //  var school = school_id.replace(/^"|"$/g, '');
@@ -339,7 +341,7 @@ class ActivitiesScreen extends Component {
                     <Icon name="chevron-left" onPress={() => this.goBack()} style={{ fontSize: 22, color: '#23ABE2', marginTop: 8 }} />
                     <Text onPress={() => this.goBack()} style={{ fontSize: 25, fontColor: "#000", fontWeight: 'bold', marginLeft: 10 }}>Activities</Text>
                     {/* ============================================================== */}    
-                    {!this.state.trainerAttendance && state.params.navparams.rolval.role == "trainer"? <Icon name="camera" onPress={() => this.captureImage('photo')} style={{ fontSize: 22, color: '#23ABE2', marginTop: 8, marginRight: 8, position: 'absolute', right: 0 }} /> : null }
+                    {!this.state.trainerAttendance && state.params.navparams.role == "trainer"? <Icon name="camera" onPress={() => this.captureImage('photo')} style={{ fontSize: 22, color: '#23ABE2', marginTop: 8, marginRight: 8, position: 'absolute', right: 0 }} /> : null }
                     
                     {/* =============================================================== */}
                 </View>
@@ -371,7 +373,7 @@ class ActivitiesScreen extends Component {
                   ) : null} 
 
             </ScrollView>
-            {state.params.navparams.rolval.role == "trainer"?<View style={{ position: 'absolute', left: 0, right: 0, bottom: 0 }}>
+            {state.params.navparams.role == "trainer"?<View style={{ position: 'absolute', left: 0, right: 0, bottom: 0 }}>
                 {/* <Button title="Send Message" onPress={() => this.screenMessage()} color="#23ABE2" marginTop="1000" /> */}
                 <Buttons onPress={()=> this.screenMessage()} style={styleData.sendMessageButton}>
                   <Text style={styleData.sendMessageButtonText}>Send Message</Text>

@@ -11,26 +11,10 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Sidemenu from './sidemenu';
 import { Icon } from 'react-native-elements';
 
-import HomeScreen from '../screens/HomeScreen';
-import SignupScreen from '../screens/SignupScreen';
-import LoginScreen from '../screens/LoginScreen';
-import SchoolScreen from '../screens/SchoolScreen';
-import ActivitiesScreen from '../screens/ActivitiesScreen';
-import TrainerAttendance from '../screens/TrainerAttendance';
-import Student from '../screens/Student';
-import Parents from '../screens/Parents';
-import StudentProfile from '../screens/StudentProfile';
-import StudentAttendance from '../screens/StudentAttendance';
-import CarouselScreen from '../screens/CarouselScreen';
-import VideoUploadScreen from '../screens/VideoUploadScreen';
-import ActivitiesStatsScreen from '../screens/ActivitiesStatsScreen';
-import ActivitiesClassesScreen from '../screens/ActivitiesClassesScreen';
-import StudentListingActivitiesScreen from '../screens/StudentListingActivitiesScreen';
-import VideoScreen from '../screens/VideoScreen';
-import SendNotification from '../screens/SendNotification';
+
 import {Icon as Icons} from 'native-base';
 import Video from 'react-native-vector-icons/FontAwesome';
-import { check } from 'react-native-permissions';
+import { StackActions } from '@react-navigation/native';
 const items = [
   {
     navOptionThumb: 'circle',
@@ -97,31 +81,32 @@ const renderMenu = (navigation) => {
 
 
   console.log("rendering the menu");
-  if(navigation.state.routes[0].routes.length <= 3){
-    AsyncStorage.getItem("@userRoll").then(
-      (user) =>{
-        if(user){
-          AsyncStorage.removeItem('@userData');
-          AsyncStorage.removeItem('@userRoll');
-          AsyncStorage.removeItem('@teacher_id');
-          AsyncStorage.removeItem('@schoolId');
-          navigation.closeDrawer();
-          setUser();
-        }
-      }, (err) =>{
-        console.log("error",err)
-      })
-  }
   
   const toggleClose = () => {
     navigation.closeDrawer();
   }
+
+  AsyncStorage.getItem("@userRoll").then((userRole) => {
+    if (userRole == "trainer") {
+      navigation.navigate("SchoolScreen");
+      // navigation.replace('SchoolScreen');       
+    } else if (userRole == "admin") {
+      navigation.navigate("SchoolScreen");
+    } else if (userRole == "principal") {
+      navigation.navigate("ActivitiesStatsScreen");
+    } else if (userRole == "parent") {
+      navigation.navigate("Parents");
+    }
+  }, (err) => {
+    console.log("error", err);
+  });
 
   const LogOut = () => {
     AsyncStorage.removeItem('@userData');
 		AsyncStorage.removeItem('@userRoll');
 		AsyncStorage.removeItem('@teacher_id');
     AsyncStorage.removeItem('@schoolId');
+    AsyncStorage.removeItem('@mobile_num');
     navigation.closeDrawer();
     navigation.navigate("SignupScreen");
     setUser();

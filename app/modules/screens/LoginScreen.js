@@ -76,56 +76,42 @@ class LoginScreen extends Component {
 	            }).then((res) => res.json()).then((responsed) => {
                     console.log("===========================login response==============================");
                     console.log("login - response =>",responsed);
+                    console.log("save data response =>", response);
                     console.log("===========================login response==============================");
                     this.setState({loading:false,isButtonDisable:false});
                     if (responsed.role == 'trainer') {
                         AsyncStorage.setItem('@userData', userdata.users_id);
                         AsyncStorage.setItem('@userRoll', userdata.role);
                         AsyncStorage.setItem('@teacher_id', userdata.teacher_id);
-                        const navigateAction = NavigationActions.navigate({
-                            routeName: 'SchoolScreen',
-                            params: {
-                                rolval: userdata
-                            }
-                        });
+                        AsyncStorage.setItem('@mobile_num', responsed.mobile_num);
+                        const navigateAction = NavigationActions.navigate({routeName: 'SchoolScreen'});
                         this.props.navigation.dispatch(navigateAction);
+
                     } else if (responsed.role == 'admin') {
                         AsyncStorage.setItem('@userData', userdata.users_id);
                         AsyncStorage.setItem('@userRoll', responsed.role);
                         AsyncStorage.setItem('@teacher_id', "0");
-                        const navigateAction = NavigationActions.navigate({
-                            routeName: 'SchoolScreen',
-                            params: {
-                                rolval: userdata
-                            }
-                        });
+                        AsyncStorage.setItem('@mobile_num', responsed.mobile_num);
+                        const navigateAction = NavigationActions.navigate({routeName: 'SchoolScreen'});
                         this.props.navigation.dispatch(navigateAction);
+
                     } else if (responsed.role == 'principal') {
                         console.log("during login ======>>>>> ", responsed);
                         AsyncStorage.setItem('@userData', userdata.users_id);
                         AsyncStorage.setItem('@schoolId', responsed.school_id);
                         AsyncStorage.setItem('@userRoll', responsed.role);
-                       const navigateAction = NavigationActions.navigate({
-                            routeName: 'ActivitiesStatsScreen',
-                            params: {
-                                rolval: userdata,
-                                schoolData:responsed
-                            }
-                        });
+                        AsyncStorage.setItem('@mobile_num', responsed.mobile_num);
+                        const navigateAction = NavigationActions.navigate({routeName: 'ActivitiesStatsScreen'});
                         this.props.navigation.dispatch(navigateAction);
-                    } 
 
-                    else if(responsed.role == "parent"){
+                    } else if(responsed.role == "parent"){
                         AsyncStorage.setItem('@userData', userdata.users_id);
                         // AsyncStorage.setItem('@userDataForNotification', userdata);
                         AsyncStorage.setItem('@userRoll', responsed.role);
-                        const navigateAction = NavigationActions.navigate({
-                            routeName: 'Parents',
-                            params: {
-                                rolval: userdata
-                            }
-                        });
+                        AsyncStorage.setItem('@mobile_num', responsed.mobile_num);
+                        const navigateAction = NavigationActions.navigate({routeName: 'Parents',});
                         this.props.navigation.dispatch(navigateAction);
+                        
                     } else{
                         alert(responsed.messsage)
                     }
