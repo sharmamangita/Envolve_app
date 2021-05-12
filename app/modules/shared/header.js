@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, StyleSheet,Image, Text, View,TouchableOpacity } from 'react-native';
+import { Button, StyleSheet,Image, Text, View,TouchableOpacity, Dimensions, Platform } from 'react-native';
 import  Icon  from 'react-native-vector-icons/Ionicons';
 const proileImage = require("../assets/images/sm-logo.png");
 import AsyncStorage from '@react-native-community/async-storage';
@@ -46,7 +46,8 @@ const Header = ({ navigation,title }) => {
 export default Header;
 const styles = StyleSheet.create({
     header: {
-        width: "100%",
+
+        width: Platform.OS === "ios"?Dimensions.get('window').width - 30 : "100%",
         height: "100%",
         flexDirection: "row",
         alignItems: "center",
