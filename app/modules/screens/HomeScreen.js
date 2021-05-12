@@ -4,6 +4,7 @@ import { StyleSheet, View, Text, Image } from 'react-native';
 
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { NavigationActions } from 'react-navigation';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const slides = [
   {
@@ -27,13 +28,27 @@ class HomeScreen extends Component {
   };
   constructor(props) {
     super(props);
+    AsyncStorage.getItem("@userRoll").then((userRole) => {
+      if (userRole == "trainer") {
+        this.props.navigation.replace({ routeName: "SchoolScreen"})     
+      } else if (userRole == "admin") {
+        this.props.navigation.replace({ routeName:"SchoolScreen"});
+      } else if (userRole == "principal") {
+        this.props.navigation.replace({ routeName:"ActivitiesStatsScreen"});
+      } else if (userRole == "parent") {
+        this.props.navigation.replace({ routeName:"Parents"});
+      }
+    }, (err) => {
+      console.log("error", err);
+    });
   }
 
   getLoginPage = () => {
-    const navigateAction = NavigationActions.navigate({
-      routeName: 'SignupScreen',
-    });
-    this.props.navigation.dispatch(navigateAction);
+    this.props.navigation.replace({ routeName: "SignupScreen"})
+    // const navigateAction = NavigationActions.navigate({
+    //   routeName: 'SignupScreen',
+    // });
+    // this.props.navigation.dispatch(navigateAction);
   };
 
   _getstarted = () => {

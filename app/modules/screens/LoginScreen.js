@@ -10,7 +10,7 @@ import {
     Alert,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import { NavigationActions } from 'react-navigation';
+import { NavigationActions, StackActions } from 'react-navigation';
 import t from 'tcomb-form-native';
 import { API_URL } from '../constants/config';
 import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
@@ -18,6 +18,7 @@ import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
 import messaging from '@react-native-firebase/messaging';
 import { getUniqueId, getManufacturer } from 'react-native-device-info'
 import { Platform } from 'react-native';
+
 const GenerateForm = t.form.Form;
 
 class LoginScreen extends Component {
@@ -84,16 +85,24 @@ class LoginScreen extends Component {
                         AsyncStorage.setItem('@userRoll', userdata.role);
                         AsyncStorage.setItem('@teacher_id', userdata.teacher_id);
                         AsyncStorage.setItem('@mobile_num', responsed.mobile_num);
-                        const navigateAction = NavigationActions.navigate({routeName: 'SchoolScreen'});
-                        this.props.navigation.dispatch(navigateAction);
+                        const resetAction = StackActions.reset({
+                            index: 0,
+                            actions: [NavigationActions.navigate({routeName: 'SchoolScreen'})],
+                            key: null,
+                          });
+                          this.props.navigation.dispatch(resetAction); 
 
                     } else if (responsed.role == 'admin') {
                         AsyncStorage.setItem('@userData', userdata.users_id);
                         AsyncStorage.setItem('@userRoll', responsed.role);
                         AsyncStorage.setItem('@teacher_id', "0");
                         AsyncStorage.setItem('@mobile_num', responsed.mobile_num);
-                        const navigateAction = NavigationActions.navigate({routeName: 'SchoolScreen'});
-                        this.props.navigation.dispatch(navigateAction);
+                        const resetAction = StackActions.reset({
+                            index: 0,
+                            actions: [NavigationActions.navigate({routeName: 'SchoolScreen'})],
+                            key: null,
+                          });
+                          this.props.navigation.dispatch(resetAction);
 
                     } else if (responsed.role == 'principal') {
                         console.log("during login ======>>>>> ", responsed);
@@ -101,16 +110,24 @@ class LoginScreen extends Component {
                         AsyncStorage.setItem('@schoolId', responsed.school_id);
                         AsyncStorage.setItem('@userRoll', responsed.role);
                         AsyncStorage.setItem('@mobile_num', responsed.mobile_num);
-                        const navigateAction = NavigationActions.navigate({routeName: 'ActivitiesStatsScreen'});
-                        this.props.navigation.dispatch(navigateAction);
+                        const resetAction = StackActions.reset({
+                            index: 0,
+                            actions: [NavigationActions.navigate({routeName: 'ActivitiesStatsScreen'})],
+                            key: null,
+                          });
+                          this.props.navigation.dispatch(resetAction);
 
                     } else if(responsed.role == "parent"){
                         AsyncStorage.setItem('@userData', userdata.users_id);
                         // AsyncStorage.setItem('@userDataForNotification', userdata);
                         AsyncStorage.setItem('@userRoll', responsed.role);
                         AsyncStorage.setItem('@mobile_num', responsed.mobile_num);
-                        const navigateAction = NavigationActions.navigate({routeName: 'Parents',});
-                        this.props.navigation.dispatch(navigateAction);
+                        const resetAction = StackActions.reset({
+                            index: 0,
+                            actions: [NavigationActions.navigate({routeName: 'Parents'})],
+                            key: null,
+                          });
+                          this.props.navigation.dispatch(resetAction);
                         
                     } else{
                         alert(responsed.messsage)

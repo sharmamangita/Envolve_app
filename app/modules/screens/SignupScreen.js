@@ -14,6 +14,10 @@ class signup extends Component {
     this.props.navigation.dispatch(navigateAction);
   }
 
+  componentDidUpdate(){
+    this.props.navigation.dismiss()
+  }
+
   render() {
     return (
       // Try setting `flexDirection` to `column`.

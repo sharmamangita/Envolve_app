@@ -1,5 +1,5 @@
 import { createDrawerNavigator } from 'react-navigation-drawer';
-import { createAppContainer } from 'react-navigation';
+import { createAppContainer, NavigationActions, StackActions } from 'react-navigation';
 
 import React, { useEffect, useState } from 'react';
 //import {createStackNavigator,createDrawerNavigator, createMaterialTopTabNavigator, createAppContainer} from 'react-navigation';
@@ -14,7 +14,6 @@ import { Icon } from 'react-native-elements';
 
 import {Icon as Icons} from 'native-base';
 import Video from 'react-native-vector-icons/FontAwesome';
-import { StackActions } from '@react-navigation/native';
 const items = [
   {
     navOptionThumb: 'circle',
@@ -86,21 +85,6 @@ const renderMenu = (navigation) => {
     navigation.closeDrawer();
   }
 
-  AsyncStorage.getItem("@userRoll").then((userRole) => {
-    if (userRole == "trainer") {
-      navigation.navigate("SchoolScreen");
-      // navigation.replace('SchoolScreen');       
-    } else if (userRole == "admin") {
-      navigation.navigate("SchoolScreen");
-    } else if (userRole == "principal") {
-      navigation.navigate("ActivitiesStatsScreen");
-    } else if (userRole == "parent") {
-      navigation.navigate("Parents");
-    }
-  }, (err) => {
-    console.log("error", err);
-  });
-
   const LogOut = () => {
     AsyncStorage.removeItem('@userData');
 		AsyncStorage.removeItem('@userRoll');
@@ -108,7 +92,12 @@ const renderMenu = (navigation) => {
     AsyncStorage.removeItem('@schoolId');
     AsyncStorage.removeItem('@mobile_num');
     navigation.closeDrawer();
-    navigation.navigate("SignupScreen");
+    const resetAction = StackActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({routeName: 'SignupScreen'})],
+      key: null,
+    });
+    navigation.dispatch(resetAction);
     setUser();
   }
 
