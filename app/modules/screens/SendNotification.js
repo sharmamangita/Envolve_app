@@ -392,7 +392,7 @@ class SendNotification extends Component {
                   <View style={{ flex: 1, marginTop: 20, width: "95%", alignSelf: "center" }}>
                   <Text style={styleData.customParentStyle}>Parent</Text>
                   </View>   
-                  <View style={styleData.customDropdown}>
+                  <View style={{...styleData.customDropdown, zIndex:10 }}>
                     <View style={styleData.customDropdownChild1}>
                     <Text style={styleData.lableStyle}>Select class:</Text>
                     </View>
@@ -415,7 +415,7 @@ class SendNotification extends Component {
                     </View>
                   </View>
 
-                  <View style={styleData.customDropdown}>
+                  <View style={{...styleData.customDropdown, zIndex:9}}>
                     <View  style={styleData.customDropdownChild1}>
                       <Text style={ this.state.selectedClass == "all"?{...styleData.lableStyle, color: "#E6E6E6"}:styleData.lableStyle}>Select section:</Text>
                     </View>

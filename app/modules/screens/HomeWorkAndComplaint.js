@@ -334,7 +334,7 @@ class HomeWorkAndComplaint extends Component {
                   <View style={{ flex: 1, width: "95%", alignSelf: "center" }}>
                   <Text style={styleData.customParentStyle}>Send Message</Text>
                   </View>   
-                  <View style={styleData.customDropdown}>
+                  <View style={{...styleData.customDropdown, zIndex:10}}>
                     <View style={styleData.customDropdownChild2}>
                       <DropDownPicker
                         items={this.state.classes}
@@ -344,7 +344,7 @@ class HomeWorkAndComplaint extends Component {
                         itemStyle={{
                           justifyContent: "flex-start",
                         }}
-                        dropDownStyle={{ backgroundColor: "#fafafa" }}
+                        dropDownStyle={{backgroundColor: "#fafafa" }}
                         onChangeItem={ async (item) => {
                           await this.setState({ selectedClass: item.value, selectedParents: [], selectedSection: [], parents_list: []})
                           await item.value == "all"? this.getParentsList():this.getClassSections();
@@ -355,7 +355,7 @@ class HomeWorkAndComplaint extends Component {
                     </View>
                   </View>
 
-                  <View style={styleData.customDropdown}>
+                  <View style={{...styleData.customDropdown,zIndex:9}}>
 
                     <View style={styleData.customDropdownChild2}>
                     <DropDownPicker
@@ -390,7 +390,6 @@ class HomeWorkAndComplaint extends Component {
                       selectedItems={this.state.selectedParents}
                       selectText="Select Parents: "
                       onChangeInput={ (text)=> console.log(text)}
-                      altFontFamily="ProximaNova-Light"
                       tagRemoveIconColor="red"
                       tagBorderColor="#1CAFF6"
                       tagTextColor="#1CAFF6"
@@ -476,6 +475,7 @@ class HomeWorkAndComplaint extends Component {
 
 const styleData = StyleSheet.create({
   screenContainer: {
+    paddingTop:(Platform.OS === 'ios')?40:0,
     height: "100%",
     width: "100%",
     backgroundColor: "#fff",
