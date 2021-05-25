@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, Image, View, Text, StyleSheet, TouchableOpacity,Platform } from 'react-native';
+import { ScrollView, Image, View, Text, StyleSheet, TouchableOpacity,Platform, SafeAreaView } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import TouchableScale from 'react-native-touchable-scale';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -100,6 +100,7 @@ class TrainerAttendance extends Component {
         }
 
         return (
+            <SafeAreaView style={{flex:1, backgroundColor:'white'}}>
             <ScrollView style={styleData.screenContainer}>
                 <View style={styleData.outercontainer}>
                     <Icon name="chevron-left" onPress={() => this.goBack()} style={{ fontSize: 22, color: '#23ABE2', marginTop: 8 }} />
@@ -118,7 +119,7 @@ class TrainerAttendance extends Component {
                     {arr.reverse()}
                 </View>
             </ScrollView>
-
+            </SafeAreaView>
         )
     }
 }
@@ -127,7 +128,7 @@ class TrainerAttendance extends Component {
 
 const styleData = StyleSheet.create({
     screenContainer: {
-        marginTop:(Platform.OS === 'ios')?40:0,
+        // marginTop:(Platform.OS === 'ios')?40:0,
         flex: 8,
         backgroundColor: '#fff',
         height:'100%',

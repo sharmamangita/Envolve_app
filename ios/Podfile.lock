@@ -80,13 +80,9 @@ PODS:
     - RNPermissions
   - Permission-Camera (3.0.0):
     - RNPermissions
-  - Permission-Contacts (3.0.0):
-    - RNPermissions
   - Permission-LocationAccuracy (3.0.0):
     - RNPermissions
   - Permission-LocationWhenInUse (3.0.0):
-    - RNPermissions
-  - Permission-MediaLibrary (3.0.0):
     - RNPermissions
   - Permission-Microphone (3.0.0):
     - RNPermissions
@@ -383,10 +379,8 @@ DEPENDENCIES:
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - Permission-Calendars (from `../node_modules/react-native-permissions/ios/Calendars`)
   - Permission-Camera (from `../node_modules/react-native-permissions/ios/Camera`)
-  - Permission-Contacts (from `../node_modules/react-native-permissions/ios/Contacts`)
   - Permission-LocationAccuracy (from `../node_modules/react-native-permissions/ios/LocationAccuracy`)
   - Permission-LocationWhenInUse (from `../node_modules/react-native-permissions/ios/LocationWhenInUse`)
-  - Permission-MediaLibrary (from `../node_modules/react-native-permissions/ios/MediaLibrary`)
   - Permission-Microphone (from `../node_modules/react-native-permissions/ios/Microphone`)
   - Permission-Notifications (from `../node_modules/react-native-permissions/ios/Notifications`)
   - Permission-PhotoLibrary (from `../node_modules/react-native-permissions/ios/PhotoLibrary`)
@@ -466,14 +460,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-permissions/ios/Calendars"
   Permission-Camera:
     :path: "../node_modules/react-native-permissions/ios/Camera"
-  Permission-Contacts:
-    :path: "../node_modules/react-native-permissions/ios/Contacts"
   Permission-LocationAccuracy:
     :path: "../node_modules/react-native-permissions/ios/LocationAccuracy"
   Permission-LocationWhenInUse:
     :path: "../node_modules/react-native-permissions/ios/LocationWhenInUse"
-  Permission-MediaLibrary:
-    :path: "../node_modules/react-native-permissions/ios/MediaLibrary"
   Permission-Microphone:
     :path: "../node_modules/react-native-permissions/ios/Microphone"
   Permission-Notifications:
@@ -587,10 +577,8 @@ SPEC CHECKSUMS:
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   Permission-Calendars: aafa227e5dee83c7346fc2ca488d45ca1d63a148
   Permission-Camera: 119b01de97a5b3edb637999e38476b68143b9d17
-  Permission-Contacts: b04d927dd11f31bb7131384c05ee416d154343f5
   Permission-LocationAccuracy: e748463597fb8789cacdab1f9aa7d7a5924faae5
   Permission-LocationWhenInUse: e2b8c40ce0f3675a521f26787ab47ebb9bace503
-  Permission-MediaLibrary: 37de8bf0149851d5213b74380aa9fbe76754e4c8
   Permission-Microphone: e426a115ddf9591e8c30c55ea2b28572d4cbd07e
   Permission-Notifications: 5c69bf2f6c1e30345af4f25e2981dc1c8dafbc22
   Permission-PhotoLibrary: cb9cdc1e3744e26ab404297a8e289d50c8ee27e8
@@ -640,6 +628,6 @@ SPEC CHECKSUMS:
   RNVectorIcons: bc69e6a278b14842063605de32bec61f0b251a59
   Yoga: 7d13633d129fd179e01b8953d38d47be90db185a
 
-PODFILE CHECKSUM: ad8ddf397d19ce129e933fd4c0c063cb702b3971
+PODFILE CHECKSUM: 61a04450130a39be5b0fe5c850878b6285ee78a6
 
 COCOAPODS: 1.10.1

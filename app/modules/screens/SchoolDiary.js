@@ -8,7 +8,8 @@ import {
     TouchableOpacity, 
     Platform,
     PermissionsAndroid,
-    Alert
+    Alert,
+    SafeAreaView
 } from 'react-native';
 import { Button, Spinner, Card, CardItem, Body, Left, Right, Textarea } from 'native-base';
 import { NavigationActions } from 'react-navigation';
@@ -440,6 +441,7 @@ class Messages extends Component {
 
     render() {
         return (
+            <SafeAreaView style={{flex:1, backgroundColor:'white'}}>
             <View style={styleData.body}>
              
                 <View style={styleData.section1}>
@@ -568,6 +570,7 @@ class Messages extends Component {
                 </Modal>
 {/* end model from here */}
             </View>
+            </SafeAreaView>
         );
     }
 }

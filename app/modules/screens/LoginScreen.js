@@ -38,11 +38,11 @@ class LoginScreen extends Component {
         console.log("============================fire 11===================================")
         // Register the device with FCM
         let firebaseToken;
-        if(Platform.OS != 'ios'){
+        // if(Platform.OS != 'ios'){
             firebaseToken = await messaging().getToken();    
-        } else {
-            firebaseToken = "vishalsdfas"
-        }
+        // } else {
+        //     firebaseToken = "vishalsdfas"
+        // }
         const deviceId = await getUniqueId();
         this.setState({firebaseToken, deviceId})
         console.log(firebaseToken)
@@ -87,7 +87,7 @@ class LoginScreen extends Component {
                         AsyncStorage.setItem('@mobile_num', responsed.mobile_num);
                         const resetAction = StackActions.reset({
                             index: 0,
-                            actions: [NavigationActions.navigate({routeName: 'SchoolScreen'})],
+                            actions: [NavigationActions.navigate({routeName: 'TeacherDashboard'})],
                             key: null,
                           });
                           this.props.navigation.dispatch(resetAction); 
@@ -112,7 +112,7 @@ class LoginScreen extends Component {
                         AsyncStorage.setItem('@mobile_num', responsed.mobile_num);
                         const resetAction = StackActions.reset({
                             index: 0,
-                            actions: [NavigationActions.navigate({routeName: 'ActivitiesStatsScreen'})],
+                            actions: [NavigationActions.navigate({routeName: 'PrincipalDashboard'})],
                             key: null,
                           });
                           this.props.navigation.dispatch(resetAction);

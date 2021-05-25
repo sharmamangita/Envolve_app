@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, Image, TouchableOpacity, View, Text, Alert, StyleSheet, Button, Platform, PermissionsAndroid } from 'react-native';
+import { ScrollView, Image, TouchableOpacity, View, Text, Alert, StyleSheet, Button, Platform, PermissionsAndroid, SafeAreaView } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import TouchableScale from 'react-native-touchable-scale';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -105,6 +105,7 @@ class ActivitiesScreen extends Component {
       var teacher_id = JSON.stringify(state.params.navparams.teacher_id);
       var school = state.params.schoolData;
       var teacher = teacher_id.replace(/^"|"$/g, '');
+      console.log(teacher, school)
       const navigateAction = NavigationActions.navigate({
           routeName: 'Message',
           params: {
@@ -334,6 +335,7 @@ class ActivitiesScreen extends Component {
         }
 
         return (
+          <SafeAreaView style={{flex:1, backgroundColor:'white'}}>
           <View>
             <ScrollView style={styleData.screenContainer}>
             <View style={this.state.loading?{opacity:0.1}:{opacity:1}}>
@@ -380,6 +382,7 @@ class ActivitiesScreen extends Component {
                 </Buttons>
             </View>:null}
           </View>
+          </SafeAreaView>
         )
     }
 }
@@ -399,7 +402,7 @@ const styleData = StyleSheet.create({
       // justifyContent:'center'
     },
     screenContainer: {
-        paddingTop:(Platform.OS === 'ios')?46:0,
+        // paddingTop:(Platform.OS === 'ios')?46:0,
         height: '100%',
         width: '100%',
         backgroundColor: '#fff',

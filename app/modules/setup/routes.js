@@ -1,5 +1,5 @@
 import { createDrawerNavigator } from 'react-navigation-drawer';
-import { createAppContainer, NavigationActions, StackActions } from 'react-navigation';
+import { createAppContainer, NavigationActions, StackActions, SafeAreaView } from 'react-navigation';
 
 import React, { useEffect, useState } from 'react';
 //import {createStackNavigator,createDrawerNavigator, createMaterialTopTabNavigator, createAppContainer} from 'react-navigation';
@@ -115,6 +115,7 @@ const renderMenu = (navigation) => {
 
 
   return (
+    <SafeAreaView style={{flex:1, backgroundColor:'white'}}>
     <View style={styles.sideMenuContainer}>
       <View style={styles.profileContainer}>
         <TouchableOpacity onPress={() => toggleClose()}>
@@ -194,6 +195,7 @@ const renderMenu = (navigation) => {
         </TouchableItem>
       </View>
     </View>
+    </SafeAreaView>
   );
 }
 
@@ -227,7 +229,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   profileContainer: {
-    marginTop: (Platform.OS === 'ios')?46:0,
+    marginTop: (Platform.OS === 'ios')?12:0,
     marginBottom: 8,
     marginLeft: 20
 

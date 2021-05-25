@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { StyleSheet, View, Text, Image } from 'react-native';
+import { StyleSheet, View, Text, Image, SafeAreaView } from 'react-native';
 
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { NavigationActions } from 'react-navigation';
@@ -30,11 +30,11 @@ class HomeScreen extends Component {
     super(props);
     AsyncStorage.getItem("@userRoll").then((userRole) => {
       if (userRole == "trainer") {
-        this.props.navigation.replace({ routeName: "SchoolScreen"})     
+        this.props.navigation.replace({ routeName: "TeacherDashboard"})     
       } else if (userRole == "admin") {
         this.props.navigation.replace({ routeName:"SchoolScreen"});
       } else if (userRole == "principal") {
-        this.props.navigation.replace({ routeName:"ActivitiesStatsScreen"});
+        this.props.navigation.replace({ routeName:"PrincipalDashboard"});
       } else if (userRole == "parent") {
         this.props.navigation.replace({ routeName:"Parents"});
       }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, Image, View, Text, StyleSheet } from 'react-native';
+import { ScrollView, Image, View, Text, StyleSheet, SafeAreaView } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -46,6 +46,7 @@ class StudentProfile extends Component {
         const { state, navigate } = this.props.navigation;
 
         return (
+            <SafeAreaView style={{flex:1, backgroundColor:'white'}}>
             <View style={{ flex: 1, height: '100%', width: '100%', backgroundColor: '#fff' }}>
                 <ScrollView>
                     <View style={styleData.outercontainer}>
@@ -75,6 +76,7 @@ class StudentProfile extends Component {
                     </View>
                 </ScrollView>
             </View>
+            </SafeAreaView>
         )
     }
 }

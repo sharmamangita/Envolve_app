@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key></key>
+	<string></string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -41,11 +43,13 @@
 	<string>access calendar for track on what date user marked attendace</string>
 	<key>NSCameraUsageDescription</key>
 	<string>access camre so user can record video or take photo and able to upload</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>access location when user marking school attendance</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>access location when user marking school attendance</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>microphone will use when user turn on camera</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
+	<key>NSPhotoLibraryUsageDescription</key>
 	<string>access library so user can upload video and documents</string>
 	<key>UIAppFonts</key>
 	<array>

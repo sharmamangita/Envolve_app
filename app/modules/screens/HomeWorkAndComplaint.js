@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ScrollView, View, Text, StyleSheet,TouchableOpacity, Image, Platform, PermissionsAndroid } from "react-native";
+import { ScrollView, View, Text, StyleSheet,TouchableOpacity, Image, Platform, PermissionsAndroid, SafeAreaView } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { API_URL } from "../constants/config";
 import { Bubbles } from "react-native-loader";
@@ -294,6 +294,7 @@ class HomeWorkAndComplaint extends Component {
 
   render() {
     return (
+      <SafeAreaView style={{flex:1, backgroundColor:'#fff'}}>
       <ScrollView style={styleData.screenContainer}>
         <View style={styleData.container}>
         <TouchableOpacity onPress={() =>  this.goBack()}>
@@ -468,6 +469,7 @@ class HomeWorkAndComplaint extends Component {
           }
         </View>
       </ScrollView>
+      </SafeAreaView>
     );
   }
 
@@ -475,7 +477,7 @@ class HomeWorkAndComplaint extends Component {
 
 const styleData = StyleSheet.create({
   screenContainer: {
-    paddingTop:(Platform.OS === 'ios')?40:0,
+    // paddingTop:(Platform.OS === 'ios')?40:0,
     height: "100%",
     width: "100%",
     backgroundColor: "#fff",

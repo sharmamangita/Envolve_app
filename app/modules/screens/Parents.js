@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, Image } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Image, SafeAreaView } from 'react-native';
 import TouchableScale from 'react-native-touchable-scale';
 import { ListItem, Avatar } from 'react-native-elements';
 import { NavigationActions } from 'react-navigation';
@@ -160,6 +160,7 @@ class Parents extends Component {
         }
 
         return (
+            <SafeAreaView style={{flex:1, backgroundColor:'white'}}>
             <View style={{ flex: 1, height: '100%', width: '100%', backgroundColor: '#fff' }}>
                 <ScrollView style={this.state.loading?{opacity:0.1}:{opacity:1}}>
                     <View style={styleData.referenceText}>
@@ -188,6 +189,7 @@ class Parents extends Component {
                     </View>
                   ) : null} 
             </View>
+            </SafeAreaView>
         )
     }
 }

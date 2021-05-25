@@ -8,6 +8,7 @@ import {
   TextInput,
   TouchableHighlight,
   Alert,
+  SafeAreaView
 } from "react-native";
 import AsyncStorage from "@react-native-community/async-storage";
 import { ListItem } from "react-native-elements";
@@ -195,6 +196,7 @@ async  componentDidMount() {
     }
 
     return (
+      <SafeAreaView style={{flex:1, backgroundColor:'white'}}>
       <View>
         <ScrollView style={styleData.screenContainer}>
           <View style={{ flexDirection: "column" }}>
@@ -267,6 +269,7 @@ async  componentDidMount() {
           </View>
         </ScrollView>
       </View>
+      </SafeAreaView>
     );
   }
 }

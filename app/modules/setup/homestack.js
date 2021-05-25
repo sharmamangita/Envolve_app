@@ -24,6 +24,9 @@ import NotificationHistory from '../screens/NotificationHistory';
 import Messages from '../screens/Messages';
 import HomeWorkAndComplaint from '../screens/HomeWorkAndComplaint';
 import SchoolDiary from '../screens/SchoolDiary';
+import PrincipalDashboard from '../screens/PrincipalDashboard';
+import TeacherDashboard from '../screens/TeacherDashboard';
+import ParentsDashboard from '../screens/ParentsDashboard';
 const HomeStack = createStackNavigator({
     Start: {
         screen: HomeScreen,
@@ -242,6 +245,33 @@ const HomeStack = createStackNavigator({
     },
     SchoolDiary: {
         screen: SchoolDiary,
+        navigationOptions: ({ navigation }) => {
+            return {
+                headerTitle: () => <Header navigation={navigation} />,
+                headerLeft: null
+            }
+        }
+    },
+    PrincipalDashboard: {
+        screen: PrincipalDashboard,
+        navigationOptions: ({ navigation }) => {
+            return {
+                headerTitle: () => <Header navigation={navigation} />,
+                headerLeft: null
+            }
+        }
+    },
+    TeacherDashboard: {
+        screen: TeacherDashboard,
+        navigationOptions: ({ navigation }) => {
+            return {
+                headerTitle: () => <Header navigation={navigation} />,
+                headerLeft: null
+            }
+        }
+    },
+    ParentsDashboard: {
+        screen: ParentsDashboard,
         navigationOptions: ({ navigation }) => {
             return {
                 headerTitle: () => <Header navigation={navigation} />,

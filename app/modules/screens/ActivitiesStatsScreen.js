@@ -5,6 +5,7 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
+  SafeAreaView
 } from "react-native";
 import { ListItem } from "react-native-elements";
 import TouchableScale from "react-native-touchable-scale";
@@ -152,6 +153,7 @@ class ActivitiesStatsScreen extends Component {
         );
       });
     return (
+      <SafeAreaView style={{flex:1, backgroundColor:'white'}}>
       <ScrollView style={styleData.screenContainer}>
         <View style={styleData.container}>
           <TouchableOpacity onPress={() => this.goBack()}>
@@ -194,6 +196,7 @@ class ActivitiesStatsScreen extends Component {
           ) : null}
         <View>{array}</View>
       </ScrollView>
+      </SafeAreaView>
     );
   }
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, Image, StyleSheet, Text, View, Button } from 'react-native';
+import { ScrollView, Image, StyleSheet, Text, View, Button, SafeAreaView } from 'react-native';
 import { ListItem, Avatar } from 'react-native-elements';
 import TouchableScale from 'react-native-touchable-scale';
 import { NavigationActions } from 'react-navigation';
@@ -188,6 +188,7 @@ console.log(this.state.roleval)
             }
         }
         return (
+            <SafeAreaView style={{flex:1, backgroundColor:'white'}}>
             <View style={{ flex: 1,height:'100%',width:'100%',backgroundColor:'#fff' }}>
              
 
@@ -220,6 +221,7 @@ console.log(this.state.roleval)
                     </View>
                   ) : null} 
             </View>
+            </SafeAreaView>
         );
     }
 }

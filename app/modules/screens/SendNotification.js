@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ScrollView, View, Text, StyleSheet,TouchableOpacity, SectionList, Image } from "react-native";
+import { ScrollView, View, Text, StyleSheet,TouchableOpacity, SectionList, Image, SafeAreaView } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { API_URL } from "../constants/config";
 import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
@@ -268,6 +268,7 @@ class SendNotification extends Component {
 
   render() {
     return (
+      <SafeAreaView style={{flex:1, backgroundColor:'white'}}>
       <ScrollView style={styleData.screenContainer}>
         <View style={styleData.container}>
         <TouchableOpacity onPress={() =>  this.goBack()}>
@@ -496,6 +497,7 @@ class SendNotification extends Component {
           }
         </View>
       </ScrollView>
+        </SafeAreaView>
     );
   }
 
@@ -503,7 +505,7 @@ class SendNotification extends Component {
 
 const styleData = StyleSheet.create({
   screenContainer: {
-    paddingTop:(Platform.OS === 'ios')?46:0,
+    // paddingTop:(Platform.OS === 'ios')?46:0,
     height: "100%",
     width: "100%",
     backgroundColor: "#fff",

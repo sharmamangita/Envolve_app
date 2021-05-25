@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, TouchableOpacity, Text, Image } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Text, Image, SafeAreaView } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { NavigationActions } from 'react-navigation';
 class signup extends Component {
@@ -21,6 +21,7 @@ class signup extends Component {
   render() {
     return (
       // Try setting `flexDirection` to `column`.
+      <SafeAreaView style={{flex:1, backgroundColor:'white'}}>
       <View style={styles.container}>
         <View style={{
           width: '100%', height: '10%', justifyContent: 'center',
@@ -45,6 +46,7 @@ class signup extends Component {
           </TouchableOpacity>
         </ScrollView>
       </View>
+      </SafeAreaView>
     );
   }
 }

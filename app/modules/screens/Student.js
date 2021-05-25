@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, Image, TouchableOpacity, View, Text, Alert, StyleSheet, Button } from 'react-native';
+import { ScrollView, Image, TouchableOpacity, View, Text, Alert, StyleSheet, Button, SafeAreaView } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import TouchableScale from 'react-native-touchable-scale';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -283,6 +283,7 @@ class Students extends Component {
 
 
         return (
+            <SafeAreaView style={{flex:1, backgroundColor:'white'}}>
             <View style={styleData.screenContainer}>
                 <ScrollView>
                     <View style={styleData.outercontainer}>
@@ -336,7 +337,7 @@ class Students extends Component {
 
                 </View>
             </View>
-
+            </SafeAreaView>
         )
     }
 
@@ -345,7 +346,7 @@ class Students extends Component {
 
 const styleData = StyleSheet.create({
     screenContainer: {
-        marginTop:(Platform.OS === 'ios')?40:0,
+        // marginTop:(Platform.OS === 'ios')?40:0,
         height: '100%',
         width: '100%',
         backgroundColor: '#fff',
