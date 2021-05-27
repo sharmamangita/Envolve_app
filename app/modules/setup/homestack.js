@@ -27,6 +27,8 @@ import SchoolDiary from '../screens/SchoolDiary';
 import PrincipalDashboard from '../screens/PrincipalDashboard';
 import TeacherDashboard from '../screens/TeacherDashboard';
 import ParentsDashboard from '../screens/ParentsDashboard';
+import ShowSchoolAttendanceForPrincipal from '../screens/ShowSchoolAttendanceForPrincipal'
+import ShowTeacherAttendanceForPrincipal from '../screens/ShowTeacherAttendanceForPrincipal'
 const HomeStack = createStackNavigator({
     Start: {
         screen: HomeScreen,
@@ -279,6 +281,26 @@ const HomeStack = createStackNavigator({
             }
         }
     },
+    ShowSchoolAttendanceForPrincipal: {
+        screen: ShowSchoolAttendanceForPrincipal,
+        navigationOptions: ({ navigation }) => {
+            return {
+                headerTitle: () => <></>,
+                headerLeft: null,
+                header: null,
+            }
+        }
+    },
+    ShowTeacherAttendanceForPrincipal: {
+        screen: ShowTeacherAttendanceForPrincipal,
+        navigationOptions: ({ navigation }) => {
+            return {
+                headerTitle: () => <></>,
+                headerLeft: null,
+                header: null,
+            }
+        }
+    }
 
 }, { initialRouteName: "Start" });
 export default HomeStack;

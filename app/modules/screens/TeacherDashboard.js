@@ -29,7 +29,7 @@ class TeacherDashboard extends Component {
       activitiesStudentsCount: [],
       value1: "",
       gotImage: 0,
-      schoolName: "temparey school name",
+      schoolName: "teacher name show here",
       navparams: [],
       school_id:null,
       loading:false
@@ -72,11 +72,12 @@ class TeacherDashboard extends Component {
               <Bubbles size={20} color="#1CAFF6" />
             </View>
           ) : null}
-        <View>
+
+          <View>
             <Text style={{ fontSize: 18, fontWeight:'bold',paddingHorizontal:20}}>
                 {this.state.schoolName}
             </Text>
-        </View>
+          </View>
 
         <View style={{...styleData.cardContainer, marginTop:25}}>
         <View style={styleData.columnCardSearch}>
@@ -107,35 +108,25 @@ class TeacherDashboard extends Component {
         <View style={styleData.cardContainer}>
           <View style={styleData.columnCard}>
             <TouchableOpacity style={styleData.card}>
-              <Text style={styleData.styleText}>school attendance</Text>
+              <Text style={styleData.styleText}>self Attendance</Text>
             </TouchableOpacity>
           </View>
           <View style={styleData.columnCard}>
             <TouchableOpacity style={styleData.card}>
-              <Text style={styleData.styleText}>teachers attendance</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styleData.columnCard}>
-            <TouchableOpacity style={styleData.card}>
-              <Text style={styleData.styleText}>fees paid</Text>
+              <Text style={styleData.styleText}>Student Attendance</Text>
             </TouchableOpacity>
           </View>
         </View>
 
         <View style={styleData.cardContainer}>
-          <View style={styleData.columnCard}>
+        <View style={styleData.columnCard}>
             <TouchableOpacity style={styleData.card}>
               <Text style={styleData.styleText}>performance</Text>
             </TouchableOpacity>
           </View>
           <View style={styleData.columnCard}>
             <TouchableOpacity style={styleData.card}>
-              <Text style={styleData.styleText}>cctv's</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styleData.columnCard}>
-            <TouchableOpacity style={styleData.card}>
-              <Text style={styleData.styleText}>substitutes data</Text>
+              <Text style={styleData.styleText}>fee</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -143,30 +134,20 @@ class TeacherDashboard extends Component {
         <View style={styleData.cardContainer}>
           <View style={styleData.columnCard}>
             <TouchableOpacity style={styleData.card}>
-              <Text style={styleData.styleText}>broadcast (Communications)</Text>
+              <Text style={styleData.styleText}>upload video</Text>
             </TouchableOpacity>
           </View>
           <View style={styleData.columnCard}>
             <TouchableOpacity style={styleData.card}>
-              <Text style={styleData.styleText}>pay bills</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styleData.columnCard}>
-            <TouchableOpacity style={styleData.card}>
-              <Text style={styleData.styleText}>expenses</Text>
+              <Text style={styleData.styleText}>comunication</Text>
             </TouchableOpacity>
           </View>
         </View>
-
-        <View style={styleData.cardContainer}>
+        
+        <View style={{...styleData.cardContainer, marginBottom:20}}>
           <View style={styleData.columnCard}>
             <TouchableOpacity style={styleData.card}>
-              <Text style={styleData.styleText}>total cash in hand</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styleData.columnCard}>
-            <TouchableOpacity style={styleData.card}>
-              <Text style={styleData.styleText}>tax returns</Text>
+              <Text style={styleData.styleText}>Subsitution</Text>
             </TouchableOpacity>
           </View>
           <View style={styleData.columnCard}>

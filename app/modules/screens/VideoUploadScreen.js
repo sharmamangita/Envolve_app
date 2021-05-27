@@ -421,6 +421,7 @@ class VideoUploadScreen extends Component {
     const windowWidth = Dimensions.get("window").width;
     const windowHeight = Dimensions.get("window").height;
     return (
+      <SafeAreaView style={{flex:1, backgroundColor:'white'}}>
       <>
         <ScrollView style={styles.screenContainer}>
           <View style={{ flexDirection: "column" }}>
@@ -607,6 +608,7 @@ class VideoUploadScreen extends Component {
           ) : null}
         </ScrollView>
       </>
+      </SafeAreaView>
     );
   }
 }

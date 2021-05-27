@@ -29,6 +29,8 @@ class PrincipalDashboard extends Component {
       activitiesStudentsCount: [],
       value1: "",
       gotImage: 0,
+      present_students: 0,
+      total_students: 0,
       schoolName: "temparey school name",
       navparams: [],
       school_id:null,
@@ -36,9 +38,54 @@ class PrincipalDashboard extends Component {
     };
   }
 
+  async componentDidMount() {
+    await AsyncStorage.getItem("@schoolId").then(
+      (school_id) =>{
+        this.setState({ school_id });
+      }, (err) =>{
+        console.log("error",err)
+    })
+
+      if (this.state.school_id != undefined && this.state.school_id) {
+        fetch(
+          `${API_URL}/get-principal-dashboard/${this.state.school_id}`
+        )
+          .then((res) => res.json())
+          .then((responsed) => {
+            console.log("=============school===============");
+            console.log(responsed);
+            console.log("============================");
+            if (responsed != undefined && responsed.length) {
+              this.setState(
+                {
+                  schoolName: responsed[0].school_name,
+                  total_students: responsed[0].total_students,
+                  present_students: responsed[0].present_studnts
+                })
+
+            }
+          });
+      }    
+
+  }
+
  oldDashboard = () => {
   const navigateAction = NavigationActions.navigate({
     routeName: "ActivitiesStatsScreen",
+  });
+  this.props.navigation.dispatch(navigateAction);
+ }
+
+ ShowSchoolAttendanceForPrincipal = () => {
+  const navigateAction = NavigationActions.navigate({
+    routeName: "ShowSchoolAttendanceForPrincipal",
+  });
+  this.props.navigation.dispatch(navigateAction);
+ }
+
+ ShowTeacherAttendanceForPrincipal = () => {
+  const navigateAction = NavigationActions.navigate({
+    routeName: "ShowTeacherAttendanceForPrincipal",
   });
   this.props.navigation.dispatch(navigateAction);
  }
@@ -114,12 +161,13 @@ class PrincipalDashboard extends Component {
 
         <View style={styleData.cardContainer}>
           <View style={styleData.columnCard}>
-            <TouchableOpacity style={styleData.card}>
-              <Text style={styleData.styleText}>school attendance</Text>
+            <TouchableOpacity onPress={() => this.ShowSchoolAttendanceForPrincipal()} style={styleData.card}>
+              <Text style={{...styleData.styleText, fontSize:8}}>school attendance</Text>
+              <Text style={{...styleData.styleText, fontSize:10}}>{this.state.total_students} / {this.state.present_students}</Text>
             </TouchableOpacity>
           </View>
           <View style={styleData.columnCard}>
-            <TouchableOpacity style={styleData.card}>
+            <TouchableOpacity onPress={() => this.ShowTeacherAttendanceForPrincipal()} style={styleData.card}>
               <Text style={styleData.styleText}>teachers attendance</Text>
             </TouchableOpacity>
           </View>
