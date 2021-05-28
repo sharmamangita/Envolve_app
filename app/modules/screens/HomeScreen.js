@@ -36,7 +36,7 @@ class HomeScreen extends Component {
       } else if (userRole == "principal") {
         this.props.navigation.replace({ routeName:"PrincipalDashboard"});
       } else if (userRole == "parent") {
-        this.props.navigation.replace({ routeName:"Parents"});
+        this.props.navigation.replace({ routeName:"ParentsDashboard"});
       }
     }, (err) => {
       console.log("error", err);

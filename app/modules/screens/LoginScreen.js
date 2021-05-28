@@ -124,7 +124,7 @@ class LoginScreen extends Component {
                         AsyncStorage.setItem('@mobile_num', responsed.mobile_num);
                         const resetAction = StackActions.reset({
                             index: 0,
-                            actions: [NavigationActions.navigate({routeName: 'Parents'})],
+                            actions: [NavigationActions.navigate({routeName: 'ParentsDashboard'})],
                             key: null,
                           });
                           this.props.navigation.dispatch(resetAction);

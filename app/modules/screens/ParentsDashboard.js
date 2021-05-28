@@ -6,13 +6,12 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
+  FlatList
 } from "react-native";
-import { ListItem } from "react-native-elements";
-import TouchableScale from "react-native-touchable-scale";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { NavigationActions } from "react-navigation";
 import { API_URL } from "../constants/config";
-import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
+import { Bubbles} from "react-native-loader";
 import AsyncStorage from "@react-native-community/async-storage";
 
 class ParentsDashboard extends Component {
@@ -26,17 +25,67 @@ class ParentsDashboard extends Component {
     super(props);
     this.activitiesStudentsCount = [];
     this.state = {
-      activitiesStudentsCount: [],
-      value1: "",
-      gotImage: 0,
-      schoolName: "temparey school name",
-      navparams: [],
-      school_id:null,
+      mobile_num:'',
+      children_list:[],
       loading:false
     };
   }
 
+  async componentDidMount(){
+    await AsyncStorage.getItem("@mobile_num").then(
+      (mobile_num) =>{
+        this.setState({ mobile_num });
+      }, (err) =>{
+        console.log("error",err)
+    });
+    this.setState({
+        loading: true
+    });
+    await fetch(`${API_URL}/get-parent-children-list/${this.state.mobile_num}`)
+    .then((res) => res.json()).then((response) => {
 
+      if (response.length > 0) {
+          console.log(" childer list ========>>>", response)
+          this.setState({ children_list: response, loading:false});
+      } else {
+          this.setState({children_list: [], loading: false});
+      }
+    }).catch((err) =>{
+        this.setState({loading:false });
+        alert(err);
+
+    })
+  }
+
+  oldDashboard = () => {
+    const navigateAction = NavigationActions.navigate({
+      routeName: "Parents",
+    });
+    this.props.navigation.dispatch(navigateAction);
+  }
+
+  showChildernList = ({item}) => {
+    return(
+      <View style={styleData.cardContainer}>
+        <View style={styleData.columnCard}>
+          <TouchableOpacity onPress={()=> this.gotToStudentDashboard(item.student_id)} style={styleData.card}>
+          <Icon color="#1CAFF6" size={40} name="archive" />
+            <Text style={{...styleData.styleText, fontSize:18, fontWeight:'bold'}}>{ item.student_name }</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    )
+  }
+
+  gotToStudentDashboard = (id) => {
+    const navigateAction = NavigationActions.navigate({
+          routeName: 'StudentDashboard',
+          params: {
+            student_id: id
+          }
+        });
+    this.props.navigation.dispatch(navigateAction);
+  }
 
   render() {
 
@@ -66,108 +115,33 @@ class ParentsDashboard extends Component {
             >
               <Bubbles size={20} color="#1CAFF6" />
             </View>
-          ) : null}
+          ) :
+
         <View>
-            <Text style={{ fontSize: 18, fontWeight:'bold',paddingHorizontal:20}}>
-                {this.state.schoolName}
-            </Text>
-        </View>
-
-        <View style={{...styleData.cardContainer, marginTop:25}}>
-        <View style={styleData.columnCardSearch}>
+          <View>
+              <Text style={{ fontSize: 18, fontWeight:'bold',paddingHorizontal:20}}>
+                  Parent Dashboard
+              </Text>
           </View>
-          <View style={styleData.SearchCard}>
-              <TextInput
-              keyboardType="number-pad"
-              placeholder="Search Student by Admission No."
-              placeholderTextColor="black"
-              style={{width:"85%", height:40}}
-              />
-              <TouchableOpacity style={
-                {
-                  height:40,
-                  width:"15%",
-                  justifyContent:'center',
-                  alignItems:'center'
-                }}>
-              <Icon 
-              name="search"
-              size={20}
-              color='#23ABE2'
-              />
+          
+          <FlatList 
+            data={this.state.children_list}
+            keyExtractor={(item) => item.student_id}
+            renderItem={this.showChildernList}
+          />
+
+          <View style={styleData.cardContainer}>
+            <View style={styleData.columnCard}>
+              <TouchableOpacity onPress={()=> this.oldDashboard()} style={styleData.card}>
+                <Text style={styleData.styleText}>oldDashboard</Text>
               </TouchableOpacity>
+            </View>
+            <View style={styleData.columnCard}>
+            </View>
           </View>
-        </View>
 
-        <View style={styleData.cardContainer}>
-          <View style={styleData.columnCard}>
-            <TouchableOpacity style={styleData.card}>
-              <Text style={styleData.styleText}>school attendance</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styleData.columnCard}>
-            <TouchableOpacity style={styleData.card}>
-              <Text style={styleData.styleText}>teachers attendance</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styleData.columnCard}>
-            <TouchableOpacity style={styleData.card}>
-              <Text style={styleData.styleText}>fees paid</Text>
-            </TouchableOpacity>
-          </View>
         </View>
-
-        <View style={styleData.cardContainer}>
-          <View style={styleData.columnCard}>
-            <TouchableOpacity style={styleData.card}>
-              <Text style={styleData.styleText}>performance</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styleData.columnCard}>
-            <TouchableOpacity style={styleData.card}>
-              <Text style={styleData.styleText}>cctv's</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styleData.columnCard}>
-            <TouchableOpacity style={styleData.card}>
-              <Text style={styleData.styleText}>substitutes data</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        <View style={styleData.cardContainer}>
-          <View style={styleData.columnCard}>
-            <TouchableOpacity style={styleData.card}>
-              <Text style={styleData.styleText}>broadcast (Communications)</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styleData.columnCard}>
-            <TouchableOpacity style={styleData.card}>
-              <Text style={styleData.styleText}>pay bills</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styleData.columnCard}>
-            <TouchableOpacity style={styleData.card}>
-              <Text style={styleData.styleText}>expenses</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        <View style={styleData.cardContainer}>
-          <View style={styleData.columnCard}>
-            <TouchableOpacity style={styleData.card}>
-              <Text style={styleData.styleText}>total cash in hand</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styleData.columnCard}>
-            <TouchableOpacity style={styleData.card}>
-              <Text style={styleData.styleText}>tax returns</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styleData.columnCard}>
-          </View>
-        </View>
-
+      }
       </ScrollView>
     );
   }
@@ -196,7 +170,7 @@ const styleData = StyleSheet.create({
     paddingHorizontal:9
   },
   card: {
-    height:60,
+    height:120,
     justifyContent:'center',
     alignItems:'center',
     borderWidth:1,

@@ -24,9 +24,11 @@ import NotificationHistory from '../screens/NotificationHistory';
 import Messages from '../screens/Messages';
 import HomeWorkAndComplaint from '../screens/HomeWorkAndComplaint';
 import SchoolDiary from '../screens/SchoolDiary';
+
 import PrincipalDashboard from '../screens/PrincipalDashboard';
 import TeacherDashboard from '../screens/TeacherDashboard';
 import ParentsDashboard from '../screens/ParentsDashboard';
+import StudentDashboard from '../screens/StudentDashboard';
 import ShowSchoolAttendanceForPrincipal from '../screens/ShowSchoolAttendanceForPrincipal'
 import ShowTeacherAttendanceForPrincipal from '../screens/ShowTeacherAttendanceForPrincipal'
 const HomeStack = createStackNavigator({
@@ -254,6 +256,7 @@ const HomeStack = createStackNavigator({
             }
         }
     },
+
     PrincipalDashboard: {
         screen: PrincipalDashboard,
         navigationOptions: ({ navigation }) => {
@@ -281,6 +284,17 @@ const HomeStack = createStackNavigator({
             }
         }
     },
+    StudentDashboard: {
+        screen: StudentDashboard,
+        navigationOptions: ({ navigation }) => {
+            return {
+                headerTitle: () => <></>,
+                headerLeft: null,
+                header: null,
+            }
+        }
+    },
+    
     ShowSchoolAttendanceForPrincipal: {
         screen: ShowSchoolAttendanceForPrincipal,
         navigationOptions: ({ navigation }) => {

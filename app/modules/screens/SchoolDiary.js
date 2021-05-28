@@ -30,7 +30,7 @@ class Messages extends Component {
             loading: false,
             miniLoading: false,
             inbox: true,
-            teacher_id: this.props.navigation.state.params.student.teacher_id,
+            teacher_id: '',
             school_id: this.props.navigation.state.params.student.school_id,
             student_id: this.props.navigation.state.params.student.student_id,
             sentDate: [],
