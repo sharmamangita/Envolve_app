@@ -29,8 +29,11 @@ import PrincipalDashboard from '../screens/PrincipalDashboard';
 import TeacherDashboard from '../screens/TeacherDashboard';
 import ParentsDashboard from '../screens/ParentsDashboard';
 import StudentDashboard from '../screens/StudentDashboard';
-import ShowSchoolAttendanceForPrincipal from '../screens/ShowSchoolAttendanceForPrincipal'
-import ShowTeacherAttendanceForPrincipal from '../screens/ShowTeacherAttendanceForPrincipal'
+import ShowSchoolAttendanceForPrincipal from '../screens/ShowSchoolAttendanceForPrincipal';
+import ShowTeacherAttendanceForPrincipal from '../screens/ShowTeacherAttendanceForPrincipal';
+import ShowAttandanceToParents from '../screens/ShowAttandanceToParents';
+import ShowStudentAttendanceToTeacher from '../screens/ShowStudentAttendanceToTeacher';
+
 const HomeStack = createStackNavigator({
     Start: {
         screen: HomeScreen,
@@ -307,6 +310,26 @@ const HomeStack = createStackNavigator({
     },
     ShowTeacherAttendanceForPrincipal: {
         screen: ShowTeacherAttendanceForPrincipal,
+        navigationOptions: ({ navigation }) => {
+            return {
+                headerTitle: () => <></>,
+                headerLeft: null,
+                header: null,
+            }
+        }
+    },
+    ShowAttandanceToParents: {
+        screen: ShowAttandanceToParents,
+        navigationOptions: ({ navigation }) => {
+            return {
+                headerTitle: () => <></>,
+                headerLeft: null,
+                header: null,
+            }
+        }
+    },
+    ShowStudentAttendanceToTeacher: {
+        screen: ShowStudentAttendanceToTeacher,
         navigationOptions: ({ navigation }) => {
             return {
                 headerTitle: () => <></>,

@@ -6,7 +6,9 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
-  SafeAreaView
+  SafeAreaView,
+  Platform,
+  PermissionsAndroid,
 } from "react-native";
 import { ListItem } from "react-native-elements";
 import TouchableScale from "react-native-touchable-scale";
@@ -16,6 +18,8 @@ import { API_URL } from "../constants/config";
 import { Bubbles, DoubleBounce, Bars, Pulse } from "react-native-loader";
 import AsyncStorage from "@react-native-community/async-storage";
 import { Directions } from "react-native-gesture-handler";
+import DocumentPicker from 'react-native-document-picker';
+import { openSettings } from 'react-native-permissions';
 
 class StudentDashboard extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -30,7 +34,9 @@ class StudentDashboard extends Component {
     this.state = {
         student_id:this.props.navigation.state.params.student_id,
         student_info:'',
-        loading:false
+        secondtime:false,
+        loading:false,
+        singleFile:''
     };
   }
 
@@ -51,7 +57,6 @@ class StudentDashboard extends Component {
             alert(err);
     
         })
-    
     }
 
   goBack = () => {
@@ -69,6 +74,120 @@ class StudentDashboard extends Component {
         this.props.navigation.dispatch(navigateAction);
     }
 
+    openAttendanceScreen = () => {
+        const navigateAction = NavigationActions.navigate({
+            routeName: 'ShowAttandanceToParents',
+            params: {
+                student: this.state.student_info
+            }
+        });
+        this.props.navigation.dispatch(navigateAction);
+    }
+
+  // ====================== permission ============================
+
+  requestExternalReadPermission = async () => {
+    if (Platform.OS === 'android') {
+        try {
+          const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+            {
+              title: 'External Storage Write Permission',
+              message: 'App needs write permission',
+            },
+          );
+          // If WRITE_EXTERNAL_STORAGE Permission is granted
+          return granted === PermissionsAndroid.RESULTS.GRANTED;
+        } catch (err) {
+          console.warn(err);
+          alert('Write permission err', err);
+        }
+        return false;
+      } else return true;
+  };
+
+
+  chooseImageFromPhone = async () => {
+    console.log("ues")
+
+    console.log(this.state.singleFile)
+    // Opening Document Picker to select one file
+    let checkPermission = await this.requestExternalReadPermission();
+
+    if(checkPermission){
+        try {
+            const res = await DocumentPicker.pick({
+              // Provide which type of file you want user to pick
+              type: [
+                DocumentPicker.types.images
+              ],
+            });
+            // Printing the log realted to the file
+            console.log('res : ' + JSON.stringify(res));
+            // Setting the state to show single file attributes
+            await this.setState({ singleFile: res });
+            this.UploadProfileImage()
+          } catch (err) {
+            this.setState({ singleFile: '' });
+            // Handling any exception (If any)
+            if (DocumentPicker.isCancel(err)) {
+              // If user canceled the document selection
+              alert('user canceled the Image selection');
+            } else {
+              // For Unknown Error
+              alert('Unknown Error: ' + JSON.stringify(err));
+              throw err;
+            }
+          }
+    } else {
+        if(this.state.secondtime){
+            openSettings();
+          }else {
+            alert("App need to access Location, Camera, and External Storage Write Permission");
+          }
+          this.setState({secondtime: true});
+    }
+  }
+
+  UploadProfileImage = async () => {
+    console.log(this.state.student_id);
+    console.log(this.state.singleFile);
+    this.setState({ loading: true });
+
+        if(this.state.student_id && this.state.singleFile)
+        {
+            await fetch(`${API_URL}/upload-student-photo/`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            body:  this.createForm()
+            })
+            .then(response => response.json())
+            .then(response => {
+                this.setState({ singleFile:'', loading: false});
+                alert(response.status);       
+            });
+            this.setState({loading: false})
+        } else {
+            this.setState({ loading: false})
+            alert("all fields are required")
+    }
+  }
+
+  createForm = () => {
+        var data = new FormData()
+        data.append("student_id",this.state.student_id)
+        data.append("photo", this.state.singleFile);
+
+        console.log("============================= form data ==========================");
+        console.log(data);
+        console.log("============================= form data ==========================");
+    
+        return data;
+  }
+
+  // ====================== permission ============================
   render() {
     return (
         <SafeAreaView  style={{flex:1, backgroundColor:'white'}}>
@@ -128,8 +247,14 @@ class StudentDashboard extends Component {
                             borderColor:'#23ABE2',
                         }}>
                         <View style={{flex:1, height:'100%', alignItems:'center', justifyContent:'center'}}>
-                            <TouchableOpacity style={{borderRadius:50}}>
-                                <Image source={require('../assets/images/studentLogo.png')} style={{height:80, width:80}} />
+                            <TouchableOpacity onPress={()=> this.chooseImageFromPhone()} style={{borderRadius:50}}>
+                           { console.log(`${API_URL}/upload/student/${this.state.student_info.student_photo}`)}
+                                {
+                                    
+                                    this.state.student_info.student_photo?
+                                    <Image source={{uri:`${API_URL}/upload/student/${this.state.student_info.student_photo}`}} style={{height:80, width:80, borderRadius:50}} />:
+                                    <Image source={require('../assets/images/studentLogo.png')} style={{height:80, width:80, borderRadius:50}} />
+                                }
                             </TouchableOpacity>
                         </View>
                         <View style={{flex:2, height:'100%',justifyContent:'center'}}>
@@ -148,7 +273,7 @@ class StudentDashboard extends Component {
                         <View style={{...styleData.columnCard, flex: 0.2}}>
                         </View>
                         <View style={styleData.columnCard}>
-                        <TouchableOpacity style={styleData.card}>
+                        <TouchableOpacity onPress={() => this.openAttendanceScreen()} style={styleData.card}>
                             <Text style={styleData.styleText}>Attendance</Text>
                         </TouchableOpacity>
                         </View>
