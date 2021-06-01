@@ -34,21 +34,31 @@ class ShowStudentAttendanceToTeacher extends Component {
     this.state = {
       data:[],
       fetchnewlist: false,
-      date:'2021-01-01',
-      selectedSchool:'1',
+      date: new Date(),
+      selectedSchool:'',
       loading:false,
       miniLoading:false,
       schools: [],
+      classes:[],
+      selectedClass:'',
+      selectedSection:'',
+      section:[],
       value: '',
       roleval: '',
       navparams: '',
       teacher_id: '',
       mobile_num:'',
+      activityType:[],
+      selectedActivityType:'',
+      activities:[],
+      selectedActivityId:'',
       loading: false,
     };
   }
 
   async componentDidMount() {
+    // let d = new Date()
+    // console.log(d.slice(0,10))
     this.setState({
         loading: true
     })
@@ -105,15 +115,84 @@ class ShowStudentAttendanceToTeacher extends Component {
         });
         alert(err);
     })
-   console.log(this.state.data);
-}
+
+    await fetch(`${API_URL}/get-new-activites-types/${this.state.teacher_id}/trainer`)
+      .then((res) => res.json())
+      .then((responsed) => {
+        // alert(JSON.stringify(responsed))
+        if (responsed != undefined && responsed.length) {
+          let b = []
+          responsed.map((data) => b.push({ "label": data.activity_type, "value": data.activity_type }));
+          console.log(b)
+          this.setState({
+            activityType: b,
+            loading: false,
+          });
+        } else {
+          alert("No activities assigned");
+        }
+      });
+  }
+
+  getClassforteacher = async () => {
+    await fetch(`${API_URL}/get-school-classes/${this.state.selectedSchool}`, {
+      method: "GET",
+      })
+     .then(response => response.json())
+     .then(response => {
+       let b =[];
+       console.log("==== Class list ====>>",response)
+      if(response.length){
+        response.map((data) => b.push({ "label": data.class, "value": data.class }));
+        this.setState({ classes: b, section: [], loading: false });
+      } else {
+        this.setState({ classes: [], section: [], loading: false})
+      }        
+    }).catch((err) => alert(err));
+  }
+
+  getClassSections = async () => {
+    await fetch(`${API_URL}/get-class-sections/${this.state.selectedSchool}/${this.state.selectedClass}`, {
+      method: "GET",
+      })
+     .then(response => response.json())
+     .then(response => {
+       let b =[];
+       console.log("==== Class section list ====>>",response)
+      if(response.length){
+        response.map((data) => b.push({ "label": data.section, "value": data.section }));
+        this.setState({ section: b, selectedSection: '' });
+      } else {
+        this.setState({ section: [] })
+      }        
+    }).catch((err) => alert(err))
+  }
+
+  getActivites = async () => {
+    if (this.state.selectedActivityType != null) {
+      await fetch(`${API_URL}/get-new-activites/${this.state.selectedActivityType}/${this.state.teacher_id}/trainer`)
+        .then((res) => res.json())
+        .then((responsed) => {
+          if (responsed != undefined && responsed.length) {
+            console.log("respons ==========>>>>>>>>>", responsed)
+            let b =[];
+            responsed.map((data) => b.push({ "label": data.activity_name, "value": data.activity_id }));
+            this.setState({
+              activities: b,
+              activity_id: 0
+            });
+            console.log("==========>>>>>>>>>>>",this.state.activities)
+          }
+        });
+    }
+  }
 
   getAttendance = async () => {
     this.setState({ miniLoading: true})
     console.log(this.state.selectedDate)
-      if(this.state.data && this.state.selectedSchool){
-        console.log(`${API_URL}/get-students-attendances-for-teacher-via-date/${this.state.selectedSchool}/${this.state.teacher_id}/${this.state.date}`)
-        await fetch(`${API_URL}/get-students-attendances-for-teacher-via-date/${this.state.selectedSchool}/${this.state.teacher_id}/${this.state.date}`, {
+      if(this.state.data && this.state.selectedSchool && this.state.selectedActivityId && this.state.selectedClass && this.state.selectedSection){
+        console.log(`${API_URL}/get-students-attendances-for-teacher-via-date/${this.state.selectedSchool}/${this.state.teacher_id}/${this.state.date}/${this.state.selectedClass}/${this.state.selectedSection}/${this.state.selectedActivityId}`)
+        await fetch(`${API_URL}/get-students-attendances-for-teacher-via-date/${this.state.selectedSchool}/${this.state.teacher_id}/${this.state.date}/${this.state.selectedClass}/${this.state.selectedSection}/${this.state.selectedActivityId}`, {
             method: "GET",
             })
            .then(response => response.json())
@@ -223,13 +302,105 @@ class ShowStudentAttendanceToTeacher extends Component {
                         dropDownStyle={{ backgroundColor: "#fafafa" }}
                         onChangeItem={ async (item) => {
                           await this.setState({ selectedSchool: item.value, data:[]})
+                          await this.getClassforteacher()
+                        }}
+                        placeholder=""
+                      />
+                    </View>
+                </View>
+
+                <View style={ Platform.OS == 'ios'?{...styleData.customDropdown, zIndex:9 }:styleData.customDropdown}>
+                    <View style={styleData.customDropdownChild1}>
+                    <Text style={styleData.lableStyle}>Select class:</Text>
+                    </View>
+                    <View style={styleData.customDropdownChild2}>
+                      <DropDownPicker
+                        items={this.state.classes}
+                        defaultValue=""
+                        containerStyle={{ height: 50 }}
+                        style={{ ...styleData.customDropdownDivider, paddingBottom: 10 }}
+                        itemStyle={{
+                          justifyContent: "flex-start"
+                        }}
+                        dropDownStyle={{ backgroundColor: "#fafafa" }}
+                        onChangeItem={ async (item) => {
+                          await this.setState({ selectedClass: item.value, selectedSection: '', data:[]})
+                          await this.getClassSections();
                         }}
                         placeholder=""
                       />
                     </View>
                   </View>
 
-                <View style={{...styleData.customDropdown, zIndex:9, marginTop: 10}}>
+                <View style={Platform.OS == 'ios'?{...styleData.customDropdown, zIndex:8}:styleData.customDropdown}>
+                    <View  style={styleData.customDropdownChild1}>
+                      <Text style={ this.state.selectedClass == "all"?{...styleData.lableStyle, color: "#E6E6E6"}:styleData.lableStyle}>Select section:</Text>
+                    </View>
+                    <View style={styleData.customDropdownChild2}>
+                    <DropDownPicker
+                      disabled={ this.state.selectedClass == 'all'? true:false}
+                      items={this.state.section}
+                      defaultValue=""
+                      containerStyle={{ height: 50, borderRadius: 0 }}
+                      style={{ ...styleData.customDropdownDivider, paddingBottom: 10, }}
+                      itemStyle={{
+                        justifyContent: "flex-start",
+                      }}
+                      dropDownStyle={{ backgroundColor: "#fafafa" }}
+                      onChangeItem={ async (item) => {
+                        await this.setState({ selectedSection: item.value,});
+                      }}
+                      placeholder=""
+                    />
+                    </View>
+                  </View>
+                  
+                  <View style={Platform.OS == 'ios'?{...styleData.customDropdown, zIndex:7}:styleData.customDropdown}>
+                    <View  style={styleData.customDropdownChild1}>
+                      <Text style={ this.state.selectedClass == "all"?{...styleData.lableStyle, color: "#E6E6E6"}:styleData.lableStyle}>Activites Type:</Text>
+                    </View>
+                    <View style={styleData.customDropdownChild2}>
+                    <DropDownPicker
+                      items={this.state.activityType}
+                      defaultValue=""
+                      containerStyle={{ height: 50, borderRadius: 0 }}
+                      style={{ ...styleData.customDropdownDivider, paddingBottom: 10, }}
+                      itemStyle={{
+                        justifyContent: "flex-start",
+                      }}
+                      dropDownStyle={{ backgroundColor: "#fafafa" }}
+                      onChangeItem={ async (item) => {
+                        await this.setState({ selectedActivityType: item.value,});
+                        await this.getActivites();
+                      }}
+                      placeholder=""
+                    />
+                    </View>
+                  </View>
+
+                  <View style={Platform.OS == 'ios'?{...styleData.customDropdown, zIndex:6}:styleData.customDropdown}>
+                    <View  style={styleData.customDropdownChild1}>
+                      <Text style={ this.state.selectedClass == "all"?{...styleData.lableStyle, color: "#E6E6E6"}:styleData.lableStyle}>Select Activite:</Text>
+                    </View>
+                    <View style={styleData.customDropdownChild2}>
+                    <DropDownPicker
+                      items={this.state.activities}
+                      defaultValue=""
+                      containerStyle={{ height: 50, borderRadius: 0 }}
+                      style={{ ...styleData.customDropdownDivider, paddingBottom: 10, }}
+                      itemStyle={{
+                        justifyContent: "flex-start",
+                      }}
+                      dropDownStyle={{ backgroundColor: "#fafafa" }}
+                      onChangeItem={ async (item) => {
+                        await this.setState({ selectedActivityId: item.value,});
+                      }}
+                      placeholder=""
+                    />
+                    </View>
+                  </View>                  
+
+                <View style={{...styleData.customDropdown, zIndex:9, marginTop: 5}}>
                     <View  style={styleData.customDropdownChild1}>
                       <Text style={ this.state.selectedClass == "all"?{...styleData.lableStyle, color: "#E6E6E6"}:styleData.lableStyle}>Select Date:</Text>
                     </View>
@@ -345,7 +516,6 @@ const styleData = StyleSheet.create({
         flexDirection:'row', 
         height:40,
         borderColor:'black',
-        backgroundColor:'#00FF00',
         paddingHorizontal:4,
         borderBottomWidth:2
     },

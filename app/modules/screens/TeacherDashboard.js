@@ -27,14 +27,47 @@ class TeacherDashboard extends Component {
     this.activitiesStudentsCount = [];
     this.state = {
       activitiesStudentsCount: [],
+      teacherName:'',
       value1: "",
+      teacherData:'',
       gotImage: 0,
-      schoolName: "teacher name show here",
       navparams: [],
       school_id:null,
       loading:false
     };
   }
+
+  async componentDidMount() {
+    await AsyncStorage.getItem("@mobile_num").then(
+      (mobile_num) =>{
+        this.setState({ mobile_num });
+      }, (err) =>{
+        console.log("error",err)
+  })
+
+    // =============================== 
+    await fetch(`${API_URL}/get-user-data/${this.state.mobile_num}`).then((res) => res.json()).then((response) =>{
+        if(response.role) {
+            this.setState({teacherData: response, teacherName: response.teacher_name});
+        } else {
+            this.setState({
+                loading: false
+            });
+        }
+    }).catch((err) => {
+        this.setState({
+            loading: false
+        });
+        alert(err);
+    })
+    console.log("========****************************************************************=======");
+    console.log(this.state.teacherData)
+    console.log("========****************************************************************=======");
+
+    // ===============================
+  }
+
+
   oldDashboard = () => {
     const navigateAction = NavigationActions.navigate({
       routeName: "SchoolScreen",
@@ -81,7 +114,7 @@ class TeacherDashboard extends Component {
 
           <View>
             <Text style={{ fontSize: 18, fontWeight:'bold',paddingHorizontal:20}}>
-                {this.state.schoolName}
+              Welcome "{this.state.teacherName}" !
             </Text>
           </View>
 

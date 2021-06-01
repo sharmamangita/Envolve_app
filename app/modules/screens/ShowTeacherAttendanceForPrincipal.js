@@ -225,7 +225,6 @@ const styleData = StyleSheet.create({
         flexDirection:'row', 
         height:40,
         borderColor:'black',
-        backgroundColor:'#00FF00',
         paddingHorizontal:4,
         borderBottomWidth:2
     },

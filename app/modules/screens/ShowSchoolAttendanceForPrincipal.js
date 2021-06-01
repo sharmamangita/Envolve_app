@@ -18,6 +18,7 @@ import { API_URL } from "../constants/config";
 import { Bubbles } from "react-native-loader";
 import AsyncStorage from "@react-native-community/async-storage";
 import DropDownPicker from 'react-native-dropdown-picker';
+import DatePicker from 'react-native-datepicker';
 
 class ShowSchoolAttendanceForPrincipal extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -34,6 +35,7 @@ class ShowSchoolAttendanceForPrincipal extends Component {
       classes:[],
       section:[],
       data:[],
+      date: new Date(),
       fetchnewlist: false,
       selectedClass:'',
       selectedSection:'',
@@ -68,9 +70,9 @@ class ShowSchoolAttendanceForPrincipal extends Component {
   }
 
   async componentDidUpdate() {
-      if(this.state.fetchnewlist && this.state.selectedClass && this.state.selectedSection){
+      if(this.state.fetchnewlist && this.state.selectedClass && this.state.selectedSection && this.state.date){
           this.setState({fetchnewlist: false, miniLoading: true})
-          await fetch(`${API_URL}/student-attendance-for-class-section/${this.state.school_id}/${this.state.selectedClass}/${this.state.selectedSection}`, {
+          await fetch(`${API_URL}/student-attendance-for-class-section/${this.state.school_id}/${this.state.selectedClass}/${this.state.selectedSection}/${this.state.date}`, {
             method: "GET",
             })
            .then(response => response.json())
@@ -110,7 +112,7 @@ class ShowSchoolAttendanceForPrincipal extends Component {
   };
 
   renderItem = ({item}) =>{
-      if(item.attendance == 1){
+      if(item.attendance_status == 1){
         return(
             <View style={styleData.stdutentPresentColumn}>
                 <Text style={styleData.columnTest}>{item.admission_number}</Text>
@@ -219,9 +221,42 @@ class ShowSchoolAttendanceForPrincipal extends Component {
                       }}
                       dropDownStyle={{ backgroundColor: "#fafafa" }}
                       onChangeItem={ async (item) => {
-                        await this.setState({ selectedSection: item.value, fetchnewlist: true});
+                        await this.setState({ selectedSection: item.value,});
                       }}
                       placeholder=""
+                    />
+                    </View>
+                  </View>
+                  
+                  <View style={{...styleData.customDropdown, zIndex:9, marginTop: 10}}>
+                    <View  style={styleData.customDropdownChild1}>
+                      <Text style={ this.state.selectedClass == "all"?{...styleData.lableStyle, color: "#E6E6E6"}:styleData.lableStyle}>Select Date:</Text>
+                    </View>
+                    <View style={styleData.customDropdownChild2}>
+                    <DatePicker
+                      style={{ ...styleData.customDropdownDivider, paddingBottom: 10, width:"100%" }}
+                      date={this.state.date}
+                      mode="date"
+                      placeholder="select date"
+                      format="YYYY-MM-DD"
+                      minDate="2016-05-01"
+                      confirmBtnText="Confirm"
+                      cancelBtnText="Cancel"
+                      customStyles={{
+                        dateIcon: {
+                          position: 'absolute',
+                          left: 0,
+                          top: 4,
+                          marginLeft: 0
+                        },
+                        dateInput: {
+                          marginLeft: 36
+                        }
+                        // ... You can check the source to find the other keys.
+                      }}
+                      onDateChange={(date) => {
+                        this.setState({date: date, fetchnewlist: true})
+                      }}
                     />
                     </View>
                   </View>
@@ -308,7 +343,6 @@ const styleData = StyleSheet.create({
         flexDirection:'row', 
         height:40,
         borderColor:'black',
-        backgroundColor:'#00FF00',
         paddingHorizontal:4,
         borderBottomWidth:2
     },

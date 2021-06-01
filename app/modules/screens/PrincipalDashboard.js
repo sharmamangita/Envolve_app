@@ -163,7 +163,7 @@ class PrincipalDashboard extends Component {
           <View style={styleData.columnCard}>
             <TouchableOpacity onPress={() => this.ShowSchoolAttendanceForPrincipal()} style={styleData.card}>
               <Text style={{...styleData.styleText, fontSize:8}}>school attendance</Text>
-              <Text style={{...styleData.styleText, fontSize:10}}>{this.state.total_students} / {this.state.present_students}</Text>
+              <Text style={{...styleData.styleText, fontSize:10}}> {this.state.present_students} / {this.state.total_students}</Text>
             </TouchableOpacity>
           </View>
           <View style={styleData.columnCard}>
