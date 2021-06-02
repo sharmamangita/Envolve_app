@@ -175,7 +175,12 @@ const styleData = StyleSheet.create({
     alignItems:'center',
     borderWidth:1,
     borderColor:'#23ABE2',
-    padding:5
+    padding:5,
+    borderRadius:10,
+    backgroundColor:'rgba(35, 171, 226, 0.2)',
+    shadowColor: 'black',
+    shadowOpacity: 0.5,
+    shadowOffset: {width:4, height:4}
   },
   SearchCard:{
     flex:1,
@@ -184,7 +189,7 @@ const styleData = StyleSheet.create({
     justifyContent:'center',
     alignItems:'center',
     borderWidth:1,
-    borderColor:'#c3c3c3',
+    borderColor: '#23ABE2',
     paddingStart:10,
     borderRadius:5,  
   },

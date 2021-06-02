@@ -245,6 +245,10 @@ class StudentDashboard extends Component {
                             borderBottomWidth:2,
                             borderTopWidth:2,
                             borderColor:'#23ABE2',
+                            backgroundColor:'rgba(35, 171, 226, 0.2)',
+                            shadowColor: 'black',
+                            shadowOpacity: 0.5,
+                            shadowOffset: {width:4, height:4}
                         }}>
                         <View style={{flex:1, height:'100%', alignItems:'center', justifyContent:'center'}}>
                             <TouchableOpacity onPress={()=> this.chooseImageFromPhone()} style={{borderRadius:50}}>
@@ -398,7 +402,12 @@ const styleData = StyleSheet.create({
     alignItems:'center',
     borderWidth:1,
     borderColor:'#23ABE2',
-    padding:5
+    padding:5,
+    borderRadius:10,
+    backgroundColor:'rgba(35, 171, 226, 0.2)',
+    shadowColor: 'black',
+    shadowOpacity: 0.5,
+    shadowOffset: {width:4, height:4}
   },
   SearchCard:{
     flex:1,

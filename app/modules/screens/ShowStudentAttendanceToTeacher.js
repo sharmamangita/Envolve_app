@@ -219,17 +219,17 @@ class ShowStudentAttendanceToTeacher extends Component {
       if(item.attendance_status == 1){
         return(
             <View style={styleData.stdutentPresentColumn}>
-                <Text style={styleData.columnTest}>{item.admission_number}</Text>
-                <Text style={styleData.columnTest2}>{item.student_name}</Text>
-                <Text style={styleData.columnTest}>present</Text>
+                <Text style={styleData.columnTestP}>{item.admission_number}</Text>
+                <Text style={styleData.columnTest2P}>{item.student_name}</Text>
+                <Text style={styleData.columnTestP}>present</Text>
             </View>
         )
       } else {
         return (
             <View style={styleData.studentAbsentColumn}>
-                <Text style={styleData.columnTest}>{item.admission_number}</Text>
-                <Text style={styleData.columnTest2}>{item.student_name}</Text>
-                <Text style={styleData.columnTest}>absent</Text>
+                <Text style={styleData.columnTestA}>{item.admission_number}</Text>
+                <Text style={styleData.columnTest2A}>{item.student_name}</Text>
+                <Text style={styleData.columnTestA}>absent</Text>
             </View>
         )
       }
@@ -309,55 +309,61 @@ class ShowStudentAttendanceToTeacher extends Component {
                     </View>
                 </View>
 
-                <View style={ Platform.OS == 'ios'?{...styleData.customDropdown, zIndex:9 }:styleData.customDropdown}>
-                    <View style={styleData.customDropdownChild1}>
-                    <Text style={styleData.lableStyle}>Select class:</Text>
+                <View style={Platform.OS == 'ios'?{flex:1, flexDirection:'row', paddingHorizontal:10, zIndex:9}:{flex:1, flexDirection:'row', paddingHorizontal:10}}>
+
+                  <View style={styleData.customDropdown}>
+                      <View style={styleData.customDropdownChild1}>
+                      <Text style={styleData.lableStyle}>class:</Text>
+                      </View>
+                      <View style={styleData.customDropdownChild2}>
+                        <DropDownPicker
+                          items={this.state.classes}
+                          defaultValue=""
+                          containerStyle={{ height: 50 }}
+                          style={{ ...styleData.customDropdownDivider, paddingBottom: 10 }}
+                          itemStyle={{
+                            justifyContent: "flex-start"
+                          }}
+                          dropDownStyle={{ backgroundColor: "#fafafa" }}
+                          onChangeItem={ async (item) => {
+                            await this.setState({ selectedClass: item.value, selectedSection: '', data:[]})
+                            await this.getClassSections();
+                          }}
+                          placeholder=""
+                        />
+                      </View>
                     </View>
-                    <View style={styleData.customDropdownChild2}>
+
+                  <View style={styleData.customDropdown}>
+                      <View  style={styleData.customDropdownChild1}>
+                        <Text style={ this.state.selectedClass == "all"?{...styleData.lableStyle, color: "#E6E6E6"}:styleData.lableStyle}>section:</Text>
+                      </View>
+                      <View style={styleData.customDropdownChild2}>
                       <DropDownPicker
-                        items={this.state.classes}
+                        disabled={ this.state.selectedClass == 'all'? true:false}
+                        items={this.state.section}
                         defaultValue=""
-                        containerStyle={{ height: 50 }}
-                        style={{ ...styleData.customDropdownDivider, paddingBottom: 10 }}
+                        containerStyle={{ height: 50, borderRadius: 0 }}
+                        style={{ ...styleData.customDropdownDivider, paddingBottom: 10, }}
                         itemStyle={{
-                          justifyContent: "flex-start"
+                          justifyContent: "flex-start",
                         }}
                         dropDownStyle={{ backgroundColor: "#fafafa" }}
                         onChangeItem={ async (item) => {
-                          await this.setState({ selectedClass: item.value, selectedSection: '', data:[]})
-                          await this.getClassSections();
+                          await this.setState({ selectedSection: item.value,});
                         }}
                         placeholder=""
                       />
+                      </View>
                     </View>
-                  </View>
+                    
+                </View>
 
-                <View style={Platform.OS == 'ios'?{...styleData.customDropdown, zIndex:8}:styleData.customDropdown}>
+                <View style={Platform.OS == 'ios'?{flex:1, flexDirection:'row', paddingHorizontal:10, zIndex:8}:{flex:1, flexDirection:'row', paddingHorizontal:10}}>
+
+                <View style={styleData.customDropdown}>
                     <View  style={styleData.customDropdownChild1}>
-                      <Text style={ this.state.selectedClass == "all"?{...styleData.lableStyle, color: "#E6E6E6"}:styleData.lableStyle}>Select section:</Text>
-                    </View>
-                    <View style={styleData.customDropdownChild2}>
-                    <DropDownPicker
-                      disabled={ this.state.selectedClass == 'all'? true:false}
-                      items={this.state.section}
-                      defaultValue=""
-                      containerStyle={{ height: 50, borderRadius: 0 }}
-                      style={{ ...styleData.customDropdownDivider, paddingBottom: 10, }}
-                      itemStyle={{
-                        justifyContent: "flex-start",
-                      }}
-                      dropDownStyle={{ backgroundColor: "#fafafa" }}
-                      onChangeItem={ async (item) => {
-                        await this.setState({ selectedSection: item.value,});
-                      }}
-                      placeholder=""
-                    />
-                    </View>
-                  </View>
-                  
-                  <View style={Platform.OS == 'ios'?{...styleData.customDropdown, zIndex:7}:styleData.customDropdown}>
-                    <View  style={styleData.customDropdownChild1}>
-                      <Text style={ this.state.selectedClass == "all"?{...styleData.lableStyle, color: "#E6E6E6"}:styleData.lableStyle}>Activites Type:</Text>
+                      <Text style={ this.state.selectedClass == "all"?{...styleData.lableStyle, color: "#E6E6E6"}:styleData.lableStyle}>A.T:</Text>
                     </View>
                     <View style={styleData.customDropdownChild2}>
                     <DropDownPicker
@@ -378,9 +384,9 @@ class ShowStudentAttendanceToTeacher extends Component {
                     </View>
                   </View>
 
-                  <View style={Platform.OS == 'ios'?{...styleData.customDropdown, zIndex:6}:styleData.customDropdown}>
+                  <View style={styleData.customDropdown}>
                     <View  style={styleData.customDropdownChild1}>
-                      <Text style={ this.state.selectedClass == "all"?{...styleData.lableStyle, color: "#E6E6E6"}:styleData.lableStyle}>Select Activite:</Text>
+                      <Text style={ this.state.selectedClass == "all"?{...styleData.lableStyle, color: "#E6E6E6"}:styleData.lableStyle}>Activite:</Text>
                     </View>
                     <View style={styleData.customDropdownChild2}>
                     <DropDownPicker
@@ -400,7 +406,9 @@ class ShowStudentAttendanceToTeacher extends Component {
                     </View>
                   </View>                  
 
-                <View style={{...styleData.customDropdown, zIndex:9, marginTop: 5}}>
+                </View>
+
+                <View style={{...styleData.customDropdown, zIndex:7, marginTop: 5}}>
                     <View  style={styleData.customDropdownChild1}>
                       <Text style={ this.state.selectedClass == "all"?{...styleData.lableStyle, color: "#E6E6E6"}:styleData.lableStyle}>Select Date:</Text>
                     </View>
@@ -472,10 +480,18 @@ class ShowStudentAttendanceToTeacher extends Component {
 
 const styleData = StyleSheet.create({
 
+
     tableBody:{ 
         marginTop: 10,
         width: "95%",
         alignSelf: "center",
+        backgroundColor:'rgba(35, 171, 226, 0.2)',
+        shadowColor: 'black',
+        shadowOpacity: 0.5,
+        shadowOffset: {width:4, height:4},
+        borderColor:'#23ABE2',
+        borderWidth:1,
+        borderRadius:5,
         zIndex:-1
     },
 
@@ -483,8 +499,8 @@ const styleData = StyleSheet.create({
         flex:1,
         flexDirection:'row',
         height:40,
-        borderColor:'black',
-        backgroundColor:'#d3d3d3',
+        borderColor:'#23ABE2',
+        // backgroundColor:'#d3d3d3',
         paddingHorizontal:4,
         borderBottomWidth:2
     },
@@ -505,28 +521,43 @@ const styleData = StyleSheet.create({
         flex:1,
         flexDirection:'row',
         height:40,
-        borderColor:'black',
-        backgroundColor:'#FF6347', 
+        borderColor:'#23ABE2',
+        // backgroundColor:'#FF6347', 
         paddingHorizontal:4,
-        borderBottomWidth:2
+        borderBottomWidth:2,
     },
 
     stdutentPresentColumn:{
         flex:1,
         flexDirection:'row', 
         height:40,
-        borderColor:'black',
+        borderColor:'#23ABE2',
         paddingHorizontal:4,
         borderBottomWidth:2
     },
 
-    columnTest: {
+    columnTestA: {
         flex:1,
-        alignSelf:'center'
+        alignSelf:'center',
+        color:'#FF6347',
+        fontWeight:'bold',
     },
-    columnTest2: {
+    columnTest2A: {
         flex:2,
-        alignSelf:'center'
+        alignSelf:'center',
+        color:'#FF6347',
+        fontWeight:'bold',
+    },
+
+    columnTestP: {
+      flex:1,
+      alignSelf:'center',
+      fontWeight:'bold',
+    },
+    columnTest2P: {
+      flex:2,
+      alignSelf:'center',
+      fontWeight:'bold',
     },
 
     noData:{

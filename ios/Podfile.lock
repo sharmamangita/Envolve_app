@@ -90,8 +90,6 @@ PODS:
     - RNPermissions
   - Permission-PhotoLibrary (3.0.0):
     - RNPermissions
-  - Permission-PhotoLibraryAddOnly (3.0.0):
-    - RNPermissions
   - PromisesObjC (1.2.12)
   - RCTRequired (0.63.3)
   - RCTTypeSafety (0.63.3):
@@ -384,7 +382,6 @@ DEPENDENCIES:
   - Permission-Microphone (from `../node_modules/react-native-permissions/ios/Microphone`)
   - Permission-Notifications (from `../node_modules/react-native-permissions/ios/Notifications`)
   - Permission-PhotoLibrary (from `../node_modules/react-native-permissions/ios/PhotoLibrary`)
-  - Permission-PhotoLibraryAddOnly (from `../node_modules/react-native-permissions/ios/PhotoLibraryAddOnly`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
   - React (from `../node_modules/react-native/`)
@@ -470,8 +467,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-permissions/ios/Notifications"
   Permission-PhotoLibrary:
     :path: "../node_modules/react-native-permissions/ios/PhotoLibrary"
-  Permission-PhotoLibraryAddOnly:
-    :path: "../node_modules/react-native-permissions/ios/PhotoLibraryAddOnly"
   RCTRequired:
     :path: "../node_modules/react-native/Libraries/RCTRequired"
   RCTTypeSafety:
@@ -582,7 +577,6 @@ SPEC CHECKSUMS:
   Permission-Microphone: e426a115ddf9591e8c30c55ea2b28572d4cbd07e
   Permission-Notifications: 5c69bf2f6c1e30345af4f25e2981dc1c8dafbc22
   Permission-PhotoLibrary: cb9cdc1e3744e26ab404297a8e289d50c8ee27e8
-  Permission-PhotoLibraryAddOnly: b179f1487560123186a45d8aac39483987acdf3e
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   RCTRequired: 48884c74035a0b5b76dbb7a998bd93bcfc5f2047
   RCTTypeSafety: edf4b618033c2f1c5b7bc3d90d8e085ed95ba2ab
@@ -628,6 +622,6 @@ SPEC CHECKSUMS:
   RNVectorIcons: bc69e6a278b14842063605de32bec61f0b251a59
   Yoga: 7d13633d129fd179e01b8953d38d47be90db185a
 
-PODFILE CHECKSUM: 61a04450130a39be5b0fe5c850878b6285ee78a6
+PODFILE CHECKSUM: fec798675f5e9c3cb028a33b2f43617825034d03
 
 COCOAPODS: 1.10.1

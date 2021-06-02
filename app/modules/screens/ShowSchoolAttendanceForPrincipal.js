@@ -115,17 +115,17 @@ class ShowSchoolAttendanceForPrincipal extends Component {
       if(item.attendance_status == 1){
         return(
             <View style={styleData.stdutentPresentColumn}>
-                <Text style={styleData.columnTest}>{item.admission_number}</Text>
-                <Text style={styleData.columnTest2}>{item.student_name}</Text>
-                <Text style={styleData.columnTest}>present</Text>
+                <Text style={styleData.columnTestP}>{item.admission_number}</Text>
+                <Text style={styleData.columnTest2P}>{item.student_name}</Text>
+                <Text style={styleData.columnTestP}>present</Text>
             </View>
         )
       } else {
         return (
             <View style={styleData.studentAbsentColumn}>
-                <Text style={styleData.columnTest}>{item.admission_number}</Text>
-                <Text style={styleData.columnTest2}>{item.student_name}</Text>
-                <Text style={styleData.columnTest}>absent</Text>
+                <Text style={styleData.columnTestA}>{item.admission_number}</Text>
+                <Text style={styleData.columnTest2A}>{item.student_name}</Text>
+                <Text style={styleData.columnTestA}>absent</Text>
             </View>
         )
       }
@@ -181,10 +181,12 @@ class ShowSchoolAttendanceForPrincipal extends Component {
             <View> 
                 <View style={{ flex: 1, marginTop: -20, width: "95%", alignSelf: "center" }}>
                     <Text style={styleData.customParentStyle}>Filter Class & Section</Text>
-                </View> 
-                <View style={ Platform.OS == 'ios'?{...styleData.customDropdown, zIndex:10 }:styleData.customDropdown}>
+                </View>
+                
+                <View style={{ flex:1, flexDirection:'row', zIndex:11, paddingHorizontal:10}}>
+                  <View style={ Platform.OS == 'ios'?{...styleData.customDropdown, zIndex:10, }:styleData.customDropdown}>
                     <View style={styleData.customDropdownChild1}>
-                    <Text style={styleData.lableStyle}>Select class:</Text>
+                    <Text style={styleData.lableStyle}>class:</Text>
                     </View>
                     <View style={styleData.customDropdownChild2}>
                       <DropDownPicker
@@ -205,9 +207,9 @@ class ShowSchoolAttendanceForPrincipal extends Component {
                     </View>
                   </View>
 
-                <View style={Platform.OS == 'ios'?{...styleData.customDropdown, zIndex:9}:styleData.customDropdown}>
+                  <View style={Platform.OS == 'ios'?{...styleData.customDropdown, zIndex:9}:styleData.customDropdown}>
                     <View  style={styleData.customDropdownChild1}>
-                      <Text style={ this.state.selectedClass == "all"?{...styleData.lableStyle, color: "#E6E6E6"}:styleData.lableStyle}>Select section:</Text>
+                      <Text style={ this.state.selectedClass == "all"?{...styleData.lableStyle, color: "#E6E6E6"}:styleData.lableStyle}>section:</Text>
                     </View>
                     <View style={styleData.customDropdownChild2}>
                     <DropDownPicker
@@ -228,7 +230,10 @@ class ShowSchoolAttendanceForPrincipal extends Component {
                     </View>
                   </View>
                   
-                  <View style={{...styleData.customDropdown, zIndex:9, marginTop: 10}}>
+                 
+                </View>
+                  
+                <View style={{...styleData.customDropdown, zIndex:8, marginTop: 10}}>
                     <View  style={styleData.customDropdownChild1}>
                       <Text style={ this.state.selectedClass == "all"?{...styleData.lableStyle, color: "#E6E6E6"}:styleData.lableStyle}>Select Date:</Text>
                     </View>
@@ -259,7 +264,7 @@ class ShowSchoolAttendanceForPrincipal extends Component {
                       }}
                     />
                     </View>
-                  </View>
+                </View>
             </View>
 
             <View style={{ flex: 1, marginTop: 10, width: "95%", alignSelf: "center", zIndex:-1 }}>
@@ -303,6 +308,13 @@ const styleData = StyleSheet.create({
         marginTop: 10,
         width: "95%",
         alignSelf: "center",
+        backgroundColor:'rgba(35, 171, 226, 0.2)',
+        shadowColor: 'black',
+        shadowOpacity: 0.5,
+        shadowOffset: {width:4, height:4},
+        borderColor:'#23ABE2',
+        borderWidth:1,
+        borderRadius:5,
         zIndex:-1
     },
 
@@ -310,8 +322,8 @@ const styleData = StyleSheet.create({
         flex:1,
         flexDirection:'row',
         height:40,
-        borderColor:'black',
-        backgroundColor:'#d3d3d3',
+        borderColor:'#23ABE2',
+        // backgroundColor:'#d3d3d3',
         paddingHorizontal:4,
         borderBottomWidth:2
     },
@@ -332,30 +344,44 @@ const styleData = StyleSheet.create({
         flex:1,
         flexDirection:'row',
         height:40,
-        borderColor:'black',
-        backgroundColor:'#FF6347', 
+        borderColor:'#23ABE2',
+        // backgroundColor:'#FF6347', 
         paddingHorizontal:4,
-        borderBottomWidth:2
+        borderBottomWidth:2,
     },
 
     stdutentPresentColumn:{
         flex:1,
         flexDirection:'row', 
         height:40,
-        borderColor:'black',
+        borderColor:'#23ABE2',
         paddingHorizontal:4,
         borderBottomWidth:2
     },
 
-    columnTest: {
+    columnTestA: {
         flex:1,
-        alignSelf:'center'
+        alignSelf:'center',
+        color:'#FF6347',
+        fontWeight:'bold',
     },
-    columnTest2: {
+    columnTest2A: {
         flex:2,
-        alignSelf:'center'
+        alignSelf:'center',
+        color:'#FF6347',
+        fontWeight:'bold',
     },
 
+    columnTestP: {
+      flex:1,
+      alignSelf:'center',
+      fontWeight:'bold',
+    },
+    columnTest2P: {
+      flex:2,
+      alignSelf:'center',
+      fontWeight:'bold',
+    },
     noData:{
         flex:1, 
         fontSize:16, 
@@ -391,7 +417,7 @@ const styleData = StyleSheet.create({
       customDropdown:{
         flex: 1,
         flexDirection: 'row',
-        // marginTop: 10,
+        marginHorizontal:4,
         width: "95%",
         alignSelf: "center",
         justifyContent: 'center',

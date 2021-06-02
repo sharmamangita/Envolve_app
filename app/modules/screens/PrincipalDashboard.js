@@ -162,8 +162,8 @@ class PrincipalDashboard extends Component {
         <View style={styleData.cardContainer}>
           <View style={styleData.columnCard}>
             <TouchableOpacity onPress={() => this.ShowSchoolAttendanceForPrincipal()} style={styleData.card}>
+            <Text style={{...styleData.styleText, fontSize:14}}> {this.state.present_students} / {this.state.total_students}</Text>
               <Text style={{...styleData.styleText, fontSize:8}}>school attendance</Text>
-              <Text style={{...styleData.styleText, fontSize:10}}> {this.state.present_students} / {this.state.total_students}</Text>
             </TouchableOpacity>
           </View>
           <View style={styleData.columnCard}>
@@ -252,7 +252,7 @@ const styleData = StyleSheet.create({
   columnCard:{
     flex:1,
     flexDirection:'column',
-    paddingHorizontal:9
+    paddingHorizontal:9,
   },
   rowSearchCard:{
     flex:1,
@@ -265,7 +265,12 @@ const styleData = StyleSheet.create({
     alignItems:'center',
     borderWidth:1,
     borderColor:'#23ABE2',
-    padding:5
+    padding:5,
+    borderRadius:10,
+    backgroundColor:'rgba(35, 171, 226, 0.2)',
+    shadowColor: 'black',
+    shadowOpacity: 0.5,
+    shadowOffset: {width:4, height:4}
   },
   SearchCard:{
     flex:1,
@@ -274,7 +279,7 @@ const styleData = StyleSheet.create({
     justifyContent:'center',
     alignItems:'center',
     borderWidth:1,
-    borderColor:'#c3c3c3',
+    borderColor: '#23ABE2',
     paddingStart:10,
     borderRadius:5,  
   },

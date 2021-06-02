@@ -81,17 +81,17 @@ class ShowSchoolAttendanceForPrincipal extends Component {
       if(item.attendance_status == 'Present'){
         return(
             <TouchableOpacity onPress={() => this.openTrainerData(item.teacher_id, item.teacher_name)} style={styleData.stdutentPresentColumn}>
-                <Text style={styleData.columnTest2}>{item.teacher_name}</Text>
-                <Text style={styleData.columnTest}>{item.attendance_status}</Text>
-                <Text style={styleData.columnTest}>More..</Text>
+                <Text style={styleData.columnTest2P}>{item.teacher_name}</Text>
+                <Text style={styleData.columnTestP}>{item.attendance_status}</Text>
+                <Text style={styleData.columnTestP}>More..</Text>
             </TouchableOpacity>
         )
       } else {
         return (
             <TouchableOpacity onPress={() => this.openTrainerData(item.teacher_id, item.teacher_name)} style={styleData.studentAbsentColumn}>
-                <Text style={styleData.columnTest2}>{item.teacher_name}</Text>
-                <Text style={styleData.columnTest}>{item.attendance_status}</Text>
-                <Text style={styleData.columnTest}>More..</Text>
+                <Text style={styleData.columnTest2A}>{item.teacher_name}</Text>
+                <Text style={styleData.columnTestA}>{item.attendance_status}</Text>
+                <Text style={styleData.columnTestA}>More..</Text>
             </TouchableOpacity>
         )
       }
@@ -181,62 +181,83 @@ class ShowSchoolAttendanceForPrincipal extends Component {
 
 const styleData = StyleSheet.create({
 
-    tableBody:{ 
-        marginTop: 10,
-        width: "95%",
-        alignSelf: "center",
-        zIndex:-1
-    },
+  tableBody:{ 
+    marginTop: 10,
+    width: "95%",
+    alignSelf: "center",
+    backgroundColor:'rgba(35, 171, 226, 0.2)',
+    shadowColor: 'black',
+    shadowOpacity: 0.5,
+    shadowOffset: {width:4, height:4},
+    borderColor:'#23ABE2',
+    borderWidth:1,
+    borderRadius:5,
+    zIndex:-1
+  },
 
-    tableheader: {
-        flex:1,
-        flexDirection:'row',
-        height:40,
-        borderColor:'black',
-        backgroundColor:'#d3d3d3',
-        paddingHorizontal:4,
-        borderBottomWidth:2
-    },
+  tableheader: {
+      flex:1,
+      flexDirection:'row',
+      height:40,
+      borderColor:'#23ABE2',
+      // backgroundColor:'#d3d3d3',
+      paddingHorizontal:4,
+      borderBottomWidth:2
+  },
 
-    tableHeaderText: {
-        flex:1,
-        alignSelf:'center',
-        fontSize:16,
-        fontWeight:'bold'
-    },
-    tableHeaderText2: {
-        flex:2,
-        alignSelf:'center',
-        fontSize:16,
-        fontWeight:'bold'
-    },
-    studentAbsentColumn:{
-        flex:1,
-        flexDirection:'row',
-        height:40,
-        borderColor:'black',
-        backgroundColor:'#FF6347', 
-        paddingHorizontal:4,
-        borderBottomWidth:2
-    },
+  tableHeaderText: {
+      flex:1,
+      alignSelf:'center',
+      fontSize:16,
+      fontWeight:'bold'
+  },
+  tableHeaderText2: {
+      flex:2,
+      alignSelf:'center',
+      fontSize:16,
+      fontWeight:'bold'
+  },
+  studentAbsentColumn:{
+      flex:1,
+      flexDirection:'row',
+      height:40,
+      borderColor:'#23ABE2',
+      // backgroundColor:'#FF6347', 
+      paddingHorizontal:4,
+      borderBottomWidth:2,
+  },
 
-    stdutentPresentColumn:{
-        flex:1,
-        flexDirection:'row', 
-        height:40,
-        borderColor:'black',
-        paddingHorizontal:4,
-        borderBottomWidth:2
-    },
+  stdutentPresentColumn:{
+      flex:1,
+      flexDirection:'row', 
+      height:40,
+      borderColor:'#23ABE2',
+      paddingHorizontal:4,
+      borderBottomWidth:2
+  },
+  columnTestA: {
+    flex:1,
+    alignSelf:'center',
+    color:'#FF6347',
+    fontWeight:'bold',
+  },
+  columnTest2A: {
+    flex:2,
+    alignSelf:'center',
+    color:'#FF6347',
+    fontWeight:'bold',
+  },
 
-    columnTest: {
-        flex:1,
-        alignSelf:'center'
-    },
-    columnTest2: {
-        flex:2,
-        alignSelf:'center'
-    },
+  columnTestP: {
+  flex:1,
+  alignSelf:'center',
+  fontWeight:'bold',
+  },
+  columnTest2P: {
+  flex:2,
+  alignSelf:'center',
+  fontWeight:'bold',
+  },
 
     noData:{
         flex:1, 
