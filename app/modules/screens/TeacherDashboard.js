@@ -75,6 +75,13 @@ class TeacherDashboard extends Component {
     this.props.navigation.dispatch(navigateAction);
    }
 
+  markSelfAttendance = () => {
+    const navigateAction = NavigationActions.navigate({
+      routeName: "TeacherSelfAttendance",
+    });
+    this.props.navigation.dispatch(navigateAction); 
+  }
+
   openStudentAttendance = () => {
     const navigateAction = NavigationActions.navigate({
       routeName: "ShowStudentAttendanceToTeacher",
@@ -146,7 +153,7 @@ class TeacherDashboard extends Component {
 
         <View style={styleData.cardContainer}>
           <View style={styleData.columnCard}>
-            <TouchableOpacity style={styleData.card}>
+            <TouchableOpacity onPress={()=> this.markSelfAttendance()} style={styleData.card}>
               <Text style={styleData.styleText}>self Attendance</Text>
             </TouchableOpacity>
           </View>

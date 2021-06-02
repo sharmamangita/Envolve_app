@@ -33,6 +33,7 @@ import ShowSchoolAttendanceForPrincipal from '../screens/ShowSchoolAttendanceFor
 import ShowTeacherAttendanceForPrincipal from '../screens/ShowTeacherAttendanceForPrincipal';
 import ShowAttandanceToParents from '../screens/ShowAttandanceToParents';
 import ShowStudentAttendanceToTeacher from '../screens/ShowStudentAttendanceToTeacher';
+import TeacherSelfAttendance from '../screens/TeacherSelfAttendance';
 
 const HomeStack = createStackNavigator({
     Start: {
@@ -330,6 +331,16 @@ const HomeStack = createStackNavigator({
     },
     ShowStudentAttendanceToTeacher: {
         screen: ShowStudentAttendanceToTeacher,
+        navigationOptions: ({ navigation }) => {
+            return {
+                headerTitle: () => <></>,
+                headerLeft: null,
+                header: null,
+            }
+        }
+    },
+    TeacherSelfAttendance: {
+        screen: TeacherSelfAttendance,
         navigationOptions: ({ navigation }) => {
             return {
                 headerTitle: () => <></>,
