@@ -444,7 +444,7 @@ class ShowStudentAttendanceToTeacher extends Component {
             </View>
 
             <View style={{ flex: 1, marginTop: 10, width: "95%", alignSelf: "center", zIndex:-1 }}>
-                    <Text style={styleData.customParentStyle}>Student Attendance Table                 {this.state.data.total}/{this.state.data.present}</Text>
+                    <Text style={styleData.customParentStyle}>Student Attendance Table                 {this.state.data.present}/{this.state.data.total}</Text>
                 </View> 
 
             <View style={styleData.tableBody}>

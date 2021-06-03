@@ -183,8 +183,8 @@ class ShowSchoolAttendanceForPrincipal extends Component {
                     <Text style={styleData.customParentStyle}>Filter Class & Section</Text>
                 </View>
                 
-                <View style={{ flex:1, flexDirection:'row', zIndex:11, paddingHorizontal:10}}>
-                  <View style={ Platform.OS == 'ios'?{...styleData.customDropdown, zIndex:10, }:styleData.customDropdown}>
+                <View style={Platform.OS =="ios"?{ flex:1, flexDirection:'row', zIndex:11, paddingHorizontal:10}:{ flex:1, flexDirection:'row', paddingHorizontal:10}}>
+                  <View style={styleData.customDropdown}>
                     <View style={styleData.customDropdownChild1}>
                     <Text style={styleData.lableStyle}>class:</Text>
                     </View>
@@ -207,7 +207,7 @@ class ShowSchoolAttendanceForPrincipal extends Component {
                     </View>
                   </View>
 
-                  <View style={Platform.OS == 'ios'?{...styleData.customDropdown, zIndex:9}:styleData.customDropdown}>
+                  <View style={styleData.customDropdown}>
                     <View  style={styleData.customDropdownChild1}>
                       <Text style={ this.state.selectedClass == "all"?{...styleData.lableStyle, color: "#E6E6E6"}:styleData.lableStyle}>section:</Text>
                     </View>
@@ -233,7 +233,7 @@ class ShowSchoolAttendanceForPrincipal extends Component {
                  
                 </View>
                   
-                <View style={{...styleData.customDropdown, zIndex:8, marginTop: 10}}>
+                <View style={Platform.OS =="ios"?{...styleData.customDropdown, zIndex:8, marginTop: 10}:{...styleData.customDropdown,marginTop: 10}}>
                     <View  style={styleData.customDropdownChild1}>
                       <Text style={ this.state.selectedClass == "all"?{...styleData.lableStyle, color: "#E6E6E6"}:styleData.lableStyle}>Select Date:</Text>
                     </View>

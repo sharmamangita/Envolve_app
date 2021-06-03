@@ -335,7 +335,7 @@ class HomeWorkAndComplaint extends Component {
                   <View style={{ flex: 1, width: "95%", alignSelf: "center" }}>
                   <Text style={styleData.customParentStyle}>Send Message</Text>
                   </View>   
-                  <View style={{...styleData.customDropdown, zIndex:10}}>
+                  <View style={Platform.OS == 'ios'?{...styleData.customDropdown, zIndex:10}: styleData.customDropdown}>
                     <View style={styleData.customDropdownChild2}>
                       <DropDownPicker
                         items={this.state.classes}
@@ -356,7 +356,7 @@ class HomeWorkAndComplaint extends Component {
                     </View>
                   </View>
 
-                  <View style={{...styleData.customDropdown,zIndex:9}}>
+                  <View style={Platform.OS == 'ios'?{...styleData.customDropdown,zIndex:9}: styleData.customDropdown}>
 
                     <View style={styleData.customDropdownChild2}>
                     <DropDownPicker

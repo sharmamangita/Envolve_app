@@ -9,17 +9,24 @@ import {
   Image,
   SafeAreaView,
   FlatList,
-  Platform
+  Platform,
+  PermissionsAndroid
 } from "react-native";
-import { Spinner} from 'native-base';
+import { ListItem, Radio, Right, Left, CardItem, Body, Button} from 'native-base';
 import Icon from "react-native-vector-icons/FontAwesome";
 import { NavigationActions } from "react-navigation";
 import { API_URL } from "../constants/config";
 import { Bubbles } from "react-native-loader";
 import AsyncStorage from "@react-native-community/async-storage";
 import DropDownPicker from 'react-native-dropdown-picker';
+import Geolocation from 'react-native-geolocation-service';
+import { checkNotifications, openSettings } from 'react-native-permissions';
+import {
+  launchCamera,
+  launchImageLibrary
+} from 'react-native-image-picker';
+import Modal from "react-native-modal";
 import DatePicker from 'react-native-datepicker';
-import { isEmpty } from "lodash";
 
 class TeacherSelfAttendance extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -34,33 +41,44 @@ class TeacherSelfAttendance extends Component {
     this.state = {
       data:[],
       fetchnewlist: false,
-      date: new Date(),
+      date:'',
       selectedSchool:'',
       loading:false,
       miniLoading:false,
       schools: [],
-      classes:[],
-      selectedClass:'',
-      selectedSection:'',
-      section:[],
       value: '',
       roleval: '',
       navparams: '',
       teacher_id: '',
       mobile_num:'',
-      activityType:[],
-      selectedActivityType:'',
-      activities:[],
-      selectedActivityId:'',
-      loading: false,
+
+      filePath: '',
+      location: '',
+      secondtime:false,
+      trainerAttendance: true,
+      gotlocation: false,
+      isModalVisible: false,
+
+      oneLeave: true,
+      start_date:'',
+      end_date:''
+
     };
   }
 
   async componentDidMount() {
-    // let d = new Date()
-    // console.log(d.slice(0,10))
+    let b = new Date();
+    let Y = b.getFullYear();
+    let M = b.getMonth()+1;
+    let D = b.getDate();
+    let FD = Y+"-"+(String(M).length == 1? "0"+M:M)+"-"+(String(D).length == 1?"0"+D:D)
+    console.log(FD)
+    
     this.setState({
-        loading: true
+        loading: true,
+        date: FD,
+        start_date: FD,
+        end_date:FD
     })
 
     await AsyncStorage.getItem("@teacher_id").then(
@@ -116,124 +134,199 @@ class TeacherSelfAttendance extends Component {
         alert(err);
     })
 
-    await fetch(`${API_URL}/get-new-activites-types/${this.state.teacher_id}/trainer`)
-      .then((res) => res.json())
-      .then((responsed) => {
-        // alert(JSON.stringify(responsed))
-        if (responsed != undefined && responsed.length) {
-          let b = []
-          responsed.map((data) => b.push({ "label": data.activity_type, "value": data.activity_type }));
-          console.log(b)
-          this.setState({
-            activityType: b,
-            loading: false,
-          });
-        } else {
-          alert("No activities assigned");
+  }
+
+    // ==============================================================================
+
+    requestCameraPermission = async () => {
+      if (Platform.OS === 'android') {
+        try {
+          const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.CAMERA,
+            {
+              title: 'Camera Permission',
+              message: 'App needs camera permission',
+            },
+          );
+          // If CAMERA Permission is granted
+          return granted === PermissionsAndroid.RESULTS.GRANTED;
+        } catch (err) {
+          console.warn(err);
+          return false;
         }
-      });
-  }
+      } else return true;
+    };
 
-  getClassforteacher = async () => {
-    await fetch(`${API_URL}/get-school-classes/${this.state.selectedSchool}`, {
-      method: "GET",
-      })
-     .then(response => response.json())
-     .then(response => {
-       let b =[];
-       console.log("==== Class list ====>>",response)
-      if(response.length){
-        response.map((data) => b.push({ "label": data.class, "value": data.class }));
-        this.setState({ classes: b, section: [], loading: false });
-      } else {
-        this.setState({ classes: [], section: [], loading: false})
-      }        
-    }).catch((err) => alert(err));
-  }
-
-  getClassSections = async () => {
-    await fetch(`${API_URL}/get-class-sections/${this.state.selectedSchool}/${this.state.selectedClass}`, {
-      method: "GET",
-      })
-     .then(response => response.json())
-     .then(response => {
-       let b =[];
-       console.log("==== Class section list ====>>",response)
-      if(response.length){
-        response.map((data) => b.push({ "label": data.section, "value": data.section }));
-        this.setState({ section: b, selectedSection: '' });
-      } else {
-        this.setState({ section: [] })
-      }        
-    }).catch((err) => alert(err))
-  }
-
-  getActivites = async () => {
-    if (this.state.selectedActivityType != null) {
-      await fetch(`${API_URL}/get-new-activites/${this.state.selectedActivityType}/${this.state.teacher_id}/trainer`)
-        .then((res) => res.json())
-        .then((responsed) => {
-          if (responsed != undefined && responsed.length) {
-            console.log("respons ==========>>>>>>>>>", responsed)
-            let b =[];
-            responsed.map((data) => b.push({ "label": data.activity_name, "value": data.activity_id }));
-            this.setState({
-              activities: b,
-              activity_id: 0
-            });
-            console.log("==========>>>>>>>>>>>",this.state.activities)
+    requestExternalWritePermission = async () => {
+        if (Platform.OS === 'android') {
+          try {
+            const granted = await PermissionsAndroid.request(
+              PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+              {
+                title: 'External Storage Write Permission',
+                message: 'App needs write permission',
+              },
+            );
+            // If WRITE_EXTERNAL_STORAGE Permission is granted
+            return granted === PermissionsAndroid.RESULTS.GRANTED;
+          } catch (err) {
+            console.warn(err);
+            alert('Write permission err', err);
           }
-        });
-    }
-  }
+          return false;
+        } else return true;
+      };
 
-  getAttendance = async () => {
-    this.setState({ miniLoading: true})
-    console.log(this.state.selectedDate)
-      if(this.state.data && this.state.selectedSchool && this.state.selectedActivityId && this.state.selectedClass && this.state.selectedSection){
-        console.log(`${API_URL}/get-students-attendances-for-teacher-via-date/${this.state.selectedSchool}/${this.state.teacher_id}/${this.state.date}/${this.state.selectedClass}/${this.state.selectedSection}/${this.state.selectedActivityId}`)
-        await fetch(`${API_URL}/get-students-attendances-for-teacher-via-date/${this.state.selectedSchool}/${this.state.teacher_id}/${this.state.date}/${this.state.selectedClass}/${this.state.selectedSection}/${this.state.selectedActivityId}`, {
-            method: "GET",
-            })
+    requestGeoLocation = async () => {
+      if(Platform.OS === 'android'){
+        try {
+          const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+            {
+              title: 'Location Permission',
+              message: 'App needs access to your location',
+            },
+          );
+          return granted === PermissionsAndroid.RESULTS.GRANTED;
+        } catch (err) {
+          console.warn(err);
+          alert("Location permission err", err);
+          return false;
+        }
+      } else return true;
+    };
+
+  captureImage = async (type, start_date, end_date, status) => {
+      let options = {
+        mediaType: type,
+        maxWidth: 300,
+        maxHeight: 550,
+        quality: 1,
+        videoQuality: 'low',
+        durationLimit: 30, //Video max duration in seconds
+        saveToPhotos: true,
+      };
+      let isCameraPermitted = await this.requestCameraPermission();
+      let isStoragePermitted = await this.requestExternalWritePermission();
+      let isgeoLocation = await this.requestGeoLocation();
+      console.log("==========>>>>>>>", isgeoLocation)
+      if (isCameraPermitted && isStoragePermitted && isgeoLocation) {
+          launchCamera(options, (response) => {
+            console.log('Response = ', response);
+    
+            if (response.didCancel) {
+              alert('User cancelled camera picker');
+              return;
+            } else if (response.errorCode == 'camera_unavailable') {
+              alert('Camera not available on device');
+              return;
+            } else if (response.errorCode == 'permission') {
+              alert('Permission not satisfied');
+              return;
+            } else if (response.errorCode == 'others') {
+              alert(response.errorMessage);
+              return;
+            }
+            this.setState({ filePath: response});
+
+            this.sendTrainerAttendance(start_date, end_date, status);
+          });
+      } else {
+        if(this.state.secondtime){
+          openSettings();
+        }else {
+          alert("App need to access Location, Camera, and External Storage Write Permission");
+        }
+        this.setState({secondtime: true});
+      }
+    };
+
+    createFormData = (photo, body, start_date, end_date, status) => {
+      const data = new FormData();
+      data.append("photo", {
+        name: photo.fileName,
+        type: photo.type,
+        uri:
+          Platform.OS === "android" ? photo.uri : photo.uri.replace("file://", "")
+      });
+    
+      Object.keys(body).forEach(key => {
+
+        data.append(key, body[key]);
+      });
+
+      console.log("============================= form data ==========================");
+      console.log(start_date);
+      console.log("============================= form data ==========================");
+      data.append("school_id", this.state.selectedSchool);
+      data.append("teacher_id", this.state.teacher_id);
+      data.append("status", status);
+      data.append("start_date", start_date);
+      data.append("end_date", end_date); 
+
+      console.log("============================= form data ==========================");
+      console.log(data);
+      console.log("============================= form data ==========================");
+
+      return data;
+    };
+
+    sendTrainerAttendance = async (start_date, end_date, status) =>{
+      let gotlocation = false;
+      this.setState({ loading: true});
+      console.log("=========== sendTrainerAttendance is called ==============")
+      await Geolocation.getCurrentPosition(
+        (position) => {
+          console.log(position.coords);
+          // this.setState({location: position.coords, gotlocation: true});
+          fetch(`${API_URL}/mark-trainer-attendance/`, {
+            method: "POST",
+            headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+           body: this.createFormData(this.state.filePath, position.coords, start_date, end_date, status)
+         })
            .then(response => response.json())
            .then(response => {
-             console.log("==== attendance list ====>>",response)
-            if(response){
-              
-              this.setState({ data: response, miniLoading: false });
-            } else {
-              this.setState({ data: [], miniLoading: false})
-            }        
-          }).catch((err) => alert(err)); 
-      } else {
-        this.setState({ data: [], miniLoading: false})
-          alert('Please select date and school.');
-      } 
+             console.log("Attendance has been Submitted", response);
+             this.setState({ loading: false});
+             alert("Attendance has been Submitted");
+             this.setState({ photo: null, trainerAttendance: true });
+           })
+           .catch(error => {
+             console.log("Attendance submission", error);
+             this.setState({ loading: false, trainerAttendance: false});
+             alert("Attendance submission error!");
+           });
+        },
+        (error) => {
+          // See error code charts below.
+          console.log(error.code, error.message);
+          Alert.alert(
+            `Error code: ${error.code}`,
+            `${error.message}`,
+            [
+                { text: "OK", onPress: () => console.log("OK Pressed") }
+            ],
+            { cancelable: false }
+        );
+          this.setState({ loading: false, gotlocation: false});
+        },
+        { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+      );
+        console.log("============================ end ===========================");
+      return null;
+    }
+  // ==============================================================================  
+
+  modalScreen = () => {
+    this.setState({isModalVisible: !this.state.isModalVisible})
   }
 
  goBack = () => {
     this.props.navigation.goBack(null)
   };
 
-  renderItem = ({item}) =>{
-      if(item.attendance_status == 1){
-        return(
-            <View style={styleData.stdutentPresentColumn}>
-                <Text style={styleData.columnTestP}>{item.admission_number}</Text>
-                <Text style={styleData.columnTest2P}>{item.student_name}</Text>
-                <Text style={styleData.columnTestP}>present</Text>
-            </View>
-        )
-      } else {
-        return (
-            <View style={styleData.studentAbsentColumn}>
-                <Text style={styleData.columnTestA}>{item.admission_number}</Text>
-                <Text style={styleData.columnTest2A}>{item.student_name}</Text>
-                <Text style={styleData.columnTestA}>absent</Text>
-            </View>
-        )
-      }
-  }
 
   render() {
 
@@ -249,7 +342,7 @@ class TeacherSelfAttendance extends Component {
             />
             </TouchableOpacity>
             <TouchableOpacity style={styleData.headerView1} onPress={() =>  this.goBack()}>
-            <Text style={{fontSize: 18, fontWeight: "bold", color:"#1CAFF6"}}>Student Attendance</Text>
+            <Text style={{fontSize: 18, fontWeight: "bold", color:"#1CAFF6"}}>Mark Attendance</Text>
                 </TouchableOpacity>
                 <View style={styleData.headerView}>
             <TouchableOpacity>
@@ -283,8 +376,8 @@ class TeacherSelfAttendance extends Component {
           ):
         <View>
             <View> 
-                <View style={{ flex: 1, marginTop: -20, width: "95%", alignSelf: "center" }}>
-                    <Text style={styleData.customParentStyle}>Filter school & date</Text>
+                <View style={{ flex: 1, marginTop: -25, width: "95%", alignSelf: "center" }}>
+                    <Text style={styleData.customParentStyle}>Filter school & Mark Attendance </Text>
                 </View> 
                 <View style={ Platform.OS == 'ios' ? {...styleData.customDropdown, zIndex:10 } : styleData.customDropdown}>
                     <View style={styleData.customDropdownChild1}>
@@ -302,173 +395,146 @@ class TeacherSelfAttendance extends Component {
                         dropDownStyle={{ backgroundColor: "#fafafa" }}
                         onChangeItem={ async (item) => {
                           await this.setState({ selectedSchool: item.value, data:[]})
-                          await this.getClassforteacher()
                         }}
                         placeholder=""
                       />
                     </View>
                 </View>
-
-                <View style={Platform.OS == 'ios'?{flex:1, flexDirection:'row', paddingHorizontal:10, zIndex:9}:{flex:1, flexDirection:'row', paddingHorizontal:10}}>
-
-                  <View style={styleData.customDropdown}>
-                      <View style={styleData.customDropdownChild1}>
-                      <Text style={styleData.lableStyle}>class:</Text>
-                      </View>
-                      <View style={styleData.customDropdownChild2}>
-                        <DropDownPicker
-                          items={this.state.classes}
-                          defaultValue=""
-                          containerStyle={{ height: 50 }}
-                          style={{ ...styleData.customDropdownDivider, paddingBottom: 10 }}
-                          itemStyle={{
-                            justifyContent: "flex-start"
-                          }}
-                          dropDownStyle={{ backgroundColor: "#fafafa" }}
-                          onChangeItem={ async (item) => {
-                            await this.setState({ selectedClass: item.value, selectedSection: '', data:[]})
-                            await this.getClassSections();
-                          }}
-                          placeholder=""
-                        />
-                      </View>
-                    </View>
-
-                  <View style={styleData.customDropdown}>
-                      <View  style={styleData.customDropdownChild1}>
-                        <Text style={ this.state.selectedClass == "all"?{...styleData.lableStyle, color: "#E6E6E6"}:styleData.lableStyle}>section:</Text>
-                      </View>
-                      <View style={styleData.customDropdownChild2}>
-                      <DropDownPicker
-                        disabled={ this.state.selectedClass == 'all'? true:false}
-                        items={this.state.section}
-                        defaultValue=""
-                        containerStyle={{ height: 50, borderRadius: 0 }}
-                        style={{ ...styleData.customDropdownDivider, paddingBottom: 10, }}
-                        itemStyle={{
-                          justifyContent: "flex-start",
-                        }}
-                        dropDownStyle={{ backgroundColor: "#fafafa" }}
-                        onChangeItem={ async (item) => {
-                          await this.setState({ selectedSection: item.value,});
-                        }}
-                        placeholder=""
-                      />
-                      </View>
-                    </View>
-                    
-                </View>
-
-                <View style={Platform.OS == 'ios'?{flex:1, flexDirection:'row', paddingHorizontal:10, zIndex:8}:{flex:1, flexDirection:'row', paddingHorizontal:10}}>
-
-                <View style={styleData.customDropdown}>
-                    <View  style={styleData.customDropdownChild1}>
-                      <Text style={ this.state.selectedClass == "all"?{...styleData.lableStyle, color: "#E6E6E6"}:styleData.lableStyle}>A.T:</Text>
-                    </View>
-                    <View style={styleData.customDropdownChild2}>
-                    <DropDownPicker
-                      items={this.state.activityType}
-                      defaultValue=""
-                      containerStyle={{ height: 50, borderRadius: 0 }}
-                      style={{ ...styleData.customDropdownDivider, paddingBottom: 10, }}
-                      itemStyle={{
-                        justifyContent: "flex-start",
-                      }}
-                      dropDownStyle={{ backgroundColor: "#fafafa" }}
-                      onChangeItem={ async (item) => {
-                        await this.setState({ selectedActivityType: item.value,});
-                        await this.getActivites();
-                      }}
-                      placeholder=""
-                    />
-                    </View>
-                  </View>
-
-                  <View style={styleData.customDropdown}>
-                    <View  style={styleData.customDropdownChild1}>
-                      <Text style={ this.state.selectedClass == "all"?{...styleData.lableStyle, color: "#E6E6E6"}:styleData.lableStyle}>Activite:</Text>
-                    </View>
-                    <View style={styleData.customDropdownChild2}>
-                    <DropDownPicker
-                      items={this.state.activities}
-                      defaultValue=""
-                      containerStyle={{ height: 50, borderRadius: 0 }}
-                      style={{ ...styleData.customDropdownDivider, paddingBottom: 10, }}
-                      itemStyle={{
-                        justifyContent: "flex-start",
-                      }}
-                      dropDownStyle={{ backgroundColor: "#fafafa" }}
-                      onChangeItem={ async (item) => {
-                        await this.setState({ selectedActivityId: item.value,});
-                      }}
-                      placeholder=""
-                    />
-                    </View>
-                  </View>                  
-
-                </View>
-
-                <View style={{...styleData.customDropdown, zIndex:7, marginTop: 5}}>
-                    <View  style={styleData.customDropdownChild1}>
-                      <Text style={ this.state.selectedClass == "all"?{...styleData.lableStyle, color: "#E6E6E6"}:styleData.lableStyle}>Select Date:</Text>
-                    </View>
-                    <View style={styleData.customDropdownChild2}>
-                    <DatePicker
-                      style={{ ...styleData.customDropdownDivider, paddingBottom: 10, width:"100%" }}
-                      date={this.state.date}
-                      mode="date"
-                      placeholder="select date"
-                      format="YYYY-MM-DD"
-                      minDate="2016-05-01"
-                      confirmBtnText="Confirm"
-                      cancelBtnText="Cancel"
-                      customStyles={{
-                        dateIcon: {
-                          position: 'absolute',
-                          left: 0,
-                          top: 4,
-                          marginLeft: 0
-                        },
-                        dateInput: {
-                          marginLeft: 36
-                        }
-                        // ... You can check the source to find the other keys.
-                      }}
-                      onDateChange={(date) => {
-                        this.setState({date: date})
-                        this.getAttendance()
-                      }}
-                    />
-                    </View>
-                  </View>
             </View>
+            <View style={styleData.cardContainer}>
+              <View style={styleData.columnCard}>
+                <TouchableOpacity onPress={() => {
+                  if(this.state.selectedSchool){
+                    this.captureImage('photo', this.state.date, this.state.date, 1)
+                  }else {
+                    alert("Please select school.")
+                  }
+                  
+                  }} style={styleData.cardP}>
+                  <Icon name='check-circle' size={48} color='#23ABE2' />
+                  <Text style={styleData.styleText}>Mark Present</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={{...styleData.columnCard, flex: 0.2}}>
+              </View>
+              <View style={styleData.columnCard}>
+                <TouchableOpacity onPress={() => this.modalScreen()} style={styleData.cardA}>
+                  <Icon name="close" size={48} color='#FF6347' />
+                  <Text style={styleData.styleTextA}>Mark Absent</Text>
 
-            <View style={{ flex: 1, marginTop: 10, width: "95%", alignSelf: "center", zIndex:-1 }}>
-                    <Text style={styleData.customParentStyle}>Student Attendance Table                 {this.state.data.total}/{this.state.data.present}</Text>
-                </View> 
+                  <Modal isVisible={this.state.isModalVisible}>
+                      <View style={{ flex: 1, backgroundColor:"white", borderRadius: 10, marginVertical: "20%"}}>
+                        <View style={{flexDirection: 'row', borderBottomColor: 'gray', borderBottomWidth: 1, padding: 10}}>
+                          <Text style={{flex: 10, fontWeight:'bold', color:'#23ABE2'}}>Mark Attendance</Text>
+                          <TouchableOpacity onPress={() => this.modalScreen()} style={{ width: 20, alignContent: 'center'}}><Icon name="close" size={20} color="#1CAFF6" /></TouchableOpacity>
+                        </View>
+                        <View style={{paddingTop: 10}}>
+                          <CardItem>
+                            <Body style={{alignItems:'center', justifyContent:'center'}}>
+                            
+                            <View style={{ marginTop:-20, marginBottom:10, width: "100%", }}>
+                              <Text style={styleData.customParentStyle}>Select Leave Type</Text>
+                            </View> 
+                            
+                            <View style={{ width:'100%', height:40, borderBottomWidth:1, borderColor:'#eaeaea'}}>
+                              <TouchableOpacity onPress={()=> this.setState({ oneLeave: true, start_date: this.state.date, end_date: this.state.date})} style={{ flex:1, flexDirection:'row', alignItems:'center'}}>
+                                <Text style={this.state.oneLeave?{flex:11, fontSize:16,  color:'#23ABE2' }:{flex:11, fontSize:16, color:'gray'}}>Today on Leave</Text>
+                                <Icon name="check" size={18} color='#23ABE2' style={this.state.oneLeave?{flex:1}:{flex:1, display:'none'}} />
+                              </TouchableOpacity>
+                            </View>
 
-            <View style={styleData.tableBody}>
-                <View style={styleData.tableheader}>
-                    <Text style={styleData.tableHeaderText}>Rg_no.</Text>
-                    <Text style={styleData.tableHeaderText2}>Name</Text>
-                    <Text style={styleData.tableHeaderText}>P/A</Text>
-                </View>
-                <FlatList 
-                 data={this.state.data.students}
-                 keyExtractor={(item) => item.student_id}
-                 renderItem={this.renderItem}
-                />
-                
-                <View style={{flex:1, flexDirection:'row', height:150, alignItems:'center', justifyContent:'center'}}>
-                    {
-                        isEmpty(this.state.data.students) && !this.state.miniLoading?(<Text style={styleData.noData}>No Data</Text>):null
-                    }
-                    {
-                        this.state.miniLoading?<Spinner color="#1CAFF6" />:null
-                    }
-                </View>
+                            <View style={{ width:'100%', height:40, borderBottomWidth:1, borderColor:'#eaeaea'}}>
+                              <TouchableOpacity onPress={() => this.setState({ oneLeave: false})} style={{ flex:1, flexDirection:'row', alignItems:'center'}}>
+                                <Text style={!this.state.oneLeave?{flex:11, fontSize:16,  color:'#23ABE2' }:{flex:11, fontSize:16, color:'gray'}}>More Then One Leave</Text>
+                                <Icon name="check" size={18} color='#23ABE2' style={!this.state.oneLeave?{flex:1}:{flex:1, display:'none'}} />
+                              </TouchableOpacity>
+                            </View>
+                            
+                            <View style={{width:'100%', marginTop:30}}>
+                              <Text style={{fontSize:16,  color:'#23ABE2' }}>Start Date:</Text>
+                              <DatePicker
+                                disabled={this.state.oneLeave?true:false}
+                                style={{paddingBottom: 10, width:"100%" }}
+                                date={this.state.start_date}
+                                mode="date"
+                                placeholder="select date"
+                                format="YYYY-MM-DD"
+                                minDate={this.state.date}
+                                confirmBtnText="Confirm"
+                                cancelBtnText="Cancel"
+                                customStyles={{
+                                  dateIcon: {
+                                    position: 'absolute',
+                                    left: 0,
+                                    top: 4,
+                                    marginLeft: 0
+                                  },
+                                  dateInput: {
+                                    marginLeft: 36
+                                  }
+                                  // ... You can check the source to find the other keys.
+                                }}
+                                onDateChange={(date) => {
+                                  this.setState({start_date: date, end_date: date, fetchnewlist: true})
+                                }}
+                              />
+                            </View>
+                            <View style={{width:'100%', marginTop:10}}>
+                              <Text style={{fontSize:16,  color:'#23ABE2' }}>End Date:</Text>
+                              <DatePicker
+                                disabled={this.state.oneLeave?true:false}
+                                style={{paddingBottom: 10, width:"100%" }}
+                                date={this.state.end_date}
+                                mode="date"
+                                placeholder="select date"
+                                format="YYYY-MM-DD"
+                                minDate={this.state.start_date}
+                                confirmBtnText="Confirm"
+                                cancelBtnText="Cancel"
+                                customStyles={{
+                                  dateIcon: {
+                                    position: 'absolute',
+                                    left: 0,
+                                    top: 4,
+                                    marginLeft: 0
+                                  },
+                                  dateInput: {
+                                    marginLeft: 36
+                                  }
+                                  // ... You can check the source to find the other keys.
+                                }}
+                                onDateChange={(date) => {
+                                  this.setState({end_date: date, fetchnewlist: true})
+                                }}
+                              />
+                            </View>
+
+                            <View style={styleData.box1}>
+                                <TouchableOpacity 
+                                style={styleData.loginButton}
+                                onPress={() => {
+                                  
+                                  if(this.state.selectedSchool){
+                                    this.captureImage('photo', this.state.start_date, this.state.end_date, 0)
+                                  }else {
+                                    alert("Please select school.")
+                                  }
+                                  this.modalScreen()
+                                  }}
+                                >
+                                    <Text style={styleData.loginText} > send </Text>
+                                </TouchableOpacity>
+                            </View>
+
+                            </Body>
+                          </CardItem>
+                        </View>
+                      </View>
+                  </Modal>
+
+                </TouchableOpacity>
+              </View>
             </View>
-
         </View>
 
         }           
@@ -480,92 +546,25 @@ class TeacherSelfAttendance extends Component {
 
 const styleData = StyleSheet.create({
 
+  loginButton: {
+    backgroundColor: "#23ABE2",
+    width: '100%',
+    borderRadius:5,
+    padding: 10
+  },
+  loginText: {
+      color: 'white',
+      textAlign: 'center',
+      fontSize: 18,
+  },
+  box1: {
+    // paddingHorizontal: 10,
+    paddingTop: 20,
+    width:'100%',
+    justifyContent: 'center',
+    alignItems: 'center',
 
-    tableBody:{ 
-        marginTop: 10,
-        width: "95%",
-        alignSelf: "center",
-        backgroundColor:'rgba(35, 171, 226, 0.2)',
-        shadowColor: 'black',
-        shadowOpacity: 0.5,
-        shadowOffset: {width:4, height:4},
-        borderColor:'#23ABE2',
-        borderWidth:1,
-        borderRadius:5,
-        zIndex:-1
-    },
-
-    tableheader: {
-        flex:1,
-        flexDirection:'row',
-        height:40,
-        borderColor:'#23ABE2',
-        // backgroundColor:'#d3d3d3',
-        paddingHorizontal:4,
-        borderBottomWidth:2
-    },
-
-    tableHeaderText: {
-        flex:1,
-        alignSelf:'center',
-        fontSize:16,
-        fontWeight:'bold'
-    },
-    tableHeaderText2: {
-        flex:2,
-        alignSelf:'center',
-        fontSize:16,
-        fontWeight:'bold'
-    },
-    studentAbsentColumn:{
-        flex:1,
-        flexDirection:'row',
-        height:40,
-        borderColor:'#23ABE2',
-        // backgroundColor:'#FF6347', 
-        paddingHorizontal:4,
-        borderBottomWidth:2,
-    },
-
-    stdutentPresentColumn:{
-        flex:1,
-        flexDirection:'row', 
-        height:40,
-        borderColor:'#23ABE2',
-        paddingHorizontal:4,
-        borderBottomWidth:2
-    },
-
-    columnTestA: {
-        flex:1,
-        alignSelf:'center',
-        color:'#FF6347',
-        fontWeight:'bold',
-    },
-    columnTest2A: {
-        flex:2,
-        alignSelf:'center',
-        color:'#FF6347',
-        fontWeight:'bold',
-    },
-
-    columnTestP: {
-      flex:1,
-      alignSelf:'center',
-      fontWeight:'bold',
-    },
-    columnTest2P: {
-      flex:2,
-      alignSelf:'center',
-      fontWeight:'bold',
-    },
-
-    noData:{
-        flex:1, 
-        fontSize:16, 
-        fontWeight:'bold', 
-        textAlign:'center'
-    },
+  },
 
     container: {
         flex: 1,
@@ -582,6 +581,79 @@ const styleData = StyleSheet.create({
         // flexDirection: 'row-reverse',
         marginLeft: 8,
         marginTop:4
+    },
+
+    cardContainer:{
+      flex:1,
+      flexDirection:'column',
+      paddingHorizontal:10,
+      marginTop:40
+    },
+    columnCard:{
+      flex:1,
+      flexDirection:'column',
+      paddingVertical:4
+    },
+    rowSearchCard:{
+      flex:1,
+      flexDirection:'row',
+      paddingHorizontal:9
+    },
+    cardP: {
+      height:150,
+      justifyContent:'center',
+      alignItems:'center',
+      borderWidth:1,
+      borderColor:'#23ABE2',
+      padding:5,
+      borderRadius:10,
+      backgroundColor:'rgba(35, 171, 226, 0.2)',
+      shadowColor: 'black',
+      shadowOpacity: 0.5,
+      shadowOffset: {width:4, height:4}
+    },
+    cardA: {
+      height:150,
+      justifyContent:'center',
+      alignItems:'center',
+      borderWidth:1,
+      borderColor:'#FF6347',
+      padding:5,
+      borderRadius:10,
+      backgroundColor:'rgba(228, 35, 0, 0.2)',
+      shadowColor: 'black',
+      shadowOpacity: 0.5,
+      shadowOffset: {width:4, height:4}
+    },
+    SearchCard:{
+      flex:1,
+      flexDirection:'row',
+      height:40,
+      justifyContent:'center',
+      alignItems:'center',
+      borderWidth:1,
+      borderColor:'#c3c3c3',
+      paddingStart:10,
+      borderRadius:5,  
+    },
+  
+    columnCardSearch:{
+      flex:0.2,
+      flexDirection:'column',
+      paddingHorizontal:9
+    },
+  
+    styleText:{
+      textTransform:'uppercase',
+      fontSize:18,
+      fontWeight:'bold',
+      color:'#23ABE2'
+    },
+    styleTextA:{
+      textTransform:'uppercase',
+      fontSize:18,
+      fontWeight:'bold',
+      color:'#FF6347'
     },
 
     customParentStyle:{
