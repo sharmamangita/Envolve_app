@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import {
   ScrollView,
   View,
+  ViewBase,
   Text,
   StyleSheet,
   TouchableOpacity,
@@ -61,8 +62,10 @@ class TeacherSelfAttendance extends Component {
 
       oneLeave: true,
       start_date:'',
-      end_date:''
+      end_date:'',
 
+      stopped:true,
+      fetching: false,
     };
   }
 
@@ -319,6 +322,35 @@ class TeacherSelfAttendance extends Component {
     }
   // ==============================================================================  
 
+  checkAttendance = async () => {
+    this.setState({
+      fetching: true
+  });
+    console.log(`${API_URL}/check-trainer-attendance-status/${this.state.teacher_id}/${this.state.selectedSchool}/${this.state.date}`)
+    await fetch(`${API_URL}/check-trainer-attendance-status/${this.state.teacher_id}/${this.state.selectedSchool}/${this.state.date}`)
+    .then((res) => res.json()).then((response) => {
+
+      console.log(response)
+      if(response.status == 1){
+        alert(response.message);
+        this.setState({ stopped: true})
+      } else if(response.status == 0){
+        alert(response.message);
+        this.setState({ stopped: true})
+      } else if(response.status == 2){
+        this.setState({ stopped: false})
+      }
+      this.setState({ loading:false, fetching: false});
+  }).catch((err) => {
+      this.setState({
+          loading: false,
+          stopped: true,
+          fetching: false,
+      });
+      alert(err);
+  })
+  }
+
   modalScreen = () => {
     this.setState({isModalVisible: !this.state.isModalVisible})
   }
@@ -395,6 +427,7 @@ class TeacherSelfAttendance extends Component {
                         dropDownStyle={{ backgroundColor: "#fafafa" }}
                         onChangeItem={ async (item) => {
                           await this.setState({ selectedSchool: item.value, data:[]})
+                          this.checkAttendance()
                         }}
                         placeholder=""
                       />
@@ -405,23 +438,46 @@ class TeacherSelfAttendance extends Component {
               <View style={styleData.columnCard}>
                 <TouchableOpacity onPress={() => {
                   if(this.state.selectedSchool){
-                    this.captureImage('photo', this.state.date, this.state.date, 1)
+                      if(!this.state.stopped){
+                        this.captureImage('photo', this.state.date, this.state.date, 1)
+                      }
                   }else {
                     alert("Please select school.")
                   }
                   
                   }} style={styleData.cardP}>
+
                   <Icon name='check-circle' size={48} color='#23ABE2' />
-                  <Text style={styleData.styleText}>Mark Present</Text>
+                  {
+                    !this.state.fetching?
+                    <Text style={styleData.styleText}>Mark Present</Text>
+                    :
+                    <Text style={styleData.styleText}>Getting Ready..</Text>
+                  }
+                  
                 </TouchableOpacity>
               </View>
               <View style={{...styleData.columnCard, flex: 0.2}}>
               </View>
               <View style={styleData.columnCard}>
-                <TouchableOpacity onPress={() => this.modalScreen()} style={styleData.cardA}>
-                  <Icon name="close" size={48} color='#FF6347' />
-                  <Text style={styleData.styleTextA}>Mark Absent</Text>
-
+                <TouchableOpacity onPress={() =>{
+                  if(this.state.selectedSchool){
+                    if(!this.state.stopped){
+                      this.modalScreen()
+                    }
+                  } else {
+                    alert("Please select school.")
+                  }
+                
+                }} style={styleData.cardA}>
+                    <Icon name="close" size={48} color='#FF6347' style={{alignSelf:'center'}} />
+                  {
+                    !this.state.fetching?
+                    <Text style={styleData.styleTextA}>Mark Absent</Text>
+                    :
+                    <Text style={styleData.styleTextA}>Getting Ready..</Text>
+                  }
+                  
                   <Modal isVisible={this.state.isModalVisible}>
                       <View style={{ flex: 1, backgroundColor:"white", borderRadius: 10, marginVertical: "20%"}}>
                         <View style={{flexDirection: 'row', borderBottomColor: 'gray', borderBottomWidth: 1, padding: 10}}>
