@@ -6,9 +6,11 @@ ENVIRONMENT:
 install jdk8 , install python, node,npm if you dont have as per docs https://reactnative.dev/docs/environment-setup
 add environment variables path for python jdk etc in path(edit path variable and copy paste path there)
 install android studio
+install firebase on system.
 after android studion installation > configure sdk, select android version to current and select sdk tools as per reactsetup page documentation.
 setup environment variable, ANDROID_HOME = sdk path
 also add platfoorm tool and tools path in "Path" variable by editing it.
+
 
 
 ANDROID STUDIO CONFIGURE AND INSTALL:
@@ -21,7 +23,7 @@ once finished, it wll download selected android images and tools required.
 ENVOLVE APP SETUP: 
 make sure cli is installed globally or installl by command " npm install -g react-native-cli"
 >git clone files from git repository..
->go to the project root directory in terminal "/envolve_app"  and there run "npm install"
+>go to the project root directory in terminal "/envolve_app"  and there run "npm install" and for IOS run "npx pod-install".
 IN CASE WE WANT TO USE COMMAND terminal ONLY TO BUILD AND RUN PROJECT THEN USE THIS COMMAND after installing node module......
 >"react-native run-android"   //this command will build and run project
 
