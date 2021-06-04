@@ -21,8 +21,10 @@ once finished, it wll download selected android images and tools required.
 
 
 ENVOLVE APP SETUP: 
+> react-native version "0.63.3"
 make sure cli is installed globally or installl by command " npm install -g react-native-cli"
 >git clone files from git repository..
+>for set URL go to app>modules>constants>config.js.
 >go to the project root directory in terminal "/envolve_app"  and there run "npm install" and for IOS run "npx pod-install".
 IN CASE WE WANT TO USE COMMAND terminal ONLY TO BUILD AND RUN PROJECT THEN USE THIS COMMAND after installing node module......
 >"react-native run-android"   //this command will build and run project
